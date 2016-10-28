@@ -6,8 +6,12 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  header: {
-    id: 'app.components.HomePage.header',
-    defaultMessage: 'This is HomePage components !',
+  subtitle: {
+    id: 'app.components.HomePage.subtitle',
+    defaultMessage: 'Menyusun jadwal tak lagi menyusahkan.',
+  },
+  noticeMessage: {
+    id: 'app.components.HomePage.subtitle',
+    defaultMessage: 'Pengumuman: Sistem akan mengalami maintenance setiap hari pada pukul 11 malam.',
   },
 });

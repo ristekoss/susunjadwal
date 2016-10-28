@@ -12,14 +12,32 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
+import styles from './styles.css';
 
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   render() {
     return (
-      <h1>
-        <FormattedMessage {...messages.header} />
-      </h1>
+      <div className="row expanded">
+        <div className="small-12 columns text-center">
+          <div className={styles.hero}>
+            <div className={styles.posContainer}>
+              <h1 className={styles.logo}>
+                Susun<span>Jadwal</span>
+              </h1>
+              <p className={styles.subtitle}>
+                <FormattedMessage {...messages.subtitle} />
+              </p>
+              <button className={styles.loginButton} >Login dengan SSO</button>
+              <p className={styles.gabungJadwalInfo}>Ingin cari waktu kosong? Gunakan fitur <button className={styles.link}>Gabungkan Jadwal</button></p>
+              <div className={styles.noticeBar}>
+                <FormattedMessage {...messages.noticeMessage} />
+              </div>
+              <p className={styles.disclaimer}>Ini Disclaimer buat SSO, Kami menggunakan akun SSO anda seperlunya wkwk</p>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 }

@@ -18,15 +18,28 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
+import FontFaceObserver from 'fontfaceobserver';
 import { useScroll } from 'react-router-scroll';
 import LanguageProvider from 'containers/LanguageProvider';
 import configureStore from './store';
+
 
 // Import i18n messages
 import { translationMessages } from './i18n';
 
 // Import the CSS reset, which HtmlWebpackPlugin transfers to the build folder
 import 'sanitize.css/sanitize.css';
+import './app.css';
+
+
+const FontObserver = new FontFaceObserver('Proxima Nova', {});
+
+// When Ubuntu is loaded, add a font-family using Ubuntu to the body
+FontObserver.load(null, 10000).then(() => {
+  console.log("pleb");
+}, () => {
+  console.log("plob");
+});
 
 // Create redux store with history
 // this uses the singleton browserHistory provided by react-router

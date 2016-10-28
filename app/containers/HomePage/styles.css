@@ -1,0 +1,89 @@
+.hero {
+  width: 100%;
+  height: auto;
+  min-height: 100vh;
+  position: relative;
+}
+
+.posContainer {
+  width: auto;
+  height: auto;
+  max-width: 100vw;
+  max-height: 100vh;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.logo {
+  color: #FBA600;
+  font-weight: 700;
+  font-size: 5rem;
+  margin: 0;
+  line-height: 1;
+}
+
+.logo span {
+  color: #DC5539;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: #0097B0;
+  line-height: 1;
+  margin: -0.5rem 0 0;
+}
+
+.loginButton {
+  padding: 1rem 2rem;
+  background: #FBA600;
+  color: #FFF5E9;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 3rem;
+}
+
+.loginButton:hover,
+.loginButton:active {
+  background: #0097B0;
+}
+
+.link {
+  display: inline-block;
+  color: #0097B0;
+  border-bottom: 0.25rem solid #DC5539;
+  line-height: 1;
+  margin: 0;
+  padding: 0.25rem;
+  text-decoration: none;
+}
+
+.link:hover,
+.link:active {
+  text-decoration: none;
+  color: #FFF5E9;
+  background: #DC5539;
+}
+
+.gabungJadwalInfo {
+  font-size: 1.25rem;
+  margin: 1rem 0 0;
+}
+
+.noticeBar {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: #0097B0;
+  color: #FFF5E9;
+  font-size: 1.25rem;
+  line-height: 1;
+  margin-top: 3rem;
+}
+
+.disclaimer {
+  margin: 1rem 0 0;
+  font-size: 1rem;
+  font-weight: 300;
+  color: #DC5539;
+}

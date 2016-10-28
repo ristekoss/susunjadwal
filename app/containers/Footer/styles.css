@@ -1,0 +1,30 @@
+.footer { /* stylelint-disable */
+  text-align: center;
+  width: 100%;
+  padding: 2rem;
+  background: #333;
+  color: #FFF5E9;
+}
+
+.footer p {
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+.link {
+  display: inline-block;
+  color: #FBA600;
+  border-bottom: 0.25rem solid #DC5539;
+  font-size: 1rem;
+  line-height: 1;
+  margin: 0;
+  padding: 0.25rem;
+  text-decoration: none;
+}
+
+.link:hover,
+.link:active {
+  text-decoration: none;
+  color: #FFF5E9;
+  background: #DC5539;
+}
