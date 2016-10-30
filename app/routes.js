@@ -34,6 +34,26 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: 'susun',
+      name: 'buildSchedule',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          System.import('containers/BuildSchedule/reducer'),
+          System.import('containers/BuildSchedule/sagas'),
+          System.import('containers/BuildSchedule'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('buildSchedule', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {

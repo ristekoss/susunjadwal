@@ -1,0 +1,89 @@
+.buildSchedule { /* stylelint-disable */
+  color: #333;
+}
+
+.scheduleList {
+  min-height: calc(100vh - 5rem);
+  margin-top: 5rem;
+  background-image: url('./garis-putus.png'), url('./garis-putus.png');
+  background-repeat: no-repeat, no-repeat;
+  background-size: 15rem 15rem, 15rem 15rem;
+  background-position: 0 calc(100% + 5rem), calc(100% - 22rem) 0;
+  background-attachment: fixed, fixed;
+  padding: 2.5rem;
+}
+
+.pickedSchedule {
+  width: 25%;
+  height: calc(100vh - 5rem);
+  background: #333;
+  position: fixed;
+  top: 5rem;
+  color: #FFF5E9;
+  padding: 3rem 2rem;
+}
+
+.pickedScheduleHeader {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #FBA600;
+  background: url('./ornamen-3.png');
+  padding: 2rem 0 0 2rem;
+  background-size: 4rem 4rem;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+}
+
+.pickedScheduleList {
+  margin-top: 1rem;
+}
+
+.tableHeader {
+  color: #FFF5E9;
+  border-bottom: 0.25rem solid #0097B0;
+  padding: 0.25rem 0;
+}
+
+.tableFooter {
+  background: #0097B0;
+  color: #FFF5E9;
+  padding: 0.25rem 0;
+  margin-bottom: 2rem;
+}
+
+.tableItem {
+  padding: 0.5rem;
+}
+
+.tableItem p,
+.tableItem ul {
+  margin: 0;
+  line-height: 1;
+}
+
+.tableItem .time {
+  list-style: none;
+}
+
+.tableItem .time li:before {
+  content: "•";
+  padding-right: 0.25rem;
+  color: #333;
+}
+
+.finishButton {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 1rem 0 0;
+  color: #FFF5E9;
+  background: #FBA600;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: 0.25s background ease;
+}
+
+.finishButton:hover,
+.finishButton:active {
+  background: #DC5539;
+  transition: 0.25s background ease;
+}

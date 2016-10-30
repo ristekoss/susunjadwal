@@ -1,0 +1,64 @@
+.course {
+  margin-bottom: 2rem;
+}
+
+.courseTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1;
+  color: #DC5539;
+}
+
+.courseTitle span {
+  font-size: 1rem;
+  font-weight: 400;
+  margin-left: 0.5rem;
+  color: #333;
+}
+
+.classes {
+  width: 100%;
+  border: 0.1rem solid #0097B0;
+  background: #FFF5E9;
+}
+
+.tableHeader {
+  background: #0097B0;
+  color: #FFF5E9;
+  padding: 0.25rem 0;
+}
+
+.tableItem {
+  padding: 0.5rem;
+}
+
+.tableItem p,
+.tableItem ul {
+  margin: 0;
+  line-height: 1;
+}
+
+.tableItem .time {
+  list-style: none;
+}
+
+.tableItem .time li:before {
+  content: "•";
+  padding-right: 0.25rem;
+  color: #333;
+}
+
+.tableItem .rooms {
+  list-style: none;
+}
+
+.tableItem .lecturer {
+  list-style: none;
+}
+
+.tableItem .lecturer li:before {
+  content: "-";
+  padding-right: 0.25rem;
+  color: #333;
+}

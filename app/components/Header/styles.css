@@ -1,0 +1,29 @@
+.header { /* stylelint-disable */
+  width: 100%;
+  height: auto;
+  padding: 0.5rem 1rem 0;
+  position: fixed;
+  background: #FFF5E9;
+}
+
+.logo {
+  margin: 0;
+  line-height: 1;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #FBA600;
+}
+
+.logo span {
+  color: #DC5539;
+}
+
+.divider {
+  width: calc(100% + 2rem);
+  height: 1rem;
+  margin: 0.5rem -1rem 0 -1rem;
+  background-image: url('./diamond.png');
+  background-size: 1rem 1rem;
+  background-repeat: repeat-x;
+  background-color: #0097B0;
+}
