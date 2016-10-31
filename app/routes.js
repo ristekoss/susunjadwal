@@ -54,6 +54,26 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: 'jadwal',
+      name: 'jadwal',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          System.import('containers/Jadwal/reducer'),
+          System.import('containers/Jadwal/sagas'),
+          System.import('containers/Jadwal'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('jadwal', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {

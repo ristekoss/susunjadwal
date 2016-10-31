@@ -21,6 +21,8 @@
   top: 5rem;
   color: #FFF5E9;
   padding: 3rem 2rem;
+  overflow-y: auto;
+  overflow-x: none;
 }
 
 .pickedScheduleHeader {
@@ -63,12 +65,13 @@
 
 .tableItem .time {
   list-style: none;
+  font-size: 0.75rem;
 }
 
 .tableItem .time li:before {
   content: "•";
   padding-right: 0.25rem;
-  color: #333;
+  color: #FFF5E9;
 }
 
 .finishButton {
@@ -86,4 +89,16 @@
 .finishButton:active {
   background: #DC5539;
   transition: 0.25s background ease;
+}
+
+.courseName {
+  font-size: 0.8rem;
+}
+
+.removeButton {
+  width: 100%;
+  padding: 0.5rem 0;
+  margin: 0.25rem 0;
+  line-height: 1;
+  color: #DC5539;
 }

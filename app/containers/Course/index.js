@@ -6,7 +6,7 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { changeSelectedClass } from 'containers/BuildSchedule/actions';
+import { changeSelectedClass, addSelectedClass } from 'containers/BuildSchedule/actions';
 import selectBuildSchedule from 'containers/BuildSchedule/selectors';
 
 import styles from './styles.css';
@@ -15,18 +15,18 @@ class Course extends React.Component { // eslint-disable-line react/prefer-state
   static propTypes = {
     item: PropTypes.object,
     changeSelectedClass: PropTypes.func,
+    addSelectedClass: PropTypes.func,
     selected: PropTypes.object,
   }
 
   constructor(props) {
     super(props);
-    this.state = {selectedOption: ''};
     this.handleOptionChange = this.handleOptionChange.bind(this);
   }
 
   handleOptionChange(changeEvent) {
-    this.setState({selectedOption: changeEvent.target.value});
-    this.props.changeSelectedClass(this.props.item.name, changeEvent.target.value);
+    this.props.changeSelectedClass(this.props.item.name, `${this.props.item.name}-${this.props.item.class[changeEvent.target.value].name}`);
+    this.props.addSelectedClass(this.props.item.name, {"name":`${this.props.item.name} - ${this.props.item.class[changeEvent.target.value].name}`,"schedule":this.props.item.class[changeEvent.target.value].jadwal,"sks":this.props.item.sks});
   }
 
   render() {
@@ -49,7 +49,7 @@ class Course extends React.Component { // eslint-disable-line react/prefer-state
             <div className="row expanded">
               <div className="small-1 columns">
                 <div className={styles.tableItem}>
-                  <input type="radio" value={`${this.props.item.name}-${item.name}`} checked={this.props.selected[`${this.props.item.name}`] === `${this.props.item.name}-${item.name}`} onChange={this.handleOptionChange} />
+                  <input type="radio" value={index} checked={this.props.selected[`${this.props.item.name}`] === `${this.props.item.name}-${item.name}`} onChange={this.handleOptionChange} />
                 </div>
               </div>
               <div className="small-3 columns">
@@ -135,6 +135,7 @@ const mapStateToProps = selectBuildSchedule();
 function mapDispatchToProps(dispatch) {
   return {
     changeSelectedClass: (coursename, payload) => dispatch(changeSelectedClass(coursename, payload)),
+    addSelectedClass: (coursename, payload) => dispatch(addSelectedClass(coursename, payload)),
     dispatch,
   };
 }

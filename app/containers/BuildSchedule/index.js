@@ -17,29 +17,59 @@ import Header from 'components/Header';
 import List from 'components/List';
 import Course from 'containers/Course';
 
-import { changeSelectedClass } from './actions';
+import { changeSelectedClass, removeSelectedClass } from './actions';
 
 export class BuildSchedule extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static propTypes = {
     courses: PropTypes.array,
+    picked: PropTypes.object,
     dispatch: PropTypes.func,
-    tryFunc: PropTypes.func,
+    removePicked: PropTypes.func,
   };
-
-  constructor(props) {
-    super(props);
-    this.tryFunc = this.tryFunc.bind(this);
-  }
-
-  tryFunc() {
-    this.props.tryFunc();
-  }
 
   render() {
     let scheduleListItems = null;
+    let pickedItems = [];
+    let totalSKS = 0
 
     if(!isEmpty(this.props.courses)) {
       scheduleListItems = (<List items={this.props.courses} component={Course} />);
+    }
+
+    if(!isEmpty(this.props.picked)) {
+      for(let [key, value] of Object.entries(this.props.picked)) {
+        const classesTimes = value.schedule.map((item, index) => (
+            <li key={`classtime-${index}`}>{item.day}, {item.start}-{item.end}</li>
+          ));
+        const entry = (
+            <div key={`pickedcourse-${key}`} className="small-12 columns">
+              <div className="row expanded">
+                <div className="small-4 columns">
+                  <div className={styles.tableItem}>
+                    <p className={styles.courseName}>{value.name}</p>
+                  </div>
+                </div>
+                <div className="small-5 columns">
+                  <div className={styles.tableItem}>
+                    <ul className={styles.time}>
+                      {classesTimes}
+                    </ul>
+                  </div>
+                </div>
+                <div className="small-2 columns">
+                  <div className={styles.tableItem}>
+                    <p>{value.sks}</p>
+                  </div>
+                </div>
+                <div className="small-1 columns text-right">
+                  <button className={styles.removeButton} onClick={() => this.props.removePicked(key)}>X</button>
+                </div>
+              </div>
+            </div>
+          );
+        totalSKS += value.sks;
+        pickedItems.push(entry);
+      }
     }
 
     return (
@@ -50,7 +80,7 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
             { name: 'description', content: 'Description of BuildSchedule' },
           ]}
         />
-        <Header />
+        <Header isFixed={true} />
         <div className="row expanded">
           <div className="small-12 medium-9 columns">
             <div className={styles.scheduleList}>
@@ -76,7 +106,7 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
                                 <p>Kelas</p>
                               </div>
                             </div>
-                            <div className="small-4 columns">
+                            <div className="small-5 columns">
                               <div className={styles.tableItem}>
                                 <p>Waktu</p>
                               </div>
@@ -86,7 +116,7 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
                                 <p>SKS</p>
                               </div>
                             </div>
-                            <div className="small-2 columns text-right">
+                            <div className="small-1 columns text-right">
                               <div className={styles.tableItem}>
                                 <p>X</p>
                               </div>
@@ -97,20 +127,21 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
                     </div>
                   </div>
                 </div>
+                {pickedItems}
                 <div className="small-12 columns">
                   <div className={styles.pickedScheduleList}>
                     <div className="row expanded">
                       <div className="small-12 columns">
                         <div className={styles.tableFooter}>
                           <div className="row expanded">
-                            <div className="small-8 columns text-right">
+                            <div className="small-9 columns text-right">
                               <div className={styles.tableItem}>
                                 <p>Total SKS</p>
                               </div>
                             </div>
-                            <div className="small-4 columns">
+                            <div className="small-3 columns">
                               <div className={styles.tableItem}>
-                                <p>21</p>
+                                <p>{totalSKS}</p>
                               </div>
                             </div>
                           </div>
@@ -121,7 +152,11 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
                 </div>
 
                 <div className="small-12 columns">
-                  <button className={styles.finishButton} onClick={this.tryFunc} >Simpan Jadwal</button>
+                  <button className={styles.finishButton}>Tambah Agenda</button>
+                </div>
+
+                <div className="small-12 columns">
+                  <button className={styles.finishButton}>Simpan Jadwal</button>
                 </div>
 
                 <div className="small-12 columns">
@@ -141,7 +176,7 @@ const mapStateToProps = selectBuildSchedule();
 
 function mapDispatchToProps(dispatch) {
   return {
-    tryFunc: () => dispatch(changeSelectedClass("Basis Dota","pleb")),
+    removePicked: (coursename) => dispatch(removeSelectedClass(coursename)),
     dispatch,
   };
 }
