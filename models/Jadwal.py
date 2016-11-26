@@ -21,8 +21,8 @@ class Jadwal(Document):
 	user_id = ReferenceField('User')
 	jadwals = ListField(EmbeddedDocumentField(JadwalData))
 	primary = BooleanField()
-	deleted = BooleanField()
-	private = BooleanField()
+	deleted = BooleanField(default=False)
+	private = BooleanField(default=False)
 	created_at = DateTimeField(default=datetime.now)
 
 	def add_jadwal(self, **kwargs):

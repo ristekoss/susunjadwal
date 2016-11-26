@@ -14,7 +14,7 @@ JADWAL_URL      = BASE_URL + 'Schedule/Index'
 LOGOUT_URL      = BASE_URL + 'Authentication/Logout'
 
 
-BASE_PATH = 'susunjadwal/api'
+BASE_PATH = '/susunjadwal/api'
 @app.route(BASE_PATH + '/jadwals/fetch/<major>')
 def fetch_jadwal(major):
     username, password = fetch_credential(major)

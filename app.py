@@ -128,7 +128,7 @@ def protected_resource():
 @privilege('admin')
 def save_course(major_id):
     data = request.json
-    major = Major.objects(major_id=major_id).first()
+    major = Major.objects(id=major_id).first()
     course = major.create_course(data['name'], data['sks'], data['term'])
     classes = data['classes']
     for class_ in classes:
@@ -142,7 +142,7 @@ def save_course(major_id):
 @app.route(BASE_PATH + '/majors/<major_id>/courses', methods=['GET'])
 @require_token
 def get_courses(major_id):
-    major = Major.objects(major_id=major_id).first()
+    major = Major.objects(id=major_id).first()
     return jsonify(major.get_course()), 200
 ###########################################
 
@@ -186,7 +186,6 @@ def set_to_primary(user_id, jadwal_id):
 def get_jadwal(user_id):
     jadwals = Jadwal.objects(user_id=user_id, deleted=False).all()
     data = []
-    print jadwals
     for jadwal in jadwals:
         data.append(jadwal.serialize())
     return jsonify({
@@ -197,7 +196,7 @@ def get_jadwal(user_id):
 @require_token
 @same_user_id
 def delete_jadwal(user_id, jadwal_id):
-    jadwal = Jadwal.objects(jadwal_id=jadwal_id).first()
+    jadwal = Jadwal.objects(id=jadwal_id).first()
     jadwal.deleted = True
     jadwal.save()
     return jsonify(), 204
@@ -206,7 +205,7 @@ def delete_jadwal(user_id, jadwal_id):
 @require_token
 @same_user_id
 def set_to_private(user_id, jadwal_id):
-    jadwal = Jadwal.objects(jadwal_id=jadwal_id).first()
+    jadwal = Jadwal.objects(id=jadwal_id).first()
     jadwal.private = True
     jadwal.save()
     return jsonify(), 204
