@@ -123,7 +123,7 @@ def protected_resource():
 
 #                MAJOR MODULE             #
 ###########################################
-@app.route(BASE_PATH + '/majors/<int:major_id>/courses', methods=['POST'])
+@app.route(BASE_PATH + '/majors/<major_id>/courses', methods=['POST'])
 @require_token
 @privilege('admin')
 def save_course(major_id):
@@ -139,7 +139,7 @@ def save_course(major_id):
     major.save()
     return jsonify(major.get_course()), 201
 
-@app.route(BASE_PATH + '/majors/<int:major_id>/courses', methods=['GET'])
+@app.route(BASE_PATH + '/majors/<major_id>/courses', methods=['GET'])
 @require_token
 def get_courses(major_id):
     major = Major.objects(major_id=major_id).first()
