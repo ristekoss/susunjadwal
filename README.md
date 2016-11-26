@@ -1,6 +1,6 @@
 SusunJadwal V2
 
-Made with React, Redux, Webpack stack based on React Boilerplate project, (here)[http://reactboilerplate.com]
+Made with React, Redux, Webpack stack based on React Boilerplate project, [here](http://reactboilerplate.com)
 
 How tos:
 
