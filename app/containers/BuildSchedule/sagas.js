@@ -2,12 +2,13 @@ import { takeLatest } from 'redux-saga';
 import { LOCATION_CHANGE, push } from 'react-router-redux';
 import { take, call, select, cancel, fork, put } from 'redux-saga/effects';
 //import request from 'utils/request';
-import { ADD_SELECTED_CLASS, REMOVE_SELECTED_CLASS, SAVE_JADWAL } from './constants';
+import { ADD_SELECTED_CLASS, REMOVE_SELECTED_CLASS, SAVE_JADWAL, FETCH_JADWAL } from './constants';
 import { isEmpty, isEqual } from 'lodash';
 import selectBuildSchedule from './selectors';
 import selectGlobal from 'containers/App/selectors';
-import { conflict } from './actions';
+import { conflict, fetchJadwalSuccess } from './actions';
 import request from 'utils/request';
+import { loading, loadingDone } from 'containers/App/actions';
 
 /**
  * Github repos request/response handler
@@ -79,6 +80,7 @@ export function* asyncCheckConflictOnRemoveSaga() {
  * Github repos request/response handler
  */
 export function* saveJadwal() {
+  yield put(loading());
   const globalState = yield select(selectGlobal());
   const localState = yield select(selectBuildSchedule());
   const requestURL = `https://private-anon-7cc79298a3-sunjad.apiary-mock.com/sunjad/api/users/${globalState.user_id}/jadwals`;
@@ -88,10 +90,10 @@ export function* saveJadwal() {
 
   if(!isEmpty(localState.picked)) {
     for(let [key, value] of Object.entries(localState.picked)) {
-    	console.log(value);
-    	value.schedule.map((item, index) => {
-    		stagedJadwals.push({ name: value.name, day: item.day, start: item.start, end: item.end, room: item.room });
-    	});
+      console.log(value);
+      value.schedule.map((item, index) => {
+        stagedJadwals.push({ name: value.name, day: item.day, start: item.start, end: item.end, room: item.room });
+      });
     }
   }
 
@@ -108,9 +110,11 @@ export function* saveJadwal() {
   });
 
   if(!saveJadwalPostCall.err || !(saveJadwalPostCall.err === 'SyntaxError: Unexpected end of JSON input')) {
-  	yield put(push(`/jadwal/${saveJadwalPostCall.data.jadwal_id}`));
+    yield put(push(`/jadwal/${saveJadwalPostCall.data.jadwal_id}`));
+    yield put(loadingDone());
   } else {
     console.log(saveJadwalPostCall.err);
+    yield put(loadingDone());
   }
 }
 
@@ -122,6 +126,43 @@ export function* saveJadwalSaga() {
 }
 
 /**
+ * Github repos request/response handler
+ */
+export function* fetchJadwal() {
+  yield put(loading());
+  const globalState = yield select(selectGlobal());
+  const localState = yield select(selectBuildSchedule());
+  const requestURL = `https://private-anon-7cc79298a3-sunjad.apiary-mock.com/sunjad/api/majors/${globalState.major_id}/courses`;
+  const auth = `Bearer ${globalState.token}`;
+  console.log(auth);
+  console.log(requestURL);
+
+  const fetchJadwalPostCall = yield call(request, requestURL, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: auth,
+    },
+  });
+
+  if(!fetchJadwalPostCall.err || !(fetchJadwalPostCall.err === 'SyntaxError: Unexpected end of JSON input')) {
+    yield put(fetchJadwalSuccess(fetchJadwalPostCall.data.courses));
+    yield put(loadingDone());
+  } else {
+    console.log(fetchJadwalPostCall.err);
+    yield put(loadingDone());
+  }
+}
+
+/**
+ * Watches for LOAD_REPOS action and calls handler
+ */
+export function* fetchJadwalSaga() {
+  yield takeLatest(FETCH_JADWAL, fetchJadwal);
+}
+
+/**
  * Root saga manages watcher lifecycle
  */
 export function* buildScheduleSaga() {
@@ -129,6 +170,7 @@ export function* buildScheduleSaga() {
   const asyncCheckConflictWatcher = yield fork(asyncCheckConflictSaga);
   const asyncCheckConflictOnRemoveWatcher = yield fork(asyncCheckConflictOnRemoveSaga);
   const saveJadwalWatcher = yield fork(saveJadwalSaga);
+  const fetchJadwalWatcher = yield fork(fetchJadwalSaga);
 }
 
 // Bootstrap sagas

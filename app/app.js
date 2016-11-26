@@ -22,6 +22,7 @@ import FontFaceObserver from 'fontfaceobserver';
 import { useScroll } from 'react-router-scroll';
 import LanguageProvider from 'containers/LanguageProvider';
 import configureStore from './store';
+import { loading } from 'containers/App/actions';
 
 
 // Import i18n messages
@@ -77,6 +78,7 @@ const render = (translatedMessages) => {
             // behaviour
             applyRouterMiddleware(useScroll())
           }
+          onUpdate={loading}
         />
       </LanguageProvider>
     </Provider>,

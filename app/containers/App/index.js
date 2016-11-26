@@ -12,23 +12,42 @@
  */
 
 import React from 'react';
+import { connect } from 'react-redux';
 
+import selectGlobal from './selectors';
 import styles from './styles.css';
 
 import Footer from 'containers/Footer';
 
-export default class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
-
+export class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static propTypes = {
     children: React.PropTypes.node,
+    loading: React.PropTypes.bool,
   };
 
   render() {
     return (
       <div className={styles.container}>
+        <div className="loadingScreen" style={{ display: this.props.loading ? 'block' : 'none' }}>
+          <div className="container">
+            <div className="centralizer text-center">
+              <div className="sk-folding-cube">
+                <div className="sk-cube1 sk-cube"></div>
+                <div className="sk-cube2 sk-cube"></div>
+                <div className="sk-cube4 sk-cube"></div>
+                <div className="sk-cube3 sk-cube"></div>
+              </div>
+              <h1>Loading, building up your request...</h1>
+            </div>
+          </div>
+        </div>
         {React.Children.toArray(this.props.children)}
         <Footer />
       </div>
     );
   }
 }
+
+const mapStateToProps = selectGlobal();
+
+export default connect(mapStateToProps, null)(App);

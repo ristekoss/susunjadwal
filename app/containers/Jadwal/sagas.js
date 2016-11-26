@@ -7,11 +7,13 @@ import selectGlobal from 'containers/App/selectors';
 import selectJadwal from './selectors';
 import { fetchDone, fetchPrimarySchedule } from './actions';
 import request from 'utils/request';
+import { loading, loadingDone } from 'containers/App/actions';
 
 /**
  * Github repos request/response handler
  */
 export function* fetchUserData() {
+  yield put(loading());
 	const globalState = yield select(selectGlobal());
   const requestURL = `https://private-anon-7cc79298a3-sunjad.apiary-mock.com/sunjad/api/users/${globalState.user_id}/jadwals`;
   const auth = `Bearer ${globalState.token}`;
@@ -46,11 +48,14 @@ export function* fetchUserData() {
 
   	if(!fetchPrimaryScheduleCall.err || !(fetchPrimaryScheduleCall.err === 'SyntaxError: Unexpected end of JSON input')) {
   		yield put(fetchDone(fetchPrimaryScheduleCall.data.jadwals, fetchUserDataCall.data.jadwals));
+      yield put(loadingDone());
   	} else {
   		console.log(fetchPrimaryScheduleCall.err);
+      yield put(loadingDone());
   	}
   } else {
     console.log(saveJadwalPostCall.err);
+    yield put(loadingDone());
   }
 }
 
@@ -65,6 +70,7 @@ export function* fetchUserDataSaga() {
  * Github repos request/response handler
  */
 export function* changePrimary(action) {
+  yield put(loading());
 	const globalState = yield select(selectGlobal());
   const requestURL = `https://private-anon-7cc79298a3-sunjad.apiary-mock.com/sunjad/api/users/${globalState.user_id}/jadwals/${action.id}/set-utama`;
   const auth = `Bearer ${globalState.token}`;
@@ -91,11 +97,14 @@ export function* changePrimary(action) {
 
   	if(!fetchPrimaryScheduleCall.err || !(fetchPrimaryScheduleCall.err === 'SyntaxError: Unexpected end of JSON input')) {
   		yield put(fetchPrimarySchedule(fetchPrimaryScheduleCall.data.jadwals));
+      yield put(loadingDone());
   	} else {
   		console.log(fetchPrimaryScheduleCall.err);
+      yield put(loadingDone());
   	}
   } else {
     console.log(changePrimaryCall.err);
+    yield put(loadingDone());
   }
 }
 

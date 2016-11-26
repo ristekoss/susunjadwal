@@ -21,7 +21,7 @@ import Header from 'components/Header';
 import List from 'components/List';
 import Course from 'containers/Course';
 
-import { changeSelectedClass, removeSelectedClass, addSelectedClass } from './actions';
+import { changeSelectedClass, removeSelectedClass, addSelectedClass, fetchJadwal } from './actions';
 import { setLoginData } from 'containers/App/actions';
 
 export class BuildSchedule extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -33,6 +33,7 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
     addSelectedClass: PropTypes.func,
     saveJadwal: PropTypes.func,
     setLoginData: PropTypes.func,
+    fetchJadwal: PropTypes.func,
   };
 
   constructor(props) {
@@ -79,6 +80,9 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
     } else {
       if(globalStateObject.major_id === '' && globalStateObject.token === '' && globalStateObject.user_id === '') {
         this.props.setLoginData(major_id, token, user_id);
+        this.props.fetchJadwal();
+      } else {
+        this.props.fetchJadwal();
       }
     }
   }
@@ -406,6 +410,7 @@ function mapDispatchToProps(dispatch) {
     addSelectedClass: (coursename, payload) => dispatch(addSelectedClass(coursename, payload)),
     saveJadwal: () => dispatch(saveJadwal()),
     setLoginData: (majorId, token, userId) => dispatch(setLoginData(majorId, token, userId)),
+    fetchJadwal: () => dispatch(fetchJadwal()),
     dispatch,
   };
 }

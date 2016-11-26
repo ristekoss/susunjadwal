@@ -10,99 +10,12 @@ import {
   CHANGE_SELECTED_CLASS,
   ADD_SELECTED_CLASS,
   REMOVE_SELECTED_CLASS,
-  CONFLICT
+  CONFLICT,
+  FETCH_JADWAL_SUCCESS,
 } from './constants';
 
 const initialState = fromJS({
-  courses: [
-              {
-                  "name": "Basis Data",
-                  "sks": 3,
-                  "term": 3,
-                  "class": [
-                      {
-                          "name": "A",
-                          "jadwal": [
-                              {
-                                  "day": "Kamis",
-                                  "start": "16.40",
-                                  "end": "17.50",
-                                  "room": "2604",
-                              },
-                              {
-                                  "day": "Kamis",
-                                  "start": "16.40",
-                                  "end": "17.50",
-                                  "room": "2604",
-                              }
-                          ],
-                          "lecturer": [
-                              'Dina Chahyati'
-                          ]
-                      },
-
-                      {
-                          "name": "B",
-                          "jadwal": [
-                              {
-                                  "day": "Kamis",
-                                  "start": "16.40",
-                                  "end": "17.50",
-                                  "room": "2604",
-                              }
-                          ],
-                          "lecturer": [
-                              'Dina Chahyati'
-                          ]
-                      } 
-                  ]
-              },
-              {
-                  "name": "Basis Dota",
-                  "sks": 3,
-                  "term": 3,
-                  "class": [
-                      {
-                          "name": "A",
-                          "jadwal": [
-                              {
-                                  "day": "Kamis",
-                                  "start": "16.40",
-                                  "end": "17.50",
-                                  "room": "2604",
-                              },
-                              {
-                                  "day": "Kamis",
-                                  "start": "16.40",
-                                  "end": "17.50",
-                                  "room": "2604",
-                              }
-                          ],
-                          "lecturer": [
-                              'Dina Chahyati'
-                          ]
-                      },
-
-                      {
-                          "name": "B",
-                          "jadwal": [
-                              {
-                                  "day": "Kamis",
-                                  "start": "16.40",
-                                  "end": "17.50",
-                                  "room": "2604",
-                              }
-                          ],
-                          "lecturer": [
-                              'Dina Chahyati',
-                              'Dina Chahyati',
-                              'Dina Chahyati',
-                              'Dina Chahyati'
-                          ]
-                      } 
-                  ]
-              }
-           ],
+  courses: [],
   selected: {},
   picked: {},
   conflict: [],
@@ -122,6 +35,8 @@ function buildScheduleReducer(state = initialState, action) {
       return state.set('picked', fromJS(newData)).setIn(['selected', action.coursename], '');
     case CONFLICT:
       return state.set('conflict', action.payload);
+    case FETCH_JADWAL_SUCCESS:
+      return state.set('courses', action.courses);
     default:
       return state;
   }

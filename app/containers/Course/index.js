@@ -25,8 +25,8 @@ class Course extends React.Component { // eslint-disable-line react/prefer-state
   }
 
   handleOptionChange(changeEvent) {
-    this.props.changeSelectedClass(this.props.item.name, `${this.props.item.name}-${this.props.item.class[changeEvent.target.value].name}`);
-    this.props.addSelectedClass(this.props.item.name, {"name":`${this.props.item.name} - ${this.props.item.class[changeEvent.target.value].name}`,"schedule":this.props.item.class[changeEvent.target.value].jadwal,"sks":this.props.item.sks});
+    this.props.changeSelectedClass(this.props.item.name, `${this.props.item.class[changeEvent.target.value].name}`);
+    this.props.addSelectedClass(this.props.item.name, {"name":`${this.props.item.class[changeEvent.target.value].name}`,"schedule":this.props.item.class[changeEvent.target.value].jadwal,"sks":this.props.item.sks});
   }
 
   render() {
@@ -49,12 +49,12 @@ class Course extends React.Component { // eslint-disable-line react/prefer-state
             <div className="row expanded">
               <div className="small-1 columns">
                 <div className={styles.tableItem}>
-                  <input type="radio" value={index} checked={this.props.selected[`${this.props.item.name}`] === `${this.props.item.name}-${item.name}`} onChange={this.handleOptionChange} />
+                  <input type="radio" value={index} checked={this.props.selected[`${this.props.item.name}`] === `${item.name}`} onChange={this.handleOptionChange} />
                 </div>
               </div>
               <div className="small-3 columns">
                 <div className={styles.tableItem}>
-                  <p>{this.props.item.name} - {item.name}</p>
+                  <p>{item.name}</p>
                 </div>
               </div>
               <div className="small-3 columns">

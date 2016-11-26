@@ -9,12 +9,15 @@ import {
   DEFAULT_ACTION,
   SET_LOGIN_DATA,
   LOG_OUT,
+  LOADING,
+  LOADING_DONE,
 } from './constants';
 
 const initialState = fromJS({
 	major_id: '',
   token: '',
   user_id: '',
+  loading: false,
 });
 
 function globalReducer(state = initialState, action) {
@@ -25,6 +28,10 @@ function globalReducer(state = initialState, action) {
       return state.set('major_id', action.majorId).set('token', action.token).set('user_id', action.userId);
     case LOG_OUT:
       return state.set('major_id', '').set('token', '').set('user_id', '');
+    case LOADING:
+      return state.set('loading', true);
+    case LOADING_DONE:
+      return state.set('loading', false);
     default:
       return state;
   }

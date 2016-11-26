@@ -11,6 +11,8 @@ import {
   REMOVE_SELECTED_CLASS,
   CONFLICT,
   SAVE_JADWAL,
+  FETCH_JADWAL,
+  FETCH_JADWAL_SUCCESS,
 } from './constants';
 
 export function defaultAction() {
@@ -53,4 +55,17 @@ export function saveJadwal() {
   return {
     type: SAVE_JADWAL,
   };
+}
+
+export function fetchJadwal() {
+  return {
+    type: FETCH_JADWAL,
+  };
+}
+
+export function fetchJadwalSuccess(courses) {
+  return {
+    type: FETCH_JADWAL_SUCCESS,
+    courses,
+  }
 }

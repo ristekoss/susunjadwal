@@ -5,8 +5,10 @@ import { FETCH } from './constants';
 import { isEmpty, isEqual } from 'lodash';
 import { fetchDone } from './actions';
 import request from 'utils/request';
+import { loading, loadingDone } from 'containers/App/actions';
 
 export function* fetchScheduleData(action) {
+  yield put(loading());
 	let requestURL = `https://private-anon-7cc79298a3-sunjad.apiary-mock.com/sunjad/api/jadwals/${action.slug}`;
 
   let jobId = action.slug.split(',');
@@ -35,8 +37,10 @@ export function* fetchScheduleData(action) {
 
     if(!fetchScheduleDataCall.err || !(fetchScheduleDataCall.err === 'SyntaxError: Unexpected end of JSON input')) {
       yield put(fetchDone(fetchScheduleDataCall.data.jadwals));
+      yield put(loadingDone());
     } else {
       console.log(fetchScheduleDataCall.err);
+      yield put(loadingDone());
     }
   } else {
     console.log('jobDikit');
@@ -50,8 +54,10 @@ export function* fetchScheduleData(action) {
 
     if(!fetchScheduleDataCall.err || !(fetchScheduleDataCall.err === 'SyntaxError: Unexpected end of JSON input')) {
       yield put(fetchDone(fetchScheduleDataCall.data.jadwals));
+      yield put(loadingDone());
     } else {
       console.log(fetchScheduleDataCall.err);
+      yield put(loadingDone());
     }
   }
 }
