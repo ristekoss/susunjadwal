@@ -8,7 +8,9 @@ import {
   DEFAULT_ACTION,
   CHANGE_SELECTED_CLASS,
   ADD_SELECTED_CLASS,
-  REMOVE_SELECTED_CLASS
+  REMOVE_SELECTED_CLASS,
+  CONFLICT,
+  SAVE_JADWAL,
 } from './constants';
 
 export function defaultAction() {
@@ -37,5 +39,18 @@ export function removeSelectedClass(coursename) {
   return {
     type: REMOVE_SELECTED_CLASS,
     coursename,
+  };
+}
+
+export function conflict(payload) {
+  return {
+    type: CONFLICT,
+    payload,
+  };
+}
+
+export function saveJadwal() {
+  return {
+    type: SAVE_JADWAL,
   };
 }

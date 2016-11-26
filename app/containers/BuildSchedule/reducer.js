@@ -9,7 +9,8 @@ import {
   DEFAULT_ACTION,
   CHANGE_SELECTED_CLASS,
   ADD_SELECTED_CLASS,
-  REMOVE_SELECTED_CLASS
+  REMOVE_SELECTED_CLASS,
+  CONFLICT
 } from './constants';
 
 const initialState = fromJS({
@@ -104,6 +105,7 @@ const initialState = fromJS({
            ],
   selected: {},
   picked: {},
+  conflict: [],
 });
 
 function buildScheduleReducer(state = initialState, action) {
@@ -118,6 +120,8 @@ function buildScheduleReducer(state = initialState, action) {
       var newData = state.get('picked').toJS();
       delete newData[action.coursename];
       return state.set('picked', fromJS(newData)).setIn(['selected', action.coursename], '');
+    case CONFLICT:
+      return state.set('conflict', action.payload);
     default:
       return state;
   }

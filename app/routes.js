@@ -74,6 +74,54 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: 'jadwal/:slug',
+      name: 'jadwalSpesifik',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          System.import('containers/JadwalSpesifik/reducer'),
+          System.import('containers/JadwalSpesifik/sagas'),
+          System.import('containers/JadwalSpesifik'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('jadwalSpesifik', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
+      path: '/gabung',
+      name: 'gabungJadwal',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          System.import('containers/GabungJadwal/reducer'),
+          System.import('containers/GabungJadwal/sagas'),
+          System.import('containers/GabungJadwal'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('gabungJadwal', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
+      path: '/logout',
+      name: 'logoutModule',
+      getComponent(location, cb) {
+        System.import('containers/LogoutModule')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+      },
+    }, {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {

@@ -37,7 +37,7 @@
 
 @font-face {
   font-family: 'Proxima Nova';
-  src: url('PNovaBold.eot');
+  src: url('./PNovaBold.eot');
   font-weight: bold;
   font-style: normal;
 }

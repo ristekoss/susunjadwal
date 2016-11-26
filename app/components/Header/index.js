@@ -15,6 +15,7 @@ function Header(props) {
   return (
     <div className={headerStyle}>
       <h1 className={styles.logo} >Susun<span>Jadwal</span></h1>
+      {React.Children.toArray(props.children)}
       <div className={styles.divider} />
     </div>
   );
@@ -23,6 +24,7 @@ function Header(props) {
 
 Header.propTypes = {
   isFixed: React.PropTypes.bool,
+  children: React.PropTypes.node,
 };
 
 export default Header;

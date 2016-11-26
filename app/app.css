@@ -1463,3 +1463,82 @@ kbd {
 
 .clearfix::after {
   clear: both; }
+
+.entryJadwal {
+  position: absolute;
+  width: calc((100% / 6) - 0.5rem);
+  background: #0097B0;
+  color: #333;
+}
+
+.senin {
+  left: 0.25rem;
+}
+
+.selasa {
+  left: calc((100% / 6) + 0.25rem);
+}
+
+.rabu {
+  left: calc(((100% / 6) * 2) + 0.25rem);
+}
+
+.kamis {
+  left: calc(((100% / 6) * 3) + 0.25rem);
+}
+
+.jumat {
+  left: calc(((100% / 6) * 4) + 0.25rem);
+}
+
+.sabtu {
+  left: calc(((100% / 6) * 5) + 0.25rem);
+}
+
+.entryTime {
+  width: 100%;
+  border-bottom: 0.1rem solid #FFF;
+  padding: 0.25rem;
+}
+
+.entryTime p {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #FFF;
+  line-height: 1;
+}
+
+.entryContent {
+  width: 100%;
+  padding: 0.25rem;
+  color: #FFF;
+}
+
+.entryContent h1,
+.entryContent h3 {
+  margin: 0;
+  line-height: 1;
+}
+
+.entryContent h1 {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.entryContent h3 {
+  font-size: 0.75rem;
+}
+
+@keyframes updatedPrimary {
+  0%   {opacity: 1;}
+  25%  {opacity: 0.5;}
+  50%  {opacity: 0;}
+  75%  {opacity: 0.5;}
+  100% {opacity: 1;}
+}
+
+.flashUpdate {
+  animation-name: updatedPrimary;
+  animation-duration: 1s;
+}

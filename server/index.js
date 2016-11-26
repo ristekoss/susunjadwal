@@ -11,7 +11,19 @@ const resolve = require('path').resolve;
 const app = express();
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
-// app.use('/api', myApi);
+app.get('/api', function(req, res) {
+  res.send(
+    '<script type="text/javascript">' +
+      'var user = {' +
+        'token: "thisIsToken",'+
+        'user_id: "12bgna3ka",' +
+        'major_id: "as123kjcak"' +
+      '};' +
+      'window.opener.processLogin(user);' +
+      'window.close();' +
+    '</script>'
+  );
+});
 
 // In production we need to pass these values in instead of relying on webpack
 setup(app, {

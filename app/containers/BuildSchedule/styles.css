@@ -46,11 +46,23 @@
   padding: 0.25rem 0;
 }
 
-.tableFooter {
-  background: #0097B0;
+.tableFooter,
+.tableConflict {
   color: #FFF5E9;
   padding: 0.25rem 0;
   margin-bottom: 2rem;
+}
+
+.tableFooter {
+  background: #0097B0;
+}
+
+.tableConflict {
+  margin-top: -2rem;
+  background: #DC5539;
+  font-size: 0.75rem;
+  text-align: center;
+  font-weight: 700;
 }
 
 .tableItem {
@@ -91,6 +103,10 @@
   transition: 0.25s background ease;
 }
 
+.finishButton:disabled {
+  background: #AAA;
+}
+
 .courseName {
   font-size: 0.8rem;
 }
@@ -100,5 +116,67 @@
   padding: 0.5rem 0;
   margin: 0.25rem 0;
   line-height: 1;
-  color: #DC5539;
+}
+
+.agendaModule {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1001;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.agendaModuleContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 600px;
+  max-height: 100%;
+  background: #FFF;
+  padding: 2rem;
+}
+
+.agendaModuleContainer input, 
+.agendaModuleContainer select {
+  width: 100%;
+  border-bottom: 0.2rem solid #FBA600;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.agendaModuleContainer h3 {
+  width: 100%;
+  color: #FFF5E9;
+  background: #DC5539;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 1rem;
+  line-height: 1;
+  font-size: 1rem;
+}
+
+.agendaModuleContainer button {
+  padding: 0.5rem 1rem;
+  color: #FFF5E9;
+  margin-left: 1rem;
+}
+
+.agendaModuleContainer button.add {
+  background: #0097B0;
+}
+
+.agendaModuleContainer button.cancel {
+  background: #DC5539;
 }
