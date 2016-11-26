@@ -7,7 +7,7 @@ SSO\SSO::authenticate();
 $user = SSO\SSO::getUser();
 
 $npm = $user->npm;
-$user->angkatan = "20" + $npm[0] + $npm[1];
+$user->angkatan = "20".$npm[0].$npm[1];
 $major = strtolower($user->study_program);
 if(preg_match("/^(ilmu komputer)/", $major)) {
 	$major = 'ilmu-komputer';

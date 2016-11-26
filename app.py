@@ -13,29 +13,31 @@ secret_key = '$Zk`^G8"LR<>C9r6D,+W3.}mr8UQ/*aU'
 
 #                SEED DATA                #
 ###########################################
-User.drop_collection()
-Major.drop_collection()
-Jadwal.drop_collection()
-major = Major(name='ilmu-komputer')
-major.save()
-major = Major(name='sistem-informasi')
-major.save()
-user = User(**{
-  "name": "Kenny Dharmawan",
-  "npm": "1406527620",
-  "angkatan": "2015",
-  "role": "admin"
-})
-user.major = major
-user.save()
-jadwal = Jadwal(user_id=user.id)
-jadwal.save()
-jadwal = Jadwal(user_id=user.id)
-jadwal.save()
+# User.drop_collection()
+# Major.drop_collection()
+# Jadwal.drop_collection()
+# major = Major(name='ilmu-komputer')
+# major.save()
+# major = Major(name='sistem-informasi')
+# major.save()
+# user = User(**{
+#   "name": "Kenny Dharmawan",
+#   "npm": "1406527620",
+#   "angkatan": "2015",
+#   "role": "admin"
+# })
+# user.major = major
+# user.save()
+# jadwal = Jadwal(user_id=user.id)
+# jadwal.save()
+# jadwal = Jadwal(user_id=user.id)
+# jadwal.save()
 ###########################################
 
 #                AUTH MODULE              #
 ###########################################
+BASE_PATH = '/susunjadwal/api'
+
 @app.route('/auth/login', methods=['POST'])
 def login():
     data = request.json
@@ -43,6 +45,7 @@ def login():
         return jsonif(), 401
     user = User.objects(npm=data['npm']).first()
     if(user == None):
+        del data['token']
         user = User(**data)
         user.major = Major.objects(name=data['major']).first()
         user.role = 'user'
@@ -67,7 +70,7 @@ def extract_data(header):
         return None
     return data
 
-@app.route('/auth/validate')
+@app.route(BASE_PATH + '/auth/validate')
 def validate():
     data = extract_data(request.headers)
     status = True
@@ -120,7 +123,7 @@ def protected_resource():
 
 #                MAJOR MODULE             #
 ###########################################
-@app.route('/majors/<int:major_id>/courses', methods=['POST'])
+@app.route(BASE_PATH + '/majors/<int:major_id>/courses', methods=['POST'])
 @require_token
 @privilege('admin')
 def save_course(major_id):
@@ -136,7 +139,7 @@ def save_course(major_id):
     major.save()
     return jsonify(major.get_course()), 201
 
-@app.route('/majors/<int:major_id>/courses', methods=['GET'])
+@app.route(BASE_PATH + '/majors/<int:major_id>/courses', methods=['GET'])
 @require_token
 def get_courses(major_id):
     major = Major.objects(major_id=major_id).first()
@@ -145,7 +148,7 @@ def get_courses(major_id):
 
 #                USER MODULE              #
 ###########################################
-@app.route('/users/<user_id>/jadwals', methods=['POST'])
+@app.route(BASE_PATH + '/users/<user_id>/jadwals', methods=['POST'])
 @require_token
 @same_user_id
 def save_jadwal(user_id):
@@ -164,7 +167,7 @@ def save_jadwal(user_id):
         'primary': jadwal.primary
     }), 201
 
-@app.route('/users/<user_id>/jadwals/<jadwal_id>/set-utama', methods=['POST'])
+@app.route(BASE_PATH + '/users/<user_id>/jadwals/<jadwal_id>/set-utama', methods=['POST'])
 @require_token
 @same_user_id
 def set_to_primary(user_id, jadwal_id):
@@ -177,7 +180,7 @@ def set_to_primary(user_id, jadwal_id):
     jadwal.save()
     return jsonify(), 204
 
-@app.route('/users/<user_id>/jadwals', methods=['GET'])
+@app.route(BASE_PATH + '/users/<user_id>/jadwals', methods=['GET'])
 @require_token
 @same_user_id
 def get_jadwal(user_id):
@@ -190,7 +193,7 @@ def get_jadwal(user_id):
         'jadwals': data
     }), 200
 
-@app.route('/users/<user_id>/jadwals/<jadwal_id>', methods=['DELETE'])
+@app.route(BASE_PATH + '/users/<user_id>/jadwals/<jadwal_id>', methods=['DELETE'])
 @require_token
 @same_user_id
 def delete_jadwal(user_id, jadwal_id):
@@ -199,7 +202,7 @@ def delete_jadwal(user_id, jadwal_id):
     jadwal.save()
     return jsonify(), 204
 
-@app.route('/users/<user_id>/jadwals/<jadwal_id>/set-private', methods=['POST'])
+@app.route(BASE_PATH + '/users/<user_id>/jadwals/<jadwal_id>/set-private', methods=['POST'])
 @require_token
 @same_user_id
 def set_to_private(user_id, jadwal_id):
@@ -211,7 +214,7 @@ def set_to_private(user_id, jadwal_id):
 
 #                JADWAL MODULE            #
 ###########################################
-@app.route('/jadwals/<jadwal_id>')
+@app.route(BASE_PATH + '/jadwals/<jadwal_id>')
 def get_public_jadwal(jadwal_id):
     jadwal = Jadwal.objects(id=jadwal_id).first()
     if(jadwal.private):
@@ -221,7 +224,7 @@ def get_public_jadwal(jadwal_id):
         'jadwals': jadwal.get_jadwal()
     })
 
-@app.route('/jadwals/join')
+@app.route(BASE_PATH + '/jadwals/join')
 def join_jadwal():
     jadwal_ids = request.json['jadwal_ids']
     data = []
