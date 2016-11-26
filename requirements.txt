@@ -1,0 +1,3 @@
+FLASK==0.11.1
+PyJWT==1.4.2
+mongoengine==0.10.6
