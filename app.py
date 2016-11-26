@@ -42,7 +42,7 @@ BASE_PATH = '/susunjadwal/api'
 def login():
     data = request.json
     if(data['token'] != '8VlGnna26REH6xrh'):
-        return jsonif(), 401
+        return jsonify(), 401
     user = User.objects(npm=data['npm']).first()
     if(user == None):
         del data['token']
