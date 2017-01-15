@@ -119,7 +119,6 @@ def protected_resource():
     return jsonify({
         'message': 'Unauthorized. Only the resource owner can access this endpoint'
     }), 401
-###########################################
 
 #                MAJOR MODULE             #
 ###########################################
@@ -241,4 +240,29 @@ def join_jadwal():
 #               SCRAPER MODULE            #
 ###########################################
 import scraper
+###########################################
+
+
+
+#             DASHBOARD MODULE            #
+###########################################
+@app.route(BASE_PATH + '/admin/majors/<major_id>/courses')
+@require_token
+@privilege('admin')
+def get_course_info(major_id):
+    courses = Major.objects(id=major_id).first().get_course()
+    jadwals = Jadwal.objects().get()
+    data = []
+    for course in courses:
+        course['num_student'] = 0
+        for jadwal in jadwals:
+            for jadwal_detail in jadwal.jadwals:
+                if jadwal_detail.name == course.name:
+                    course['num_student']++
+        data.append(course)
+    return jsonify({
+        'courses': data
+    })
+
+@app.route(BASE_PATH + '/admin/majors/<major_id>/courses/<course_name>')
 ###########################################
