@@ -247,22 +247,51 @@ import scraper
 #             DASHBOARD MODULE            #
 ###########################################
 @app.route(BASE_PATH + '/admin/majors/<major_id>/courses')
-@require_token
-@privilege('admin')
+# @require_token
+# @privilege('admin')
 def get_course_info(major_id):
     courses = Major.objects(id=major_id).first().get_course()
-    jadwals = Jadwal.objects().get()
+    jadwals = Jadwal.objects(primary=True).all()
     data = []
-    for course in courses:
+
+    for course in courses['courses']:
         course['num_student'] = 0
         for jadwal in jadwals:
             for jadwal_detail in jadwal.jadwals:
-                if jadwal_detail.name == course.name:
-                    course['num_student']++
+                if jadwal_detail.name == course['name']:
+                    course['num_student'] = course['num_student'] + 1
         data.append(course)
+
     return jsonify({
         'courses': data
     })
 
 @app.route(BASE_PATH + '/admin/majors/<major_id>/courses/<course_name>')
+# @require_token
+# @privilege('admin')
+def get_course_detail(major_id, course_name):
+    courses = Major.objects(id=major_id).first().get_course()
+    jadwals = Jadwal.objects(primary=True).all()
+    for course in courses['courses']:
+        if course['name'] == course_name:
+            targ = course
+
+    targ['num_student'] = 0
+    student_list = []
+    for jadwal in jadwals:
+        for jadwal_detail in jadwal.jadwals:
+            if jadwal_detail.name == course['name']:
+                targ['num_student'] = targ['num_student'] + 1
+                user = User.objects(id=jadwal.user_id).first()
+                student_list.append({
+                    'name': user.name,
+                    'npm': user.npm,
+                    'major': user.major.name,
+                })
+        data.append(course)
+
+    return jsonify({
+        'course': targ,
+        'student_list': student_list
+    })
 ###########################################
