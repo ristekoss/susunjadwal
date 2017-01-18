@@ -1,61 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title></title>
+    <meta charset="UTF-8">
+    <title>Susun Jadwal Dashboard</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/datatables.min.css">
+    <link rel="stylesheet" href="css/sweetalert.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-	<div id="content">
-		<table id="table-content">
-			<tr>
-				<th>Nama Matkul</th>
-				<th>Jurusan</th>
-				<th>Jumlah Peminat</th>
-				<th>Detail</th>
-			</tr>
-		</table>
-	</div>
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-	<script src="../js/jquery.cookie.js"></script>
-	<script>
-		$.ajaxSetup({
-			headers: {
-				'Authorization': 'Bearer ' + $.cookie("token")
-			}
-		});
-		$.ajax({
-			url: "http://localhost:5000/susunjadwal/api/admin/majors",
-			type: "GET",
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" >
+                    Susun Jadwal Dashboard
+                </a>
+            </div>
 
-			success: function(result) {
-				result['majors'].forEach(function(major) {
-					$.ajax({
-						url: "http://localhost:5000/susunjadwal/api/admin/majors/" + major['id'] + "/courses",
-						type: "GET",
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> 
+                <ul class="nav navbar-nav">
+                    <li><a>Logged in as <span id="username">Administrator</span></a></li>                
+                </ul>               
 
-						success: function(result) {
-							result['courses'].forEach(function(course) {
-								$('#table-content').append('' + '<tr>' + 
-										'<td>' + course['name'] + '</td>' +
-										'<td>' + major['name'] + '</td>' +
-										'<td style="text-align: right">' + course['num_student'] + '</td>' +
-										'<td><a href="#" onclick="toDetail(\''+major['id']+'\', \''+course['name']+'\', \''+major['name']+'\')">' + "Lihat Detail" + '</a></td>' +
-									'<tr>'
-								);
-							})
-						}
-					})
-				});
-			}
-		})
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a>Compiled and crafted by Ristek Fasilkom UI</a></li>                
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-		function toDetail(majorId, courseName, majorName) {
-			var params = {
-				majorId: majorId,
-				courseName: courseName,
-				majorName: majorName
-			};
-			window.location.replace("detail.php?" + jQuery.param(params));
-		}
-	</script>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="alert alert-info alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Dari mana data dibawah didapatkan?</strong> Data mata kuliah dan peminat dibawah diambil dari sistem Susun Jadwal Ristek Fasilkom UI secara real-time. Data mata kuliah pada Susun Jadwal di-scrap dari SIAK-NG sehingga data dibawah akurat sesuai SIAK-NG.
+                </div>
+
+                <table id="classes-table" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Kelas MatKul</th>
+                            <th>Jurusan</th>
+                            <th class="text-right">Jumlah Peminat</th>
+                            <th class="no-sort">&nbsp;</th>
+                        </tr>                            
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>    
+    </div>
+
+    <script src="js/jquery.min.js" defer="defer"></script>
+    <script src="js/bootstrap.min.js" defer="defer"></script>
+    <script src="js/datatables.min.js" defer="defer"></script>
+    <script src="js/sweetalert.min.js" defer="defer"></script>
+    <script src="js/admin.js" defer="defer"></script>    
 </body>
 </html>
