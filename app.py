@@ -53,7 +53,7 @@ def login():
         user.role = 'user'
         user.save()
     token = jwt.encode({
-        'exp': datetime.utcnow() + timedelta(minutes=30),
+        'exp': datetime.utcnow() + timedelta(minutes=525600),
         'user_id': str(user.id),
         'major_id': str(user.major.id),
         'role': user.role
@@ -70,7 +70,7 @@ def admin_login():
     if(data['token'] != '8VlGnna26REH6xrh'):
         return jsonify(), 401
     token = jwt.encode({
-        'exp': datetime.utcnow() + timedelta(minutes=30),
+        'exp': datetime.utcnow() + timedelta(minutes=525600),
         'role': 'admin'
     }, secret_key, algorithm='HS256')
     return jsonify({
