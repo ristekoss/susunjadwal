@@ -57,6 +57,7 @@
     </div>
 
     <script src="js/jquery.min.js" defer="defer"></script>
+    <script src="js/jquery.cookie.js" defer="defer"></script>
     <script src="js/bootstrap.min.js" defer="defer"></script>
     <script src="js/datatables.min.js" defer="defer"></script>
     <script src="js/sweetalert.min.js" defer="defer"></script>
