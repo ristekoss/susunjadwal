@@ -4,10 +4,12 @@ from mongoengine import *
 from models import *
 from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
+from flask_cors import CORS, cross_origin
 import jwt
 import requests
 
 app = Flask(__name__)
+CORS(app)
 connect('susun-jadwal')
 secret_key = '$Zk`^G8"LR<>C9r6D,+W3.}mr8UQ/*aU'
 
@@ -60,6 +62,21 @@ def login():
         'user_id': str(user.id),
         'token': token,
         'major_id': str(user.major.id)
+    }), 200
+
+@app.route('/auth/login/admin', methods=['POST'])
+def admin_login():
+    data = request.json
+    if(data['token'] != '8VlGnna26REH6xrh'):
+        return jsonify(), 401
+    token = jwt.encode({
+        'exp': datetime.utcnow() + timedelta(minutes=30),
+        'role': 'admin'
+    }, secret_key, algorithm='HS256')
+    return jsonify({
+        'user_id': 'staff',
+        'token': token,
+        'major_id': 'staff'
     }), 200
 
 def extract_data(header):
@@ -246,9 +263,24 @@ import scraper
 
 #             DASHBOARD MODULE            #
 ###########################################
+@app.route(BASE_PATH + '/admin/majors')
+@require_token
+@privilege('admin')
+def get_major_ids():
+    majors = Major.objects().all()
+    major_ids = []
+    for major in majors:
+        major_ids.append({
+            'id': str(major.id),
+            'name': major.name
+        })
+    return jsonify({
+        'majors': major_ids
+    })
+
 @app.route(BASE_PATH + '/admin/majors/<major_id>/courses')
-# @require_token
-# @privilege('admin')
+@require_token
+@privilege('admin')
 def get_course_info(major_id):
     courses = Major.objects(id=major_id).first().get_course()
     jadwals = Jadwal.objects(primary=True).all()
@@ -258,7 +290,7 @@ def get_course_info(major_id):
         course['num_student'] = 0
         for jadwal in jadwals:
             for jadwal_detail in jadwal.jadwals:
-                if jadwal_detail.name == course['name']:
+                if course['name'] in jadwal_detail.name:
                     course['num_student'] = course['num_student'] + 1
         data.append(course)
 
@@ -267,8 +299,8 @@ def get_course_info(major_id):
     })
 
 @app.route(BASE_PATH + '/admin/majors/<major_id>/courses/<course_name>')
-# @require_token
-# @privilege('admin')
+@require_token
+@privilege('admin')
 def get_course_detail(major_id, course_name):
     courses = Major.objects(id=major_id).first().get_course()
     jadwals = Jadwal.objects(primary=True).all()
@@ -280,7 +312,7 @@ def get_course_detail(major_id, course_name):
     student_list = []
     for jadwal in jadwals:
         for jadwal_detail in jadwal.jadwals:
-            if jadwal_detail.name == course['name']:
+            if course['name'] in jadwal_detail.name:
                 targ['num_student'] = targ['num_student'] + 1
                 user = User.objects(id=jadwal.user_id).first()
                 student_list.append({
