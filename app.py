@@ -189,10 +189,11 @@ def save_jadwal(user_id):
 def set_to_primary(user_id, jadwal_id):
     data = request.json
     jadwal = Jadwal.objects(user_id=user_id, id=jadwal_id).first()
-    primary_jadwal = Jadwal.objects(primary=True).first()
-    primary_jadwal.primary = False
+    primary_jadwal = Jadwal.objects(user_id=user_id, primary=True).first()
+    if primary_jadwal is not None:
+        primary_jadwal.primary = False
+        primary_jadwal.save()
     jadwal.primary = True
-    primary_jadwal.save()
     jadwal.save()
     return jsonify(), 204
 
@@ -267,7 +268,7 @@ import scraper
 @require_token
 @privilege('admin')
 def get_major_ids():
-    majors = Major.objects().all()
+    majors = Major.objects(name__in = ['ilmu-komputer', 'sistem-informasi']).all()
     major_ids = []
     for major in majors:
         major_ids.append({
@@ -282,17 +283,28 @@ def get_major_ids():
 @require_token
 @privilege('admin')
 def get_course_info(major_id):
+    major_name = Major.objects(id=major_id).only('name').first().name
+    majors = Major.objects(name__in = ['ilmu-komputer', 'sistem-informasi']).all()
+    users = User.objects(major__in=majors).only('id').all()
+    users = dict((v.id, v.id) for v in users).values()
     courses = Major.objects(id=major_id).first().get_course()
-    jadwals = Jadwal.objects(primary=True).all()
+    jadwals = Jadwal.objects(primary=True, user_id__in = users).all()
     data = []
+    jadws = []
+    for jadwal in jadwals:
+        jadws.append(dict((v.name, v) for v in jadwal.jadwals).values())
 
     for course in courses['courses']:
-        course['num_student'] = 0
-        for jadwal in jadwals:
-            for jadwal_detail in jadwal.jadwals:
-                if course['name'] in jadwal_detail.name:
-                    course['num_student'] = course['num_student'] + 1
-        data.append(course)
+        for kelas in course['class']:
+            num_student = 0
+            for jadwal_detail in jadws:
+                if intern(kelas['name']) == intern(jadwal_detail.name):
+                    num_student = num_student + 1
+            data.append({
+                'name': kelas['name'],
+                'major': major_name,
+                'num_student': num_student
+            })
 
     return jsonify({
         'courses': data
@@ -302,26 +314,30 @@ def get_course_info(major_id):
 @require_token
 @privilege('admin')
 def get_course_detail(major_id, course_name):
+    majors = Major.objects(name__in = ['ilmu-komputer', 'sistem-informasi']).all()
+    users = User.objects(major__in=majors).only('id').all()
+    users = dict((v.id, v.id) for v in users).values()
     courses = Major.objects(id=major_id).first().get_course()
-    jadwals = Jadwal.objects(primary=True).all()
-    for course in courses['courses']:
-        if course['name'] == course_name:
-            targ = course
-
+    jadwals = Jadwal.objects(primary=True, user_id__in = users).all()
+    targ = [x for b in courses['courses'] for x in b['classes'] if x['name'] == course_name]
+    targ = targ[0]
     targ['num_student'] = 0
     student_list = []
+
     for jadwal in jadwals:
-        for jadwal_detail in jadwal.jadwals:
-            if course['name'] in jadwal_detail.name:
+        jadws = dict((v.name, v) for v in jadwal.jadwals).values()
+        for jadwal_detail in jadws:
+            if intern(targ['name']) == intern(jadwal_detail.name):
                 targ['num_student'] = targ['num_student'] + 1
-                user = User.objects(id=jadwal.user_id).first()
+                user = jadwal.user.id
                 student_list.append({
                     'name': user.name,
                     'npm': user.npm,
                     'major': user.major.name,
                 })
-        data.append(course)
 
+    student_list = dict((v['name'], v) for v in student_list).values()
+    targ['num_student'] = len(student_list)
     return jsonify({
         'course': targ,
         'student_list': student_list

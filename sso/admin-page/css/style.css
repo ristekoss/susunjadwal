@@ -1,0 +1,10 @@
+body
+{
+    padding-bottom: 48px;
+}
+
+.navbar
+{
+    width: 100% !important;
+    border-radius: 0 !important;
+}
