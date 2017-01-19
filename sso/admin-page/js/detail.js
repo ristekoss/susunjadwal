@@ -1,12 +1,14 @@
 $(document).ready(function() {
-    $('#peminat-table').dataTable({
+    // Awal Perubahan
+    var peminatTable = $('#peminat-table').dataTable({
         paging: false,
         searching: true,
         ordering: true,        
         autoWidth: true,
         bLengthChange: true,
         columnDefs: [{ targets: 'no-sort', orderable: false }],
-    });
+    }).api();
+    // AKhir Perubahan
 
     // sweetalert when ajax start
     $(document).ajaxStart(function() {
@@ -44,14 +46,14 @@ $(document).ready(function() {
 
         success: function(result) {
             result['student_list'].forEach(function(student, index) {
-                $('#peminat-table').append('' + '<tr>' +
-                        '<td>' + (index+1) + '</td>' +
-                        '<td>' + student['npm'] + '</td>' +
-                        '<td>' + student['name'] + '</td>' +
-                        '<td>' + student['major'] + '</td>' +
-                        '<td>' + 
-                    '<tr>'
-                );
+                // Awal Perubahan
+                peminatTable.row.add([
+                    (index+1),
+                    student['npm'],
+                    student['name'],
+                    student['major']                    
+                ]).draw();                             
+                // Akhir Perubahan                
             })
             $('#nama-kelas-matkul').text(courseName);
             $('#jurusan').text(majorName);

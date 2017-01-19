@@ -1,12 +1,17 @@
-$(document).ready(function() {
-    $('#classes-table').dataTable({
+$(document).ready(function() {    
+    // Awal Perubahan
+    var classesTable = $('#classes-table').dataTable({
         paging: false,
         searching: true,
         ordering: true,        
         autoWidth: true,
         bLengthChange: true,
-        columnDefs: [{ targets: 'no-sort', orderable: false }],
-    });
+        columnDefs: [
+            { targets: 'no-sort', orderable: false },
+            { targets: [3], className: 'text-right' }
+        ],        
+    }).api();
+    // Akhir Perubahan
 
     // sweetalert when ajax start
     $(document).ajaxStart(function() {
@@ -50,15 +55,15 @@ $(document).ready(function() {
                     type: "GET",
 
                     success: function(result) {
+
                         result['courses'].forEach(function(course, index) {
-                            $('#classes-table > tbody').append('<tr>' + 
-                                    '<td>' + (index+1) + '</td>' +
-                                    '<td>' + course['name'] + '</td>' +
-                                    '<td>' + major['name'] + '</td>' +
-                                    '<td style="text-align: right">' + course['num_student'] + '</td>' +
-                                    '<td><a href="" class="btn btn-primary" onclick="toDetail(\''+major['id']+'\', \''+course['name']+'\', \''+major['name']+'\')">' + "Lihat Detail" + '</a></td>' +
-                                '<tr>'
-                            );
+                            classesTable.row.add([
+                                (index+1),
+                                course['name'],
+                                major['name'],
+                                course['num_student']+' orang',
+                                '<a href="" class="btn btn-primary" onclick="toDetail(\''+major['id']+'\', \''+course['name']+'\', \''+major['name']+'\')">' + "Lihat Detail" + '</a>'
+                            ]).draw();                             
                         })
                     }
                 })
@@ -66,12 +71,13 @@ $(document).ready(function() {
         }
     })
 
-    function toDetail(majorId, courseName, majorName) {
-        var params = {
-            majorId: majorId,
-            courseName: courseName,
-            majorName: majorName
-        };
-        window.location.replace("http://ristek.cs.ui.ac.id/susunjadwal/admin/detail.php?" + jQuery.param(params), "_blank");
-    }        
 });
+
+function toDetail(majorId, courseName, majorName) {
+    var params = {
+        majorId: majorId,
+        courseName: courseName,
+        majorName: majorName
+    };
+    window.location.replace("http://ristek.cs.ui.ac.id/susunjadwal/admin/detail.php?" + jQuery.param(params), "_blank");
+}        

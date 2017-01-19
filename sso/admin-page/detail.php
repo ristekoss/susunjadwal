@@ -32,12 +32,12 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <h3>Detail Mata Kuliah: <span id="nama-kelas-matkul">Basis Data - A</span></h3>
+                <h3>Detail Mata Kuliah: <span id="nama-kelas-matkul">Mengambil data</span></h3>
                 <hr>
                 <div class="alert alert-info" role="alert">
-                    Penyelenggara: <span id="jurusan">Ilmu Komputer</span> <br>
-                    Jumlah SKS: <span id="jml-sks">4</span> <br>
-                    <strong>Jumlah Peminat: <span id="jml-peminat">120</span> Orang</strong>
+                    Penyelenggara: <span id="jurusan">Mengambil data</span> <br>
+                    Jumlah SKS: <span id="jml-sks">Mengambil data</span> <br>
+                    <strong>Jumlah Peminat: <span id="jml-peminat">Mengambil data</span> Orang</strong>
                 </div>
                 <h4><strong>Daftar Peminat</strong></h4>
                 <table id="peminat-table" class="table table-striped">
@@ -50,6 +50,7 @@
                         </tr>                            
                     </thead>
                     <tbody>
+                        
                     </tbody>
                 </table>
             </div>
