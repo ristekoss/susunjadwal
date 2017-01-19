@@ -7,10 +7,12 @@ from bs4 import BeautifulSoup
 from flask_cors import CORS, cross_origin
 import jwt
 import requests
+import MySQLdb
 
 app = Flask(__name__)
 CORS(app)
 connect('susun-jadwal')
+db = MySQLdb.connect("localhost", "root", "mau tau aja", "susunjadwal")
 secret_key = '$Zk`^G8"LR<>C9r6D,+W3.}mr8UQ/*aU'
 
 #                SEED DATA                #
@@ -283,63 +285,69 @@ def get_major_ids():
 @require_token
 @privilege('admin')
 def get_course_info(major_id):
-    major_name = Major.objects(id=major_id).only('name').first().name
-    majors = Major.objects(name__in = ['ilmu-komputer', 'sistem-informasi']).all()
-    users = User.objects(major__in=majors).only('id').all()
-    users = dict((v.id, v.id) for v in users).values()
-    courses = Major.objects(id=major_id).first().get_course()
-    jadwals = Jadwal.objects(primary=True, user_id__in = users).all()
-    data = []
-    jadws = []
-    for jadwal in jadwals:
-        jadws.append(dict((v.name, v) for v in jadwal.jadwals).values())
+    cursor = db.cursor()
+    sql = """select class.id, class.name, major.name, count(*) from class
+         left join course on class.course_id = course.id
+         left join major on course.major_id = major.id
+         left join user_class on user_class.class_id = class.id
+         group by class.id, class.name, major.name
+         """
+    cursor.execute(sql)
 
-    for course in courses['courses']:
-        for kelas in course['class']:
-            num_student = 0
-            for jadwal_detail in jadws:
-                if intern(kelas['name']) == intern(jadwal_detail.name):
-                    num_student = num_student + 1
-            data.append({
-                'name': kelas['name'],
-                'major': major_name,
-                'num_student': num_student
-            })
+    json_data = []
+    for data in cursor.fetchall():
+        json_data.append({
+            'id': data[0],
+            'name': data[1],
+            'major': data[2],
+            'num_student': data[3]
+        })
 
     return jsonify({
-        'courses': data
+        'courses': json_data
     })
 
-@app.route(BASE_PATH + '/admin/majors/<major_id>/courses/<course_name>')
+@app.route(BASE_PATH + '/admin/majors/<major_id>/courses/<course_id>')
 @require_token
 @privilege('admin')
-def get_course_detail(major_id, course_name):
-    majors = Major.objects(name__in = ['ilmu-komputer', 'sistem-informasi']).all()
-    users = User.objects(major__in=majors).only('id').all()
-    users = dict((v.id, v.id) for v in users).values()
-    courses = Major.objects(id=major_id).first().get_course()
-    jadwals = Jadwal.objects(primary=True, user_id__in = users).all()
-    targ = [x for b in courses['courses'] for x in b['classes'] if x['name'] == course_name]
-    targ = targ[0]
-    targ['num_student'] = 0
-    student_list = []
+def get_course_detail(major_id, course_id):
+    cursor = db.cursor()
+    sql = """select class.name, major.name, course.sks, count(*) from class
+         left join course on class.course_id = course.id
+         left join major on course.major_id = major.id
+         left join user_class on user_class.class_id = class.id
+         where class.id = {}
+         group by class.name, major.name, course.sks
+         """.format(course_id)
+    cursor.execute(sql)
+    data = cursor.fetchone()
 
-    for jadwal in jadwals:
-        jadws = dict((v.name, v) for v in jadwal.jadwals).values()
-        for jadwal_detail in jadws:
-            if intern(targ['name']) == intern(jadwal_detail.name):
-                targ['num_student'] = targ['num_student'] + 1
-                user = jadwal.user.id
-                student_list.append({
-                    'name': user.name,
-                    'npm': user.npm,
-                    'major': user.major.name,
-                })
+    class_info = {
+        'name': data[0],
+        'major': data[1],
+        'sks': data[2],
+        'num_student': data[3]
+    }
 
-    student_list = dict((v['name'], v) for v in student_list).values()
-    targ['num_student'] = len(student_list)
+    sql = """select user.npm, user.name, major.name from user_class
+             left join user on user.id = user_class.user_id
+             left join major on user.major_id = major.id
+             where user_class.class_id = {}
+             """.format(course_id)
+    cursor.execute(sql)
+
+    datas = cursor.fetchall()
+    students = []
+
+    for data in datas:
+        students.append({
+            'npm': data[0],
+            'name': data[1],
+            'major': data[2]
+        })
+
     return jsonify({
-        'course': targ,
-        'student_list': student_list
+        'class_info': class_info,
+        'student_list': students
     })
 ###########################################
