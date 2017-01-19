@@ -60,9 +60,9 @@ $(document).ready(function() {
                             classesTable.row.add([
                                 (index+1),
                                 course['name'],
-                                major['name'],
+                                course['major'],
                                 course['num_student']+' orang',
-                                '<a href="" class="btn btn-primary" onclick="toDetail(\''+major['id']+'\', \''+course['name']+'\', \''+major['name']+'\')">' + "Lihat Detail" + '</a>'
+                                '<a href="#" class="btn btn-primary" onclick="toDetail('+course['id']+', \''+major['id']+'\', \''+course['name']+'\', \''+major['name']+'\')">' + "Lihat Detail" + '</a>'
                             ]).draw();                             
                         })
                     }
@@ -73,11 +73,11 @@ $(document).ready(function() {
 
 });
 
-function toDetail(majorId, courseName, majorName) {
+function toDetail(courseId, majorId, courseName, majorName) {
     var params = {
         majorId: majorId,
         courseName: courseName,
         majorName: majorName
     };
-    window.location.replace("http://ristek.cs.ui.ac.id/susunjadwal/admin/detail.php?" + jQuery.param(params), "_blank");
+    window.open("http://ristek.cs.ui.ac.id/susunjadwal/admin/detail.php?" + jQuery.param(params), "_blank");
 }        

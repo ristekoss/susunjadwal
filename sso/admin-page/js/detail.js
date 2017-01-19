@@ -41,7 +41,7 @@ $(document).ready(function() {
     });
 
     $.ajax({
-        url: "http://ristek.cs.ui.ac.id/susunjadwal/api/admin/majors/" + majorId + "/courses/" + encodeURI(courseName),
+        url: "http://ristek.cs.ui.ac.id/susunjadwal/api/admin/majors/" + majorId + "/courses/" + courseId,
         type: "GET",
 
         success: function(result) {
