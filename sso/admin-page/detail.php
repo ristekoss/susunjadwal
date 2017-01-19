@@ -64,6 +64,7 @@
     <script src="js/sweetalert.min.js" defer="defer"></script>
     <script src="js/detail.js" defer="defer"></script>
     <script>
+        var courseId = "<?= $_GET['courseId'] ?>";
         var courseName = "<?= $_GET['courseName'] ?>";
         var majorName = "<?= $_GET['majorName'] ?>";
         var majorId = "<?= $_GET['majorId'] ?>";

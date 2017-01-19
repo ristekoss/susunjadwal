@@ -75,6 +75,7 @@ $(document).ready(function() {
 
 function toDetail(courseId, majorId, courseName, majorName) {
     var params = {
+        courseId: courseId,
         majorId: majorId,
         courseName: courseName,
         majorName: majorName
