@@ -48,7 +48,7 @@ export const LoginPage = styled.div`
         cursor:pointer;
 
         &:hover{
-          box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.30);
+          box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.5);
           transform: translateY(-7px);
 
         }
