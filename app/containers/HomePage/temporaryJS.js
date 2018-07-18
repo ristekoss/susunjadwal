@@ -47,10 +47,13 @@ export const LoginPage = styled.div`
         transition: all 0.3s ease 0s;
         cursor:pointer;
 
+        &:hover{
+          box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.30);
+          transform: translateY(-7px);
 
+        }
 
       }
-
 
     }
 
