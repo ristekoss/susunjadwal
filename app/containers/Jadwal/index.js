@@ -13,7 +13,7 @@ import selectJadwal from './selectors';
 import { push } from 'react-router-redux';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
-import { setJadwalUtama, fetch } from './actions';
+import { deleteJadwal, setJadwalUtama, fetch } from './actions';
 import styles from './styles.css';
 import { isEmpty } from 'lodash';
 import { setLoginData } from 'containers/App/actions';
@@ -26,6 +26,7 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
     fetch: React.PropTypes.func,
     setJadwalUtama: React.PropTypes.func,
     setLoginData: React.PropTypes.func,
+    deleteJadwal: React.PropTypes.func,
     globalState: React.PropTypes.object,
     localState: React.PropTypes.object,
   };
@@ -145,7 +146,9 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
                     </div>
                     <div className="small-2 columns">
                       <div className={styles.listItemContent}>
-                        { value.utama ? (<p>Jadwal Utama</p>) : (<button onClick={() => this.props.setJadwalUtama(value.id)}>Set jadwal utama</button>) }
+                        <button onClick={() => this.props.setJadwalUtama(value.id)}>Set jadwal utama</button>
+                        <br/>
+                        <button onClick={() => this.props.deleteJadwal(value.id)}>Delete</button>
                       </div>
                     </div>
                   </div>
@@ -270,6 +273,7 @@ function mapDispatchToProps(dispatch) {
     push: (url) => dispatch(push(url)),
     fetch: () => dispatch(fetch()),
     setJadwalUtama: (id) => dispatch(setJadwalUtama(id)),
+    deleteJadwal: (id) => dispatch(deleteJadwal(id)),
     setLoginData: (majorId, token, userId) => dispatch(setLoginData(majorId, token, userId)),
     dispatch,
   };

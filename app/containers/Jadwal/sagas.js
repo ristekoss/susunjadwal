@@ -62,7 +62,9 @@ export function* fetchUserData() {
 	      Accept: 'application/json',
 	      'Content-Type': 'application/json',
 	    },
-	  });
+    });
+    
+    console.log(fetchPrimaryScheduleCall.data);
 
   	if(!fetchPrimaryScheduleCall.err || !(fetchPrimaryScheduleCall.err === 'SyntaxError: Unexpected end of JSON input')) {
   		yield put(fetchDone(fetchPrimaryScheduleCall.data.jadwals, fetchUserDataCall.data.jadwals));
@@ -85,6 +87,42 @@ export function* fetchUserDataSaga() {
 }
 
 /**
+ * DELETE_JADWAL handler
+ */
+export function* deleteJadwal(action) {
+  yield put(loading());
+  const globalState = yield select(selectGlobal());
+  const user_id = getCookie("user_id");
+  const token = getCookie("token");
+  const requestURL = `http://api.sunjad.com/susunjadwal/api/users/${user_id}/jadwals/${action.id}`;
+  const auth = `Bearer ${token}`;
+
+  const response = yield call(request, requestURL, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: auth,
+    },
+  });
+
+  if(!(response.err) || !(response.err === 'SyntaxError: Unexpected end of JSON input')) {
+    // TOOD: Handle refreshing after delete gracefully. See https://stackoverflow.com/questions/41769969/how-to-make-my-component-re-render-after-updating-props-from-selector-in-react-a
+    window.location.reload();
+  } else {
+    console.log(response.err);
+  }
+  yield put(loadingDone());
+}
+
+/**
+ * Watches for DELETE_JADWAL action and calls handler
+ */
+export function* deleteJadwalSaga() {
+  yield takeLatest(DELETE_JADWAL, deleteJadwal);
+}
+
+/**
  * Github repos request/response handler
  */
 export function* changePrimary(action) {
@@ -100,6 +138,7 @@ export function* changePrimary(action) {
       'Content-Type': 'application/json',
       Authorization: auth,
     },
+    body: JSON.stringify({})
   });
 
   if(!changePrimaryCall.err || !(changePrimaryCall.err === 'SyntaxError: Unexpected end of JSON input')) {
@@ -140,6 +179,7 @@ export function* jadwalSaga() {
   // Fork watcher so we can continue execution
   const fetchUserDataWatcher = yield fork(fetchUserDataSaga);
   const changePrimaryWatcher = yield fork(changePrimarySaga);
+  const deleteJadwalWatcher = yield fork(deleteJadwalSaga);
 }
 
 // Bootstrap sagas

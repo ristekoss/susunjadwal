@@ -10,6 +10,7 @@ import {
   FETCH_DONE,
   SET_JADWAL_UTAMA,
   FETCH_PRIMARY_SCHEDULE,
+  DELETE_JADWAL,
 } from './constants';
 
 export function defaultAction() {
@@ -42,6 +43,13 @@ export function fetchPrimarySchedule(mainSched) {
 export function setJadwalUtama(id) {
   return {
     type: SET_JADWAL_UTAMA,
+    id,
+  };
+}
+
+export function deleteJadwal(id) {
+  return {
+    type: DELETE_JADWAL,
     id,
   };
 }
