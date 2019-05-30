@@ -31,9 +31,7 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
   };
 
   componentDidMount() {
-    if(this.props.localState.firstTimeLoad) {
-      this.props.fetch();
-    }
+    this.props.fetch();
 
     const globalStateObject = this.props.globalState;
     console.log(globalStateObject);

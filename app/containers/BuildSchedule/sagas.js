@@ -103,9 +103,9 @@ export function* saveJadwal() {
       'Content-Type': 'application/json',
       Authorization: auth,
     },
-    body: {
+    body: JSON.stringify({
       jadwals: stagedJadwals,
-    },
+    }),
   });
 
   if(!saveJadwalPostCall.err || !(saveJadwalPostCall.err === 'SyntaxError: Unexpected end of JSON input')) {
