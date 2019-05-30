@@ -114,16 +114,16 @@ export function* changePrimary(action) {
 	  });
 
   	if(!fetchPrimaryScheduleCall.err || !(fetchPrimaryScheduleCall.err === 'SyntaxError: Unexpected end of JSON input')) {
-  		yield put(fetchPrimarySchedule(fetchPrimaryScheduleCall.data.jadwals));
-      yield put(loadingDone());
+      yield put(fetchPrimarySchedule(fetchPrimaryScheduleCall.data.jadwals));
+      // TOOD: Handle refreshing after delete gracefully. See https://stackoverflow.com/questions/41769969/how-to-make-my-component-re-render-after-updating-props-from-selector-in-react-a
+      window.location.reload();
   	} else {
   		console.log(fetchPrimaryScheduleCall.err);
-      yield put(loadingDone());
   	}
   } else {
     console.log(changePrimaryCall.err);
-    yield put(loadingDone());
   }
+  yield put(loadingDone());
 }
 
 /**

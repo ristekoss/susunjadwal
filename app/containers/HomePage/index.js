@@ -23,46 +23,8 @@
 //     setLoginData: React.PropTypes.func,
 //   };
 //
-//   componentDidMount() {
-//     window.processLogin = (data) => {
-//       /*set cookies*/
-//       var d = new Date();
-//       d.setTime(d.getTime() + (30*24*60*60*1000));
-//       var expires = "expires="+d.toUTCString();
-//       document.cookie = "major_id=" + data.major_id + "; expires=" + expires + ";path=/";
-//       document.cookie = "token=" + data.token + "; expires=" + expires + ";path=/";
-//       document.cookie = "user_id=" + data.user_id + "; expires=" + expires + ";path=/";
-//       this.props.setLoginData(data.major_id, data.token, data.user_id);
-//       this.props.push('/susun');
-//     };
 //
-//     var major_id = this.getCookie("major_id");
-//     var token = this.getCookie("token");
-//     var user_id = this.getCookie("user_id");
-//     if (major_id !== '' && token !== '' && user_id !== '') {
-//       this.props.setLoginData(major_id, token, user_id);
-//       this.props.push('/susun');
-//     }
-//   }
-//
-//   getCookie(cname) {
-//       var name = cname + "=";
-//       var ca = document.cookie.split(';');
-//       for(var i = 0; i < ca.length; i++) {
-//           var c = ca[i];
-//           while (c.charAt(0) == ' ') {
-//               c = c.substring(1);
-//           }
-//           if (c.indexOf(name) == 0) {
-//               return c.substring(name.length, c.length);
-//           }
-//       }
-//       return "";
-//   }
-//
-//   ssoLogin() {
-//     window.open('http://localhost:9000/api', 'Sunjad_SSO_Login', 'width=600,height=600');
-//   }
+
 //
 //   render() {
 //     return (
@@ -101,7 +63,6 @@
 // export default connect(null, mapDispatchToProps)(HomePage);
 
 // Temporary
-
 
 import React from 'react';
 import { LoginPage } from './temporaryJS';

@@ -1,7 +1,6 @@
 import { takeLatest } from 'redux-saga';
 import { LOCATION_CHANGE, push } from 'react-router-redux';
 import { take, call, select, cancel, fork, put } from 'redux-saga/effects';
-//import request from 'utils/request';
 import { ADD_SELECTED_CLASS, REMOVE_SELECTED_CLASS, SAVE_JADWAL, FETCH_JADWAL } from './constants';
 import { isEmpty, isEqual } from 'lodash';
 import selectBuildSchedule from './selectors';
