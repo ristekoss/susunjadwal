@@ -9,7 +9,7 @@ import { loading, loadingDone } from 'containers/App/actions';
 
 export function* fetchScheduleData(action) {
   yield put(loading());
-	let requestURL = `https://private-anon-7cc79298a3-sunjad.apiary-mock.com/sunjad/api/jadwals/${action.slug}`;
+	let requestURL = `http://api.sunjad.com/susunjadwal/api/jadwals/${action.slug}`;
 
   let jobId = action.slug.split(',');
   const lastItemOfJobId = jobId.pop();
@@ -22,7 +22,7 @@ export function* fetchScheduleData(action) {
 
   if(jobId.length > 1) {
     console.log('jobsBanyak');
-    requestURL = 'https://private-anon-7cc79298a3-sunjad.apiary-mock.com/sunjad/api/jadwals/join';
+    requestURL = 'http://api.sunjad.com/susunjadwal/api/jadwals/join';
     
     const fetchScheduleDataCall = yield call(request, requestURL, {
       method: 'GET',

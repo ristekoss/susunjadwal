@@ -105,7 +105,7 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
                 <div className="row expanded">
                   <div className="small-6 columns">
                     <div className={styles.listItemContent}>
-                      <button onClick={() => this.props.push(`/jadwal/${value.id}`)}>{`http://ristek.cs.ui.ac.id/susunjadwal/jadwal/${value.id}`}</button>
+                      <button onClick={() => this.props.push(`/jadwal/${value.id}`)}>{`http://www.sunjad.com/jadwal/${value.id}`}</button>
                     </div>
                   </div>
                   <div className="small-4 columns">
@@ -137,7 +137,7 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
                   <div className="row expanded">
                     <div className="small-6 columns">
                       <div className={styles.listItemContent}>
-                        <button onClick={() => this.props.push(`/jadwal/${value.id}`)}>{`http://ristek.cs.ui.ac.id/susunjadwal/jadwal/${value.id}`}</button>
+                        <button onClick={() => this.props.push(`/jadwal/${value.id}`)}>{`http://www.sunjad.com/jadwal/${value.id}`}</button>
                       </div>
                     </div>
                     <div className="small-4 columns">

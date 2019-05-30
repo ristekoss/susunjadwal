@@ -1,22 +1,39 @@
 import { takeLatest } from 'redux-saga';
 import { LOCATION_CHANGE, push } from 'react-router-redux';
 import { take, call, select, cancel, fork, put } from 'redux-saga/effects';
-import { FETCH, SET_JADWAL_UTAMA } from './constants';
+import { FETCH, SET_JADWAL_UTAMA, DELETE_JADWAL } from './constants';
 import { isEmpty, isEqual } from 'lodash';
 import selectGlobal from 'containers/App/selectors';
 import selectJadwal from './selectors';
 import { fetchDone, fetchPrimarySchedule } from './actions';
 import request from 'utils/request';
 import { loading, loadingDone } from 'containers/App/actions';
+import { consolidateStreamedStyles } from 'styled-components';
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for(var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+      }
+  }
+  return "";
+}
 
 /**
  * Github repos request/response handler
  */
 export function* fetchUserData() {
   yield put(loading());
-	const globalState = yield select(selectGlobal());
-  const requestURL = `https://private-anon-7cc79298a3-sunjad.apiary-mock.com/sunjad/api/users/${globalState.user_id}/jadwals`;
-  const auth = `Bearer ${globalState.token}`;
+  const user_id = getCookie("user_id");
+  const token = getCookie("token");
+  const requestURL = `http://api.sunjad.com/susunjadwal/api/users/${user_id}/jadwals`;
+  const auth = `Bearer ${token}`;
 
   const fetchUserDataCall = yield call(request, requestURL, {
     method: 'GET',
@@ -28,15 +45,16 @@ export function* fetchUserData() {
   });
 
   if(!fetchUserDataCall.err || !(fetchUserDataCall.err === 'SyntaxError: Unexpected end of JSON input')) {
-  	let primaryScheduleID = '';
-
+    let primaryScheduleID = '';
+    
   	fetchUserDataCall.data.jadwals.map((value, key) => {
   		if(value.utama) {
   			primaryScheduleID = value.id;
-  		}
+      }
+      primaryScheduleID = value.id;
   	});
 
-  	const requestURLPrimarySched = `https://private-anon-7cc79298a3-sunjad.apiary-mock.com/sunjad/api/jadwals/${primaryScheduleID}`;
+  	const requestURLPrimarySched = `http://api.sunjad.com/susunjadwal/api/jadwals/${primaryScheduleID}`;
 
   	const fetchPrimaryScheduleCall = yield call(request, requestURLPrimarySched, {
 	    method: 'GET',
@@ -72,7 +90,7 @@ export function* fetchUserDataSaga() {
 export function* changePrimary(action) {
   yield put(loading());
 	const globalState = yield select(selectGlobal());
-  const requestURL = `https://private-anon-7cc79298a3-sunjad.apiary-mock.com/sunjad/api/users/${globalState.user_id}/jadwals/${action.id}/set-utama`;
+  const requestURL = `http://api.sunjad.com/susunjadwal/api/users/${globalState.user_id}/jadwals/${action.id}/set-utama`;
   const auth = `Bearer ${globalState.token}`;
 
   const changePrimaryCall = yield call(request, requestURL, {
@@ -85,7 +103,7 @@ export function* changePrimary(action) {
   });
 
   if(!changePrimaryCall.err || !(changePrimaryCall.err === 'SyntaxError: Unexpected end of JSON input')) {
-  	const requestURLPrimarySched = `https://private-anon-7cc79298a3-sunjad.apiary-mock.com/sunjad/api/jadwals/${action.id}`;
+  	const requestURLPrimarySched = `http://api.sunjad.com/susunjadwal/api/jadwals/${action.id}`;
 
   	const fetchPrimaryScheduleCall = yield call(request, requestURLPrimarySched, {
 	    method: 'GET',
