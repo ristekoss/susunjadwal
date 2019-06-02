@@ -32,7 +32,7 @@ export function* fetchUserData() {
   yield put(loading());
   const user_id = getCookie("user_id");
   const token = getCookie("token");
-  const requestURL = `http://api.sunjad.com/susunjadwal/api/users/${user_id}/jadwals`;
+  const requestURL = `https://api.satraul.com/susunjadwal/api/users/${user_id}/jadwals`;
   const auth = `Bearer ${token}`;
 
   const fetchUserDataCall = yield call(request, requestURL, {
@@ -54,7 +54,7 @@ export function* fetchUserData() {
       primaryScheduleID = value.id;
   	});
 
-  	const requestURLPrimarySched = `http://api.sunjad.com/susunjadwal/api/jadwals/${primaryScheduleID}`;
+  	const requestURLPrimarySched = `https://api.satraul.com/susunjadwal/api/jadwals/${primaryScheduleID}`;
 
   	const fetchPrimaryScheduleCall = yield call(request, requestURLPrimarySched, {
 	    method: 'GET',
@@ -94,7 +94,7 @@ export function* deleteJadwal(action) {
   const globalState = yield select(selectGlobal());
   const user_id = getCookie("user_id");
   const token = getCookie("token");
-  const requestURL = `http://api.sunjad.com/susunjadwal/api/users/${user_id}/jadwals/${action.id}`;
+  const requestURL = `https://api.satraul.com/susunjadwal/api/users/${user_id}/jadwals/${action.id}`;
   const auth = `Bearer ${token}`;
 
   const response = yield call(request, requestURL, {
@@ -128,7 +128,7 @@ export function* deleteJadwalSaga() {
 export function* changePrimary(action) {
   yield put(loading());
 	const globalState = yield select(selectGlobal());
-  const requestURL = `http://api.sunjad.com/susunjadwal/api/users/${globalState.user_id}/jadwals/${action.id}/set-utama`;
+  const requestURL = `https://api.satraul.com/susunjadwal/api/users/${globalState.user_id}/jadwals/${action.id}/set-utama`;
   const auth = `Bearer ${globalState.token}`;
 
   const changePrimaryCall = yield call(request, requestURL, {
@@ -142,7 +142,7 @@ export function* changePrimary(action) {
   });
 
   if(!changePrimaryCall.err || !(changePrimaryCall.err === 'SyntaxError: Unexpected end of JSON input')) {
-  	const requestURLPrimarySched = `http://api.sunjad.com/susunjadwal/api/jadwals/${action.id}`;
+  	const requestURLPrimarySched = `https://api.satraul.com/susunjadwal/api/jadwals/${action.id}`;
 
   	const fetchPrimaryScheduleCall = yield call(request, requestURLPrimarySched, {
 	    method: 'GET',

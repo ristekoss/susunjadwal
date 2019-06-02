@@ -14,7 +14,7 @@ module.exports = (options) => ({
   entry: options.entry,
   output: Object.assign({ // Compile into js/build.js
     path: path.resolve(process.cwd(), 'build'),
-    publicPath: '/',
+    publicPath: '/susunjadwal/',
   }, options.output), // Merge with env dependent settings
   module: {
     loaders: [{

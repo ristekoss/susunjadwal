@@ -82,7 +82,7 @@ export function* saveJadwal() {
   yield put(loading());
   const globalState = yield select(selectGlobal());
   const localState = yield select(selectBuildSchedule());
-  const requestURL = `http://api.sunjad.com/susunjadwal/api/users/${globalState.user_id}/jadwals`;
+  const requestURL = `https://api.satraul.com/susunjadwal/api/users/${globalState.user_id}/jadwals`;
   const auth = `Bearer ${globalState.token}`;
 
   let stagedJadwals = [];
@@ -131,7 +131,7 @@ export function* fetchJadwal() {
   yield put(loading());
   const globalState = yield select(selectGlobal());
   const localState = yield select(selectBuildSchedule());
-  const requestURL = `http://api.sunjad.com/susunjadwal/api/majors/${globalState.major_id}/courses`;
+  const requestURL = `https://api.satraul.com/susunjadwal/api/majors/${globalState.major_id}/courses`;
   const auth = `Bearer ${globalState.token}`;
   console.log(auth);
   console.log(requestURL);

@@ -16,7 +16,8 @@ import 'file?name=[name].[ext]!./.htaccess';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
+import { applyRouterMiddleware, Router, useRouterHistory } from 'react-router';
+import createBrowserHistory from 'history/lib/createBrowserHistory';
 import { syncHistoryWithStore } from 'react-router-redux';
 import FontFaceObserver from 'fontfaceobserver';
 import { useScroll } from 'react-router-scroll';
@@ -46,6 +47,7 @@ FontObserver.load(null, 10000).then(() => {
 // this uses the singleton browserHistory provided by react-router
 // Optionally, this could be changed to leverage a created history
 // e.g. `const browserHistory = useRouterHistory(createBrowserHistory)();`
+const browserHistory = useRouterHistory(createBrowserHistory)({ basename: '/susunjadwal' });
 const initialState = {};
 const store = configureStore(initialState, browserHistory);
 
@@ -71,6 +73,7 @@ const render = (translatedMessages) => {
     <Provider store={store}>
       <LanguageProvider messages={translatedMessages}>
         <Router
+          basename={'susunjadwal'}
           history={history}
           routes={rootRoute}
           render={

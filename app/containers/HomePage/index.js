@@ -79,7 +79,7 @@ export class HomePage extends React.Component {
   };
 
   ssoLogin() {
-    window.open('http://sso.sunjad.com/', 'Sunjad_SSO_Login', 'width=600,height=600');
+    window.open('http://sso.satraul.com/', 'Sunjad_SSO_Login', 'width=600,height=600');
   }
 
   componentDidMount() {
