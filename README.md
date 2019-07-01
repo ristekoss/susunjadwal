@@ -1,20 +1,16 @@
-SusunJadwal V2
+# SusunJadwal
 
-Made with React, Redux, Webpack stack based on React Boilerplate project, [here](http://reactboilerplate.com)
+### Requirements
+1. Ensure NodeJS and NPM are installed
+2. `npm install`
+3. Start developmening at localhost:9000/susunjadwal using `npm run start`
 
-How tos:
+### Building
+1. `run npm build`
 
-1. Install NodeJS & NPM if you havent.
-2. Clone this repo
-3. run `npm run install`
-4. run `npm run start`
-5. start developing:)
-
-p.s.: to build, `run npm build`
-
-p.p.s.: docs from the React Boilerplate can be seen on /docs
-
-
+### License
 Made with love by SIG Webdev 2016 Ristek Fasilkom UI, originally developed by Pandago Studio.
+
+Made with React, Redux, Webpack stack based on React Boilerplate project, [here](http://reactboilerplate.com). Docs from the React Boilerplate can be seen on /docs.
 
 Big thanks to Max Stoiber, the creator of React Boilerplate.
