@@ -1,5 +1,4 @@
-FLASK==0.11.1
-PyJWT==1.4.2
-mongoengine==0.10.6
-beautifulsoup4==4.5.1
-requests==2.12.1
+Flask==1.0.3
+flask-mongoengine==0.9.5
+requests==2.22.0
+python-cas==1.4.0
