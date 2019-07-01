@@ -1,53 +1,45 @@
 .header { /* stylelint-disable */
   width: 100%;
   height: auto;
-  padding: 0.5rem 1rem 0;
-  background: #FFF5E9;
+  padding: 0.5rem 0 0.5rem 0;
+  background: #FFFFFF;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .headerFixed {
   width: 100%;
   height: auto;
-  padding: 0.5rem 1rem 0;
+  padding: 0.5rem 0 0.5rem 0;
   position: fixed;
-  background: #FFF5E9;
+  background: #FFFFFF;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .logo {
-  margin: 0;
-  line-height: 1;
-  font-size: 3rem;
+  margin: 0 0 0 3rem;
+  line-height: 3rem;
+  font-size: 2rem;
   font-weight: 700;
   display: inline-block;
-  color: #FBA600;
+  color: #CE9D4D;
 }
 
 .logo span {
-  color: #DC5539;
-}
-
-.divider {
-  width: calc(100% + 2rem);
-  height: 1rem;
-  margin: 0.5rem -1rem 0 -1rem;
-  background-image: url('./diamond.png');
-  background-size: 1rem 1rem;
-  background-repeat: repeat-x;
-  background-color: #0097B0;
+  color: #308077;
 }
 
 .header button,
 .headerFixed button {
   float: right;
-  border: 0.2rem solid #FBA600;
-  color: #FBA600;
+  line-height: 3rem;
+  font-weight: 700;
+  color: #222222;
   display: inline-block;
-  margin: 0.5rem 0 0 0.5rem;
-  padding: 0.5rem 1rem;
+  margin-right: 2rem;
 }
 
 .header button:hover,
 .headerFixed button:hover {
-  background: #FBA600;
-  color: #FFF5E9;
+  /* background: #CE9D4D; */
+  color: #0909;
 }

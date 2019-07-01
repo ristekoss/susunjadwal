@@ -1467,8 +1467,8 @@ kbd {
 .entryJadwal {
   position: absolute;
   width: calc((100% / 6) - 0.5rem);
-  background: #0097B0;
-  color: #333;
+  background: #308077;
+  color: #222222;
 }
 
 .senin {
@@ -1551,8 +1551,8 @@ kbd {
   bottom: 0;
   width: 100%;
   height: 100%;
-  background: #0097B0;
-  color: #FFF5E9;
+  background: #308077;
+  color: #FFFFFF;
   z-index: 2000;
 }
 
@@ -1599,7 +1599,7 @@ kbd {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #FFF5E9;
+  background-color: #FFFFFF;
   -webkit-animation: sk-foldCubeAngle 2.4s infinite linear both;
           animation: sk-foldCubeAngle 2.4s infinite linear both;
   -webkit-transform-origin: 100% 100%;

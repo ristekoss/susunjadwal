@@ -13,7 +13,7 @@
 .gabungJadwal h1 {
 	font-weight: 700;
 	font-size: 5rem;
-	color: #FBA600;
+	color: #CE9D4D;
 	margin-bottom: 1rem;
 }
 
@@ -32,14 +32,14 @@
 .gabungJadwal input {
 	width: 100%;
 	max-width: 600px;
-	border: 0.25rem solid #0097B0;
+	border: 0.25rem solid #308077;
 	padding: 0.5rem 1rem;
 	margin-bottom: 0.75rem;
 }
 
 .gabungJadwal button {
-	border: 0.25rem solid #FBA600;
-	color: #FBA600;
+	border: 0.25rem solid #CE9D4D;
+	color: #CE9D4D;
 	margin: 0 0.5rem;
 	padding: 0.5rem 2rem 0.25rem;
 	text-transform: uppercase;
@@ -47,6 +47,6 @@
 
 .gabungJadwal button:hover,
 .gabungJadwal button:active {
-	color: #FFF5E9;
-	background: #FBA600;
+	color: #FFFFFF;
+	background: #CE9D4D;
 }

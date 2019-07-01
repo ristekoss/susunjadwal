@@ -60,7 +60,7 @@ export class JadwalSpesifik extends React.Component { // eslint-disable-line rea
     if (major_id !== '' && token !== '' && user_id !== '') {
       navbarButton = [
         (<button key="logoutButtonJS" onClick={() => this.props.push('/logout')}>Logout</button>),
-        (<button key="toJadwalButtonJS" onClick={() => this.props.push('/jadwal')}>Kembali ke daftar jadwal</button>),
+        (<button key="toJadwalButtonJS" onClick={() => this.props.push('/jadwal')}>Riwayat Jadwal</button>),
       ];
     }
 
@@ -95,6 +95,9 @@ export class JadwalSpesifik extends React.Component { // eslint-disable-line rea
           {navbarButton}
         </Header>
         <div className={styles.jadwal}>
+          <div className={styles.pageTitle}>
+            <p>SCHED_NAME 📝</p>
+          </div>
           <div className={styles.scheduleModule}>
             <div className={styles.scheduleHeader}>
               <div className={styles.timeHeader}>
@@ -143,6 +146,12 @@ export class JadwalSpesifik extends React.Component { // eslint-disable-line rea
                   <p>17.00</p>
                   <p>17.30</p>
                   <p>18.00</p>
+                  <p>18.30</p>
+                  <p>19.00</p>
+                  <p>19.30</p>
+                  <p>20.00</p>
+                  <p>20.30</p>
+                  <p>21.00</p>
                 </div>
               </div>
               <div className={styles.dayContent}>

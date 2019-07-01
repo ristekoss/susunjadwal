@@ -1,129 +1,42 @@
-.jadwal { /* stylelint-disable */
-	margin-top: 1rem;
-	padding: 0 1rem 1rem;
-	width: 100%;
-	height: auto;
-	overflow-x: auto;
-}
-
-.scheduleModule {
-	width: 100%;
-	min-width: 1366px;
-	height: auto;
-	border-bottom: 0.5rem solid #DC5539;
-}
-
-.scheduleHeader {
-	width: 100%;
-	height: auto;
-	background: #DC5539;
-	color: #FFF5E9;
-	text-align: center;
-}
-
-.scheduleHeader p {
-	margin: 0;
-	line-height: 1;
-}
-
-.timeHeader,
-.dayHeader,
-.timeContent,
-.dayContent {
-	display: inline-block;
-	margin: 0;
-}
-
-.timeHeader {
-	width: 10%;
-	background: #FBA600;
-	color: #FFF5E9;
-	padding: 0.75rem 0;
-}
-
-.dayHeader {
-	width: 15%;
-	padding: 0.75rem 0;
-}
-
-.timeContent {
-	width: 10%;
-	text-align: center;
-	padding: 0;
-	height: 42rem;
-	position: relative;
-}
-
-.timeContent .container {
-	position: absolute;
-	width: 100%;
-	top: 0;
-	right: 0;
-	left: 0;
-}
-
-.timeContent p {
-	margin: 0;
-	padding: 0.5rem 0;
-	font-size: 1rem;
-	color: #333;
-	background: #FFF;
-	line-height: 1;
-}
-
-.timeContent p:nth-of-type(even) {
-	background: #FBA600;
-}
-
-.dayContent {
-	width: 90%;
-	background: #FFF;
-	height: 42rem;
-	position: relative;
-}
-
-.rabuSepuluhDuabelas {
-	position: absolute;
-	width: calc(100% / 6);
-	height: 9rem;
-	top: 8rem;
-	left: 0;
-	background: #0097B0;
+.pageTitle {
+	font-size: 1.5rem;
+	font-weight: 700;
+	padding: 0 0 0 3rem;
 }
 
 .scheduleList {
-	margin-top: 3rem;
+	margin-top: 2rem;
 }
 
 .scheduleList h1 {
 	font-weight: 700;
 	line-height: 1;
 	margin: 0 0 0.5rem;
-	color: #DC5539;
+	color: #CE9D4D;
 }
 
 .listHeader {
 	width: 100%;
-	background: #0097B0;
-	color: #FFF5E9;
-	padding: 0.75rem 1rem;
+	background: #308077;
+	padding: 0.75rem 0 0.75rem 3rem;
 }
 
 .listHeader p {
-	margin: 0;
+	color: #FFFFFF;
+	margin: 0;	
 	line-height: 1;
 	font-weight: 700;
 }
 
 .listItem {
 	width: 100%;
-	color: #333;
+	color: #222222;
 	background: #FFF;
-	border-bottom: 0.1rem solid #0097B0;
+	border-bottom: 0.1rem solid #222222;
 }
 
 .listItemContent {
-	padding: 0.75rem 1rem;
+	padding: 0.5rem 0 0.5rem 3rem;
 }
 
 .listItem p {
@@ -131,9 +44,10 @@
 	line-height: 1.5;
 }
 
+.listItem a {
+	color: #222222;
+}
+
 .listItem button {
-	margin: 0;
-	line-height: 1;
-	padding: 0;
-	border-bottom: 0.1rem solid #333;
+	color: #CE9D4D;
 }

@@ -1,27 +1,32 @@
+.pageTitle {
+	font-size: 1.5rem;
+	font-weight: 700;
+	padding: 2rem 0 0 3rem;
+}
+
 .jadwal { /* stylelint-disable */
-	margin-top: 1rem;
-	padding: 0 1rem 1rem;
+	top: 4rem;
 	width: 100%;
 	height: auto;
-	overflow-x: auto;
 }
 
 .scheduleModule {
 	width: 100%;
 	min-width: 1366px;
 	height: auto;
-	border-bottom: 0.5rem solid #DC5539;
 }
 
 .scheduleHeader {
 	width: 100%;
+	background: #308077;
+	/* padding: 0.75rem 0 0.75rem 3rem; */
 	height: auto;
-	background: #DC5539;
-	color: #FFF5E9;
+	color: #FFFFFF;
 	text-align: center;
 }
 
 .scheduleHeader p {
+	font-weight: 700;
 	margin: 0;
 	line-height: 1;
 }
@@ -36,8 +41,7 @@
 
 .timeHeader {
 	width: 10%;
-	background: #FBA600;
-	color: #FFF5E9;
+	color: #FFFFFF;
 	padding: 0.75rem 0;
 }
 
@@ -66,13 +70,13 @@
 	margin: 0;
 	padding: 0.5rem 0;
 	font-size: 1rem;
-	color: #333;
+	color: #222222;
 	background: #FFF;
 	line-height: 1;
 }
 
 .timeContent p:nth-of-type(even) {
-	background: #FBA600;
+	background: #A0D1CC;
 }
 
 .dayContent {
@@ -88,7 +92,7 @@
 	height: 9rem;
 	top: 8rem;
 	left: 0;
-	background: #0097B0;
+	background: #308077;
 }
 
 .scheduleList {
@@ -99,13 +103,13 @@
 	font-weight: 700;
 	line-height: 1;
 	margin: 0 0 0.5rem;
-	color: #DC5539;
+	color: #CE9D4D;
 }
 
 .listHeader {
 	width: 100%;
-	background: #0097B0;
-	color: #FFF5E9;
+	background: #308077;
+	color: #FFFFFF;
 	padding: 0.75rem 1rem;
 }
 
@@ -117,9 +121,9 @@
 
 .listItem {
 	width: 100%;
-	color: #333;
+	color: #222222;
 	background: #FFF;
-	border-bottom: 0.1rem solid #0097B0;
+	border-bottom: 0.1rem solid #308077;
 }
 
 .listItemContent {
@@ -135,5 +139,5 @@
 	margin: 0;
 	line-height: 1;
 	padding: 0;
-	border-bottom: 0.1rem solid #333;
+	border-bottom: 0.1rem solid #222222;
 }

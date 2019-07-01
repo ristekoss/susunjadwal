@@ -4,6 +4,8 @@
  * App container styles
  */
 
+
+
 @font-face {
   font-family: 'Proxima Nova';
   src: url('./PNovaRegular.eot');
@@ -53,12 +55,12 @@
 
 
 body {
-  background: #FFF5E9;
+  background: #FFFFFF;
   font-family: 'Proxima Nova', Helvetica, Arial, sans-serif;
 }
 
-::-moz-selection { background: #0097B0; }
-::selection { background: #0097B0; }
+::-moz-selection { background: #308077; }
+::selection { background: #308077; }
 
 .container {
   display: block;

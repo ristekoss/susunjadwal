@@ -221,7 +221,7 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
           ));
 
         const entry = (
-            <div key={`pickedcourse-${key}`} className="small-12 columns" style={{ background: isConflict ? '#DC5539' : 'none'}}>
+            <div key={`pickedcourse-${key}`} className="small-12 columns" style={{ background: isConflict ? '#CE9D4D' : 'none'}}>
               <div className="row expanded">
                 <div className="small-4 columns">
                   <div className={styles.tableItem}>
@@ -241,7 +241,7 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
                   </div>
                 </div>
                 <div className="small-1 columns text-right">
-                  <button className={styles.removeButton} onClick={() => this.props.removePicked(key)} style={{ color: isConflict ? 'inherit' : '#DC5539'}}>X</button>
+                  <button className={styles.removeButton} onClick={() => this.props.removePicked(key)} style={{ color: isConflict ? 'inherit' : '#CE9D4D'}}>X</button>
                 </div>
               </div>
             </div>
@@ -264,7 +264,10 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
             <div className={styles.agendaModuleContainer}>
               <div className="row expanded">
                 <div className="small-12 columns">
-                  <input type="text" placeholder="Nama agenda" value={this.state.agendaModule.name} onChange={(evt) => this.agendaChangeInput('name', evt.target.value)} />
+                  <center style={{fontWeight: 700}}>TAMBAH AGENDA</center>
+                </div>
+                <div className="small-12 columns">
+                  <input type="text" placeholder="Nama Agenda" value={this.state.agendaModule.name} onChange={(evt) => this.agendaChangeInput('name', evt.target.value)} />
                   <h3 style={{ display: this.state.agendaModule.errMesage.name === '' ? 'none' : 'block'}}>{this.state.agendaModule.errMesage.name}</h3>
                 </div>
                 <div className="small-12 columns">
@@ -291,8 +294,8 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
                   <h3 style={{ display: this.state.agendaModule.errMesage.schedule.room === '' ? 'none' : 'block'}}>{this.state.agendaModule.errMesage.schedule.room}</h3>
                 </div>
                 <div className="small-12 columns text-right">
-                  <button className={styles.cancel} onClick={this.finishAddAgenda}>Batal</button>
-                  <button className={styles.add} onClick={this.addAgenda}>Tambah</button>
+                  <button className={styles.cancel} onClick={this.finishAddAgenda}>BATAL</button>
+                  <button className={styles.add} onClick={this.addAgenda}>SIMPAN</button>
                 </div>
               </div>
             </div>
@@ -300,11 +303,14 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
         </div>
         <Header isFixed={true}>
           <button onClick={() => this.props.push('/logout')}>Logout</button>
-          <button onClick={() => this.props.push('/jadwal')}>Lihat Jadwal Saya</button>
+          <button onClick={() => this.props.push('/jadwal')}>Riwayat Jadwal</button>
         </Header>
         <div className="row expanded">
           <div className="small-12 medium-9 columns">
             <div className={styles.scheduleList}>
+              <div className={styles.pageTitle}>
+                <p>Buat Jadwal</p>
+              </div>
               <div className="row expanded">
                 {scheduleListItems}
               </div>
@@ -314,7 +320,7 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
             <div className={styles.pickedSchedule}>
               <div className="row expanded">
                 <div className="small-12 columns">
-                  <div className={styles.pickedScheduleHeader} >Kelas Pilihan</div>
+                  <div className={styles.pickedScheduleHeader}>Kelas Pilihan</div>
                 </div>
                 <div className="small-12 columns">
                   <div className={styles.pickedScheduleList}>
@@ -339,7 +345,7 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
                             </div>
                             <div className="small-1 columns text-right">
                               <div className={styles.tableItem}>
-                                <p>X</p>
+                                <p></p>
                               </div>
                             </div>
                           </div>
@@ -383,7 +389,7 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
                   </div>
                 </div>
                 <div className="small-12 columns">
-                  <button className={styles.finishButton} onClick={this.showAgenda} >Tambah Agenda</button>
+                  <button className={styles.agendaButton} onClick={this.showAgenda} >Tambah Agenda</button>
                 </div>
                 <div className="small-12 columns">
                   <button className={styles.finishButton} onClick={this.props.saveJadwal} disabled={((this.props.localState.conflict.length > 0)) || (totalSKS > 24) || (isEmpty(this.props.localState.picked))}>Simpan Jadwal</button>

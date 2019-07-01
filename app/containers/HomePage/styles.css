@@ -17,7 +17,7 @@
 }
 
 .logo {
-  color: #FBA600;
+  color: #CE9D4D;
   font-weight: 700;
   font-size: 5rem;
   margin: 0;
@@ -25,20 +25,20 @@
 }
 
 .logo span {
-  color: #DC5539;
+  color: #CE9D4D;
 }
 
 .subtitle {
   font-size: 1.25rem;
-  color: #0097B0;
+  color: #308077;
   line-height: 1;
   margin: -0.5rem 0 0;
 }
 
 .loginButton {
   padding: 1rem 2rem;
-  background: #FBA600;
-  color: #FFF5E9;
+  background: #CE9D4D;
+  color: #FFFFFF;
   font-size: 1.5rem;
   font-weight: 700;
   margin-top: 3rem;
@@ -46,13 +46,13 @@
 
 .loginButton:hover,
 .loginButton:active {
-  background: #0097B0;
+  background: #308077;
 }
 
 .link {
   display: inline-block;
-  color: #0097B0;
-  border-bottom: 0.25rem solid #DC5539;
+  color: #308077;
+  border-bottom: 0.25rem solid #CE9D4D;
   line-height: 1;
   margin: 0;
   padding: 0.25rem;
@@ -62,8 +62,8 @@
 .link:hover,
 .link:active {
   text-decoration: none;
-  color: #FFF5E9;
-  background: #DC5539;
+  color: #FFFFFF;
+  background: #CE9D4D;
 }
 
 .gabungJadwalInfo {
@@ -74,8 +74,8 @@
 .noticeBar {
   width: 100%;
   padding: 1rem 2rem;
-  background: #0097B0;
-  color: #FFF5E9;
+  background: #308077;
+  color: #FFFFFF;
   font-size: 1.25rem;
   line-height: 1;
   margin-top: 3rem;
@@ -85,5 +85,5 @@
   margin: 1rem 0 0;
   font-size: 1rem;
   font-weight: 300;
-  color: #DC5539;
+  color: #CE9D4D;
 }

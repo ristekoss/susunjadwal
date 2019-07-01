@@ -16,7 +16,7 @@ function Header(props) {
     <div className={headerStyle}>
       <h1 className={styles.logo} >Susun<span>Jadwal</span></h1>
       {React.Children.toArray(props.children)}
-      <div className={styles.divider} />
+      {/* <div className={styles.divider} /> */}
     </div>
   );
 }

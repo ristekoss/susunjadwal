@@ -11,12 +11,14 @@ import { createStructuredSelector } from 'reselect';
 import selectGlobal from 'containers/App/selectors';
 import selectJadwal from './selectors';
 import { push } from 'react-router-redux';
+import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import { deleteJadwal, setJadwalUtama, fetch } from './actions';
 import styles from './styles.css';
 import { isEmpty } from 'lodash';
 import { setLoginData } from 'containers/App/actions';
+import deleteIcon from './baseline-delete-24px.png';
 
 import Header from 'components/Header';
 
@@ -90,74 +92,43 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
       });
     }
 
-    let scheduleListElemPrimary = null;
-    let scheduleListElemNotPrimary = null;
+    let scheduleListElem = null;
 
     if(!isEmpty(this.props.localState.scheduleList)) {
-      scheduleListElemPrimary = this.props.localState.scheduleList.map((value, key) => {
+      scheduleListElem = this.props.localState.scheduleList.map((value, key) => {
         let primaryElement = null;
         const createdAt = new Date(value.created_at);
-        if(value.utama) {
-          primaryElement = (
-            <div key={`primary-sched-${value.id}`} className="small-12 columns flashUpdate">
-              <div className={styles.listItem}>
-                <div className="row expanded">
-                  <div className="small-6 columns">
-                    <div className={styles.listItemContent}>
-                      <button onClick={() => this.props.push(`/jadwal/${value.id}`)}>{`http://www.sunjad.com/jadwal/${value.id}`}</button>
-                    </div>
-                  </div>
-                  <div className="small-4 columns">
-                    <div className={styles.listItemContent}>
-                      <p>{createdAt.getDate()} - {createdAt.getMonth() + 1} - {createdAt.getFullYear()}</p>
-                    </div>
-                  </div>
-                  <div className="small-2 columns">
-                    <div className={styles.listItemContent}>
-                      { value.utama ? (<p>Jadwal Utama</p>) : (<button onClick={() => console.log('cie')}>Set jadwal utama</button>) }
-                    </div>
+        primaryElement = (
+          <div key={`primary-sched-${value.id}`} className="small-12 columns flashUpdate">
+            <div className={styles.listItem}>
+              <div className="row expanded">
+                <div className="small-3 columns">
+                  <div className={styles.listItemContent}>
+                    <p>SCHED_NAME 📝</p>
                   </div>
                 </div>
-              </div>
+                <div className="small-3 columns">
+                  <div className={styles.listItemContent}>
+                    <p>{createdAt.getDate()} - {createdAt.getMonth() + 1} - {createdAt.getFullYear()}</p>
+                  </div>
+                </div>
+                <div className="small-4 columns">
+                  <div className={styles.listItemContent}>
+                    <Link to={`/jadwal/${value.id}`}>{`http://www.sunjad.com/jadwal/${value.id}`}</Link>
+                  </div>
+                </div>
+                <div className="small-2 columns">
+                      <div className={styles.listItemContent}>
+                        <button onClick={() => this.props.deleteJadwal(value.id)}>
+                          <img src={deleteIcon} alt="Delete" /> Delete
+                        </button>
+                      </div>
+                    </div>
+                </div>
             </div>
-          );
-        }
+          </div>
+        );
         return primaryElement;
-      });
-
-      scheduleListElemNotPrimary = this.props.localState.scheduleList.map((value, key) => {
-        let notPrimaryElement = null;
-        const createdAt = new Date(value.created_at);
-
-        if(!value.utama) {
-          notPrimaryElement = (
-              <div key={`non-primary-sched-${value.id}`}  className="small-12 columns">
-                <div className={styles.listItem}>
-                  <div className="row expanded">
-                    <div className="small-6 columns">
-                      <div className={styles.listItemContent}>
-                        <button onClick={() => this.props.push(`/jadwal/${value.id}`)}>{`http://www.sunjad.com/jadwal/${value.id}`}</button>
-                      </div>
-                    </div>
-                    <div className="small-4 columns">
-                      <div className={styles.listItemContent}>
-                        <p>{createdAt.getDate()} - {createdAt.getMonth() + 1} - {createdAt.getFullYear()}</p>
-                      </div>
-                    </div>
-                    <div className="small-2 columns">
-                      <div className={styles.listItemContent}>
-                        <button onClick={() => this.props.setJadwalUtama(value.id)}>Set jadwal utama</button>
-                        <br/>
-                        <button onClick={() => this.props.deleteJadwal(value.id)}>Delete</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-        }
-
-        return notPrimaryElement;
       });
     }
 
@@ -174,87 +145,38 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
           <button onClick={() => this.props.push('/susun')}>Buat Jadwal Baru</button>
         </Header>
         <div className={styles.jadwal}>
-          <div className={styles.scheduleModule}>
-            <div className={styles.scheduleHeader}>
-              <div className={styles.timeHeader}>
-                <p>Jam</p>
-              </div>
-              <div className={styles.dayHeader}>
-                <p>Senin</p>
-              </div>
-              <div className={styles.dayHeader}>
-                <p>Selasa</p>
-              </div>
-              <div className={styles.dayHeader}>
-                <p>Rabu</p>
-              </div>
-              <div className={styles.dayHeader}>
-                <p>Kamis</p>
-              </div>
-              <div className={styles.dayHeader}>
-                <p>Jumat</p>
-              </div>
-              <div className={styles.dayHeader}>
-                <p>Sabtu</p>
-              </div>
-            </div>
-            <div className={styles.scheduleContent}>
-              <div className={styles.timeContent}>
-                <div className={styles.container}>
-                  <p>08.00</p>
-                  <p>08.30</p>
-                  <p>09.00</p>
-                  <p>09.30</p>
-                  <p>10.00</p>
-                  <p>10.30</p>
-                  <p>11.00</p>
-                  <p>11.30</p>
-                  <p>12.00</p>
-                  <p>12.30</p>
-                  <p>13.00</p>
-                  <p>13.30</p>
-                  <p>14.00</p>
-                  <p>14.30</p>
-                  <p>15.00</p>
-                  <p>15.30</p>
-                  <p>16.00</p>
-                  <p>16.30</p>
-                  <p>17.00</p>
-                  <p>17.30</p>
-                  <p>18.00</p>
-                </div>
-              </div>
-              <div className={styles.dayContent}>
-                {primarySchedElem}
-              </div>
-            </div>
-          </div>
           <div className={styles.scheduleList}>
             <div className="row expanded">
               <div className="small-12 columns">
-                <h1>My Schedules</h1>
+                <div className={styles.pageTitle}>
+                  <p>Riwayat Jadwal</p>
+                </div>
               </div>
               <div className="small-12 columns">
                 <div className="row expanded">
-                  <div className="small-6 columns">
+                  <div className="small-3 columns">
                     <div className={styles.listHeader}>
-                      <p>Link Jadwal</p>
+                      <p>Nama Jadwal</p>
                     </div>
                   </div>
-                  <div className="small-4 columns">
+                  <div className="small-3 columns">
                     <div className={styles.listHeader}>
                       <p>Tanggal Dibuat</p>
                     </div>
                   </div>
+                  <div className="small-4 columns">
+                    <div className={styles.listHeader}>
+                      <p>Shareable Link</p>
+                    </div>
+                  </div>
                   <div className="small-2 columns">
                     <div className={styles.listHeader}>
-                      <p>Status</p>
+                      <p>DEL_COLUMN</p>
                     </div>
                   </div>
                 </div>
               </div>
-              {scheduleListElemPrimary}
-              {scheduleListElemNotPrimary}
+              {scheduleListElem}
             </div>
           </div>
         </div>
