@@ -32,7 +32,7 @@ export function* fetchUserData() {
   yield put(loading());
   const user_id = getCookie("user_id");
   const token = getCookie("token");
-  const requestURL = `https://api.satraul.com/susunjadwal/api/users/${user_id}/jadwals`;
+  const requestURL = `http://localhost:5000/susunjadwal/api/users/${user_id}/user_schedules`;
   const auth = `Bearer ${token}`;
 
   const fetchUserDataCall = yield call(request, requestURL, {
@@ -46,15 +46,17 @@ export function* fetchUserData() {
 
   if(!fetchUserDataCall.err || !(fetchUserDataCall.err === 'SyntaxError: Unexpected end of JSON input')) {
     let primaryScheduleID = '';
-    
-  	fetchUserDataCall.data.jadwals.map((value, key) => {
+
+  	fetchUserDataCall.data.user_schedules.map((value, key) => {
+      console.log(value.id)
   		if(value.utama) {
   			primaryScheduleID = value.id;
       }
       primaryScheduleID = value.id;
   	});
+    console.log(primaryScheduleID)
 
-  	const requestURLPrimarySched = `https://api.satraul.com/susunjadwal/api/jadwals/${primaryScheduleID}`;
+  	const requestURLPrimarySched = `http://localhost:5000/susunjadwal/api/user_schedules/${primaryScheduleID}`;
 
   	const fetchPrimaryScheduleCall = yield call(request, requestURLPrimarySched, {
 	    method: 'GET',
@@ -63,11 +65,11 @@ export function* fetchUserData() {
 	      'Content-Type': 'application/json',
 	    },
     });
-    
+
     console.log(fetchPrimaryScheduleCall.data);
 
   	if(!fetchPrimaryScheduleCall.err || !(fetchPrimaryScheduleCall.err === 'SyntaxError: Unexpected end of JSON input')) {
-  		yield put(fetchDone(fetchPrimaryScheduleCall.data.jadwals, fetchUserDataCall.data.jadwals));
+  		yield put(fetchDone(fetchPrimaryScheduleCall.data.user_schedule, fetchUserDataCall.data.user_schedules));
       yield put(loadingDone());
   	} else {
   		console.log(fetchPrimaryScheduleCall.err);
@@ -94,7 +96,7 @@ export function* deleteJadwal(action) {
   const globalState = yield select(selectGlobal());
   const user_id = getCookie("user_id");
   const token = getCookie("token");
-  const requestURL = `https://api.satraul.com/susunjadwal/api/users/${user_id}/jadwals/${action.id}`;
+  const requestURL = `http://localhost:5000/susunjadwal/api/users/${user_id}/user_schedules/${action.id}`;
   const auth = `Bearer ${token}`;
 
   const response = yield call(request, requestURL, {
@@ -128,7 +130,7 @@ export function* deleteJadwalSaga() {
 export function* changePrimary(action) {
   yield put(loading());
 	const globalState = yield select(selectGlobal());
-  const requestURL = `https://api.satraul.com/susunjadwal/api/users/${globalState.user_id}/jadwals/${action.id}/set-utama`;
+  const requestURL = `http://localhost:5000/susunjadwal/api/users/${globalState.user_id}/user_schedules/${action.id}/set-utama`;
   const auth = `Bearer ${globalState.token}`;
 
   const changePrimaryCall = yield call(request, requestURL, {
@@ -142,7 +144,7 @@ export function* changePrimary(action) {
   });
 
   if(!changePrimaryCall.err || !(changePrimaryCall.err === 'SyntaxError: Unexpected end of JSON input')) {
-  	const requestURLPrimarySched = `https://api.satraul.com/susunjadwal/api/jadwals/${action.id}`;
+  	const requestURLPrimarySched = `http://localhost:5000/susunjadwal/api/user_schedules/${action.id}`;
 
   	const fetchPrimaryScheduleCall = yield call(request, requestURLPrimarySched, {
 	    method: 'GET',

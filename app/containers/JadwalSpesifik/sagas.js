@@ -9,56 +9,23 @@ import { loading, loadingDone } from 'containers/App/actions';
 
 export function* fetchScheduleData(action) {
   yield put(loading());
-	let requestURL = `https://api.satraul.com/susunjadwal/api/jadwals/${action.slug}`;
+	let requestURL = `http://localhost:5000/susunjadwal/api/user_schedules/${action.slug}`;
+  let jobId = action.slug
 
-  let jobId = action.slug.split(',');
-  const lastItemOfJobId = jobId.pop();
+	const fetchScheduleDataCall = yield call(request, requestURL, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  });
 
-  if(lastItemOfJobId !== '') {
-    jobId.push(lastItemOfJobId);
-  }
-
-  console.log(jobId);
-
-  if(jobId.length > 1) {
-    console.log('jobsBanyak');
-    requestURL = 'https://api.satraul.com/susunjadwal/api/jadwals/join';
-    
-    const fetchScheduleDataCall = yield call(request, requestURL, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: {
-        jadwal_ids: jobId,
-      }
-    });
-
-    if(!fetchScheduleDataCall.err || !(fetchScheduleDataCall.err === 'SyntaxError: Unexpected end of JSON input')) {
-      yield put(fetchDone(fetchScheduleDataCall.data.jadwals));
-      yield put(loadingDone());
-    } else {
-      console.log(fetchScheduleDataCall.err);
-      yield put(loadingDone());
-    }
+  if(!fetchScheduleDataCall.err || !(fetchScheduleDataCall.err === 'SyntaxError: Unexpected end of JSON input')) {
+    yield put(fetchDone(fetchScheduleDataCall.data.user_schedule));
+    yield put(loadingDone());
   } else {
-    console.log('jobDikit');
-  	const fetchScheduleDataCall = yield call(request, requestURL, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if(!fetchScheduleDataCall.err || !(fetchScheduleDataCall.err === 'SyntaxError: Unexpected end of JSON input')) {
-      yield put(fetchDone(fetchScheduleDataCall.data.jadwals));
-      yield put(loadingDone());
-    } else {
-      console.log(fetchScheduleDataCall.err);
-      yield put(loadingDone());
-    }
+    console.log(fetchScheduleDataCall.err);
+    yield put(loadingDone());
   }
 }
 

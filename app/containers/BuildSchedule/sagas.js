@@ -18,10 +18,10 @@ export function* asyncCheckConflict() {
   let combinedSchedules = [];
   if(!isEmpty(localState.picked)) {
     for(let [key, value] of Object.entries(localState.picked)) {
-      value.schedule.map((item, index) => { combinedSchedules.push(item); });
+      value.schedule_items.map((item, index) => { combinedSchedules.push(item); });
     }
   }
-  
+
   const conflictItem = checkConflict(combinedSchedules);
   yield put(conflict(conflictItem));
 }
@@ -82,7 +82,7 @@ export function* saveJadwal() {
   yield put(loading());
   const globalState = yield select(selectGlobal());
   const localState = yield select(selectBuildSchedule());
-  const requestURL = `https://api.satraul.com/susunjadwal/api/users/${globalState.user_id}/jadwals`;
+  const requestURL = `http://localhost:5000/susunjadwal/api/users/${globalState.user_id}/user_schedule`;
   const auth = `Bearer ${globalState.token}`;
 
   let stagedJadwals = [];
@@ -90,7 +90,7 @@ export function* saveJadwal() {
   if(!isEmpty(localState.picked)) {
     for(let [key, value] of Object.entries(localState.picked)) {
       console.log(value);
-      value.schedule.map((item, index) => {
+      value.schedule_items.map((item, index) => {
         stagedJadwals.push({ name: value.name, day: item.day, start: item.start, end: item.end, room: item.room });
       });
     }
@@ -104,12 +104,12 @@ export function* saveJadwal() {
       Authorization: auth,
     },
     body: JSON.stringify({
-      jadwals: stagedJadwals,
+      schedule_items: stagedJadwals,
     }),
   });
 
   if(!saveJadwalPostCall.err || !(saveJadwalPostCall.err === 'SyntaxError: Unexpected end of JSON input')) {
-    yield put(push(`/jadwal/${saveJadwalPostCall.data.jadwal_id}`));
+    yield put(push(`/jadwal/${saveJadwalPostCall.data.id}`));
     yield put(loadingDone());
   } else {
     console.log(saveJadwalPostCall.err);
@@ -131,7 +131,7 @@ export function* fetchJadwal() {
   yield put(loading());
   const globalState = yield select(selectGlobal());
   const localState = yield select(selectBuildSchedule());
-  const requestURL = `https://api.satraul.com/susunjadwal/api/majors/${globalState.major_id}/courses`;
+  const requestURL = `http://localhost:5000/susunjadwal/api/majors/${globalState.major_id}/courses`;
   const auth = `Bearer ${globalState.token}`;
   console.log(auth);
   console.log(requestURL);

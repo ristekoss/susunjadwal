@@ -25,20 +25,20 @@ class Course extends React.Component { // eslint-disable-line react/prefer-state
   }
 
   handleOptionChange(changeEvent) {
-    this.props.changeSelectedClass(this.props.item.name, `${this.props.item.class[changeEvent.target.value].name}`);
-    this.props.addSelectedClass(this.props.item.name, {"name":`${this.props.item.class[changeEvent.target.value].name}`,"schedule":this.props.item.class[changeEvent.target.value].jadwal,"sks":this.props.item.sks});
+    this.props.changeSelectedClass(this.props.item.name, `${this.props.item.classes[changeEvent.target.value].name}`);
+    this.props.addSelectedClass(this.props.item.name, {"name":`${this.props.item.classes[changeEvent.target.value].name}`,"schedule_items": this.props.item.classes[changeEvent.target.value].schedule_items, "credit": this.props.item.credit});
   }
 
   render() {
     const item = this.props.item;
-    let classeslist = null;
+    let classes = null;
 
-    if (item.class) {
-      classeslist = item.class.map((item, index) => {
-        const classesTimes = item.jadwal.map((itemtwo, indextwo) => (
+    if (item.classes) {
+      classes = item.classes.map((item, index) => {
+        const classesTimes = item.schedule_items.map((itemtwo, indextwo) => (
             <li key={`classtime-${indextwo}`}>{itemtwo.day}, {itemtwo.start}-{itemtwo.end}</li>
           ));
-        const classesRooms = item.jadwal.map((itemtwo, indextwo) => (
+        const classesRooms = item.schedule_items.map((itemtwo, indextwo) => (
             <li key={`classroom-${indextwo}`}>{itemtwo.room}</li>
           ));
         const classesLecturers = item.lecturer.map((itemtwo, indextwo) => (
@@ -120,7 +120,7 @@ class Course extends React.Component { // eslint-disable-line react/prefer-state
                   </div>
                 </div>
               </div>
-              {classeslist}
+              {classes}
             </div>
           </div>
         </div>

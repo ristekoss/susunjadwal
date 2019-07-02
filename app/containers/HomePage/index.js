@@ -71,7 +71,6 @@ import { LoginPage } from './temporaryJS';
 import SUSUNJADWALPIC from './logoSusun.png';
 import { setLoginData } from 'containers/App/actions';
 
-
 export class HomePage extends React.Component {
   static propTypes = {
     push: React.PropTypes.func,
@@ -79,7 +78,7 @@ export class HomePage extends React.Component {
   };
 
   ssoLogin() {
-    window.open('http://sso.satraul.com/', 'Sunjad_SSO_Login', 'width=600,height=600');
+    window.open('http://localhost:5000/susunjadwal/api/login/', 'Sunjad_SSO_Login', 'width=600,height=600');
   }
 
   componentDidMount() {
@@ -88,12 +87,14 @@ export class HomePage extends React.Component {
       console.log(e);
       /*set cookies*/
       var data = e.data;
+      e.source.close();
+
       var d = (new Date().getTime() + (30*24*60*60*1000));
       var expires = "expires="+d;
       document.cookie = "major_id=" + data.major_id + "; expires=" + expires + ";path=/";
       document.cookie = "token=" + data.token + "; expires=" + expires + ";path=/";
       document.cookie = "user_id=" + data.user_id + "; expires=" + expires + ";path=/";
-      
+
       this.props.setLoginData(data.major_id, data.token, data.user_id);
       this.props.push('/susun');
     });

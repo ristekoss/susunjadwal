@@ -136,7 +136,7 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
     const endTImeCheck = timeChecker.test(this.state.agendaModule.schedule.end);
     const roomCheck = this.state.agendaModule.schedule.room === '' || this.state.agendaModule.schedule.room === null;
     if(startTimeCheck && endTImeCheck && !nameCheck && !dayCheck && !roomCheck) {
-      this.props.addSelectedClass(`${this.state.agendaModule.name} - ${this.state.agendaModule.schedule.day} - ${this.state.agendaModule.schedule.start} - ${this.state.agendaModule.schedule.end} - ${this.state.agendaModule.schedule.room}`, {"name":`${this.state.agendaModule.name}`, "schedule": [{day: this.state.agendaModule.schedule.day, start: this.state.agendaModule.schedule.start, end: this.state.agendaModule.schedule.end, room: this.state.agendaModule.schedule.room}],"sks":this.state.agendaModule.sks});
+      this.props.addSelectedClass(`${this.state.agendaModule.name} - ${this.state.agendaModule.schedule.day} - ${this.state.agendaModule.schedule.start} - ${this.state.agendaModule.schedule.end} - ${this.state.agendaModule.schedule.room}`, {"name":`${this.state.agendaModule.name}`, "schedule_items": [{day: this.state.agendaModule.schedule.day, start: this.state.agendaModule.schedule.start, end: this.state.agendaModule.schedule.end, room: this.state.agendaModule.schedule.room}],"credit":this.state.agendaModule.sks});
       this.finishAddAgenda();
     } else {
       const currentState = this.state.agendaModule;
@@ -198,7 +198,7 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
   render() {
     let scheduleListItems = null;
     let pickedItems = [];
-    let totalSKS = 0;
+    let totalCredits = 0;
 
     if(!isEmpty(this.props.localState.courses)) {
       scheduleListItems = (<List items={this.props.localState.courses} component={Course} />);
@@ -207,16 +207,16 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
     if(!isEmpty(this.props.localState.picked)) {
       for(let [key, value] of Object.entries(this.props.localState.picked)) {
         let isConflict = false;
-        
+
         this.props.localState.conflict.map((item, index) => {
-          value.schedule.map((valueItem, valueIndex) => {
+          value.schedule_items.map((valueItem, valueIndex) => {
             if(isEqual(item, valueItem)) {
               isConflict = true;
             }
           });
         });
 
-        const classesTimes = value.schedule.map((item, index) => (
+        const classesTimes = value.schedule_items.map((item, index) => (
             <li key={`classtime-${index}`}>{item.day}, {item.start}-{item.end}</li>
           ));
 
@@ -237,7 +237,7 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
                 </div>
                 <div className="small-2 columns">
                   <div className={styles.tableItem}>
-                    <p>{value.sks}</p>
+                    <p>{value.credit}</p>
                   </div>
                 </div>
                 <div className="small-1 columns text-right">
@@ -246,7 +246,7 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
               </div>
             </div>
           );
-        totalSKS += value.sks;
+        totalCredits += value.credit;
         pickedItems.push(entry);
       }
     }
@@ -368,7 +368,7 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
                             </div>
                             <div className="small-3 columns">
                               <div className={styles.tableItem}>
-                                <p>{totalSKS}</p>
+                                <p>{totalCredits}</p>
                               </div>
                             </div>
                           </div>
@@ -392,7 +392,7 @@ export class BuildSchedule extends React.Component { // eslint-disable-line reac
                   <button className={styles.agendaButton} onClick={this.showAgenda} >Tambah Agenda</button>
                 </div>
                 <div className="small-12 columns">
-                  <button className={styles.finishButton} onClick={this.props.saveJadwal} disabled={((this.props.localState.conflict.length > 0)) || (totalSKS > 24) || (isEmpty(this.props.localState.picked))}>Simpan Jadwal</button>
+                  <button className={styles.finishButton} onClick={this.props.saveJadwal} disabled={((this.props.localState.conflict.length > 0)) || (totalCredits > 24) || (isEmpty(this.props.localState.picked))}>Simpan Jadwal</button>
                 </div>
               </div>
             </div>

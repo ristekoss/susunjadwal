@@ -66,7 +66,8 @@ export class JadwalSpesifik extends React.Component { // eslint-disable-line rea
 
     let primarySchedElem = null;
     if(!isEmpty(this.props.primarySched)) {
-      primarySchedElem = this.props.primarySched.map((value, key) => {
+      console.log('primarySched', this.props.primarySched);
+      primarySchedElem = this.props.primarySched["schedule_items"].map((value, key) => {
         const dur = this.convertToMinute(value.end) - this.convertToMinute(value.start);
         const start = this.convertToMinute(value.start) - this.convertToMinute('08.00');
         return (

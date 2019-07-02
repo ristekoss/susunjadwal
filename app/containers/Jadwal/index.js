@@ -74,8 +74,9 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
 
   render() {
     let primarySchedElem = null;
+    console.log(this.props.localState.primarySched)
     if(!isEmpty(this.props.localState.primarySched)) {
-      primarySchedElem = this.props.localState.primarySched.map((value, key) => {
+      primarySchedElem = this.props.localState.primarySched["schedule_items"].map((value, key) => {
         const dur = this.convertToMinute(value.end) - this.convertToMinute(value.start);
         const start = this.convertToMinute(value.start) - this.convertToMinute('08.00');
         return (
