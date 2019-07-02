@@ -1,63 +1,66 @@
-import requests
-from mongoengine import *
-from models.Major import *
-from flask import jsonify
-from bs4 import BeautifulSoup
 import json
 import re
-from app import app
+import os
+import requests
+from bs4 import BeautifulSoup
 
-BASE_URL        = 'https://academic.ui.ac.id/main/'
-AUTH_URL        = BASE_URL + 'Authentication/Index'
-CHANGEROLE_URL  = BASE_URL + 'Authentication/ChangeRole'
-JADWAL_URL      = BASE_URL + 'Schedule/Index?period=2016-2&search='
-LOGOUT_URL      = BASE_URL + 'Authentication/Logout'
+from models.major import (
+    Course,
+    Class,
+    ScheduleItem
+)
 
 
-BASE_PATH = '/susunjadwal/api'
-@app.route(BASE_PATH + '/jadwals/fetch/<major>')
-def fetch_jadwal(major):
+JADWAL_PERIOD = '2018-3'
+
+BASE_URL = 'https://academic.ui.ac.id/main'
+AUTH_URL = f"{BASE_URL}/Authentication/Index"
+CHANGEROLE_URL = f"{BASE_URL}/Authentication/ChangeRole"
+JADWAL_URL = f"{BASE_URL}/Schedule/Index?period={JADWAL_PERIOD}&search="
+
+
+def scrape_major(major):
     username, password = fetch_credential(major)
+
     req = requests.Session()
-    r = req.post(AUTH_URL, data = {'u': username, 'p': password}, verify=False)
+    r = req.post(AUTH_URL, data={'u': username, 'p': password}, verify=False)
     r = req.get(CHANGEROLE_URL)
     r = req.get(JADWAL_URL)
-    course_list = scrape_jadwal(r.text)
-    major_obj = Major.objects(name=major).first()
-    if major_obj == None:
-    	major_obj = Major(name=major)
-    major_obj.courses = course_list
-    major_obj.save()
-    return jsonify(), 200
+
+    courses = parse_schedule(r.text)
+    return courses
+
 
 def fetch_credential(major):
-    credentials = json.loads(open('credentials.json').read())
-    for key, value in credentials.items():
-        if (key == major):
-            return (value['username'], value['password'])
+    with open("credentials.json") as cred:
+        credentials = json.loads(cred.read())
+        val = credentials[major]
+        return (val["username"], val["password"])
 
 
-def scrape_jadwal(html):
+def parse_schedule(html):
     soup = BeautifulSoup(html, 'html.parser')
     classes = soup.find_all('th', class_='sub border2 pad2')
-    first = True
-    course_list = []
+
+    courses = []
     for class_ in classes:
         course_name = class_.strong.text
         m = re.search('([0-9]+) SKS, Term ([0-9]+)', class_.text)
         if m:
             found = m.group().split(' SKS, Term ')
-            sks = found[0]
+            credit = found[0]
             term = found[1]
-        class_list = []
+
+        classes = []
         for sib in class_.parent.find_next_siblings('tr'):
             if (sib.get('class') == None):
                 break
             class_name = sib.a.text
             try:
-                jadwals = str(sib.contents[9]).split('<br/>')
-                jadwals[0] = jadwals[0].split('<td nowrap="">')[1].split('</td>')[0]
-                jadwals[-1] = jadwals[-1].split('</td>')[0]
+                schedule_items = str(sib.contents[9]).split('<br/>')
+                schedule_items[0] = schedule_items[0].split('<td nowrap="">')[
+                    1].split('</td>')[0]
+                schedule_items[-1] = schedule_items[-1].split('</td>')[0]
 
                 rooms = str(sib.contents[11]).split('<br/>')
                 rooms[0] = rooms[0].split('<td>')[1].split('</td>')[0]
@@ -69,21 +72,24 @@ def scrape_jadwal(html):
                 for i, val in enumerate(lecturers):
                     lect = val.split('- ')
                     lecturers[i] = lect[-1]
-                
-                jadwals = zip(jadwals, rooms)
-                j = []
-                for i, jadwal in enumerate(jadwals):
-                    day, jdw = jadwal[0].split(', ')
+
+                schedule_items = zip(schedule_items, rooms)
+                result = []
+                for i, item in enumerate(schedule_items):
+                    day, jdw = item[0].split(', ')
                     start, end = jdw.split('-')
-                    j.append(Jadwal(**{
+                    result.append(ScheduleItem(**{
                         'day': day,
-                        'start':start, 
-                        'end':end,
-                        'room': jadwal[1]
+                        'start': start,
+                        'end': end,
+                        'room': item[1]
                     }))
-                class_list.append(Class(name=class_name, jadwal=j, lecturer=lecturers))
+
+                classes.append(
+                    Class(name=class_name, schedule_items=result, lecturer=lecturers))
+
             except IndexError as e:
                 pass
-        course_list.append(Course(name=course_name, sks=sks, term=term, classes=class_list))
-    return course_list
-    
+        courses.append(Course(name=course_name, credit=credit,
+                              term=term, classes=classes))
+    return courses

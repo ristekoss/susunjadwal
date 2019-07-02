@@ -1,2 +1,0 @@
-import tests
-tests.run()

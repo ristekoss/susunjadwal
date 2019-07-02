@@ -1,7 +1,7 @@
 import mongoengine as mongo
 
 
-class Jadwal(mongo.EmbeddedDocument):
+class ScheduleItem(mongo.EmbeddedDocument):
     day = mongo.StringField()
     start = mongo.StringField()
     end = mongo.StringField()
@@ -9,48 +9,37 @@ class Jadwal(mongo.EmbeddedDocument):
 
     def serialize(self):
         return {
-            'day': self.day,
-            'start': self.start,
-            'end': self.end,
-            'room': self.room,
+            "day": self.day,
+            "start": self.start,
+            "end": self.end,
+            "room": self.room
         }
 
 
-class Class(EmbeddedDocument):
+class Class(mongo.EmbeddedDocument):
     name = mongo.StringField()
-    jadwal = mongo.ListField(EmbeddedDocumentField(Jadwal))
-    lecturer = mongo.ListField(StringField())
+    schedule_items = mongo.ListField(mongo.EmbeddedDocumentField(ScheduleItem))
+    lecturer = mongo.ListField(mongo.StringField())
 
-    def create_jadwal(self, **kwargs):
-        jadwal = Jadwal(**kwargs)
-        self.jadwal.append(jadwal)
-        return jadwal
-
-    def __get_jadwal(self):
+    def __get_schedule_items(self):
         data = []
-        for j in self.jadwal:
-            data.append(j.serialize())
+        for item in self.schedule_items:
+            data.append(item.serialize())
         return data
 
     def serialize(self):
         return {
-            'name': self.name,
-            'jadwal': self.__get_jadwal(),
-            'lecturer': self.lecturer
+            "name": self.name,
+            "lecturer": self.lecturer,
+            "schedule_items": self.__get_schedule_items()
         }
 
 
-class Course(EmbeddedDocument):
+class Course(mongo.EmbeddedDocument):
     name = mongo.StringField()
-    sks = mongo.IntField()
+    credit = mongo.IntField()
     term = mongo.IntField()
-    classes = mongo.ListField(EmbeddedDocumentField(Class))
-
-    def create_class(self, name, lecturer):
-        print lecturer
-        class_ = Class(name=name, lecturer=lecturer)
-        self.classes.append(class_)
-        return class_
+    classes = mongo.ListField(mongo.EmbeddedDocumentField(Class))
 
     def __get_classes(self):
         data = []
@@ -60,26 +49,31 @@ class Course(EmbeddedDocument):
 
     def serialize(self):
         return {
-            'name': self.name,
-            'sks': self.sks,
-            'term': self.term,
-            'class': self.__get_classes()
+            "name": self.name,
+            "credit": self.credit,
+            "term": self.term,
+            "classes": self.__get_classes()
         }
 
 
-class Major(Document):
+class Major(mongo.Document):
     name = mongo.StringField()
-    courses = mongo.ListField(EmbeddedDocumentField(Course))
+    courses = mongo.ListField(mongo.EmbeddedDocumentField(Course))
 
-    def create_course(self, name, sks, term):
-        course = Course(name=name, sks=sks, term=term)
+    def create_course(self, name, credit, term):
+        course = Course(name=name, credit=credit, term=term)
         self.courses.append(course)
         return course
 
-    def get_course(self):
+    def __get_courses(self):
         data = []
         for course in self.courses:
             data.append(course.serialize())
+
+        return data
+
+    def serialize(self):
         return {
-            'courses': data
+            "name": self.name,
+            "courses": self.__get_courses()
         }
