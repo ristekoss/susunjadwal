@@ -18,7 +18,7 @@ MongoDB using docker:
 Stop database:
 `docker stop test-name`
 
-By default, Flask access MongoDB on `localhost:27017` with database name `test`.
+By default, Flask access MongoDB on `localhost:27017` with database named `test`.
 
 ### Production
 
