@@ -22,7 +22,28 @@ By default, Flask access MongoDB on `localhost:27017` with database named `test`
 
 ### Production
 
-Coming soon.
+1. Set database admin username and password at `start_db.sh`
+2. Run `./start_db.sh` to create docker container named `ristek-mongo`
+3. Run `docker exec -it ristek-mongo mongo -u <admin_username>` to execute `mongo`
+4. Create database: `use <db_name>`
+5. Create user for database:
+
+```
+db.createUser(
+    {
+        user: "<db_user>",
+        pwd: "<db_pwd>",
+        roles:[
+            {
+                role: "readWrite",
+                db: "<db_name>"
+            }
+        ]
+    }
+);
+```
+
+6. Run `./start.sh`
 
 ## License
 
