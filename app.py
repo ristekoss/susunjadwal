@@ -16,9 +16,9 @@ app.config["SSO_UI_FORCE_SERVICE_HTTPS"] = False
 app.config["CLIENT_URL"] = "http://localhost:9000/"
 app.config["SECRET_KEY"] = "password"
 
-CORS(app)
-MongoEngine(app)
-
 app.config.from_pyfile("config.cfg")
 app.register_blueprint(router_sso, url_prefix=app.config["BASE_PATH"])
 app.register_blueprint(router_main, url_prefix=app.config["BASE_PATH"])
+
+CORS(app)
+MongoEngine(app)
