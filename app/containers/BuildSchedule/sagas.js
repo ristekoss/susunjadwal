@@ -8,6 +8,7 @@ import selectGlobal from 'containers/App/selectors';
 import { conflict, fetchJadwalSuccess } from './actions';
 import request from 'utils/request';
 import { loading, loadingDone } from 'containers/App/actions';
+import { API_BASE_URL } from "../../api.js"
 
 /**
  * Github repos request/response handler
@@ -82,7 +83,7 @@ export function* saveJadwal() {
   yield put(loading());
   const globalState = yield select(selectGlobal());
   const localState = yield select(selectBuildSchedule());
-  const requestURL = `http://localhost:5000/susunjadwal/api/users/${globalState.user_id}/user_schedule`;
+  const requestURL = API_BASE_URL + `/users/${globalState.user_id}/user_schedule`;
   const auth = `Bearer ${globalState.token}`;
 
   let stagedJadwals = [];
@@ -131,7 +132,7 @@ export function* fetchJadwal() {
   yield put(loading());
   const globalState = yield select(selectGlobal());
   const localState = yield select(selectBuildSchedule());
-  const requestURL = `http://localhost:5000/susunjadwal/api/majors/${globalState.major_id}/courses`;
+  const requestURL = API_BASE_URL + `/majors/${globalState.major_id}/courses`;
   const auth = `Bearer ${globalState.token}`;
   console.log(auth);
   console.log(requestURL);

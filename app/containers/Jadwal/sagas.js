@@ -32,7 +32,7 @@ export function* fetchUserData() {
   yield put(loading());
   const user_id = getCookie("user_id");
   const token = getCookie("token");
-  const requestURL = `http://localhost:5000/susunjadwal/api/users/${user_id}/user_schedules`;
+  const requestURL = API_BASE_URL + `/users/${user_id}/user_schedules`;
   const auth = `Bearer ${token}`;
 
   const fetchUserDataCall = yield call(request, requestURL, {
@@ -56,7 +56,7 @@ export function* fetchUserData() {
   	});
     console.log(primaryScheduleID)
 
-  	const requestURLPrimarySched = `http://localhost:5000/susunjadwal/api/user_schedules/${primaryScheduleID}`;
+  	const requestURLPrimarySched = API_BASE_URL + `/user_schedules/${primaryScheduleID}`;
 
   	const fetchPrimaryScheduleCall = yield call(request, requestURLPrimarySched, {
 	    method: 'GET',
@@ -96,7 +96,7 @@ export function* deleteJadwal(action) {
   const globalState = yield select(selectGlobal());
   const user_id = getCookie("user_id");
   const token = getCookie("token");
-  const requestURL = `http://localhost:5000/susunjadwal/api/users/${user_id}/user_schedules/${action.id}`;
+  const requestURL = API_BASE_URL + `/users/${user_id}/user_schedules/${action.id}`;
   const auth = `Bearer ${token}`;
 
   const response = yield call(request, requestURL, {
@@ -130,7 +130,7 @@ export function* deleteJadwalSaga() {
 export function* changePrimary(action) {
   yield put(loading());
 	const globalState = yield select(selectGlobal());
-  const requestURL = `http://localhost:5000/susunjadwal/api/users/${globalState.user_id}/user_schedules/${action.id}/set-utama`;
+  const requestURL = API_BASE_URL + `/users/${globalState.user_id}/user_schedules/${action.id}/set-utama`;
   const auth = `Bearer ${globalState.token}`;
 
   const changePrimaryCall = yield call(request, requestURL, {
@@ -144,7 +144,7 @@ export function* changePrimary(action) {
   });
 
   if(!changePrimaryCall.err || !(changePrimaryCall.err === 'SyntaxError: Unexpected end of JSON input')) {
-  	const requestURLPrimarySched = `http://localhost:5000/susunjadwal/api/user_schedules/${action.id}`;
+  	const requestURLPrimarySched = API_BASE_URL + `/user_schedules/${action.id}`;
 
   	const fetchPrimaryScheduleCall = yield call(request, requestURLPrimarySched, {
 	    method: 'GET',

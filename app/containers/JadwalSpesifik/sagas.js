@@ -6,10 +6,11 @@ import { isEmpty, isEqual } from 'lodash';
 import { fetchDone } from './actions';
 import request from 'utils/request';
 import { loading, loadingDone } from 'containers/App/actions';
+import { API_BASE_URL } from "../../api.js"
 
 export function* fetchScheduleData(action) {
   yield put(loading());
-	let requestURL = `http://localhost:5000/susunjadwal/api/user_schedules/${action.slug}`;
+	let requestURL = API_BASE_URL + `/user_schedules/${action.slug}`;
   let jobId = action.slug
 
 	const fetchScheduleDataCall = yield call(request, requestURL, {
