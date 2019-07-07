@@ -1,9 +1,10 @@
 .pageTitle {
-	font-size: 1.5rem;
-	font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
-.buildSchedule { /* stylelint-disable */
+.buildSchedule {
+  /* stylelint-disable */
   color: #222222;
 }
 
@@ -19,7 +20,7 @@
   background: #222222;
   position: fixed;
   top: 4rem;
-  color: #FFFFFF;
+  color: #ffffff;
   padding: 3rem 2rem;
   overflow-y: auto;
   overflow-x: none;
@@ -28,7 +29,7 @@
 .pickedScheduleHeader {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #CE9D4D;
+  color: #ce9d4d;
 }
 
 .pickedScheduleList {
@@ -36,7 +37,7 @@
 }
 
 .tableHeader {
-  color: #FFFFFF;
+  color: #ffffff;
   font-weight: 700;
   border-bottom: 0.25rem solid #308077;
   padding: 0.25rem 0;
@@ -44,7 +45,7 @@
 
 .tableFooter,
 .tableConflict {
-  color: #FFFFFF;
+  color: #ffffff;
   padding: 0.25rem 0;
   margin-bottom: 2rem;
 }
@@ -60,7 +61,7 @@
 
 .tableConflict {
   margin-top: -2rem;
-  background: #CE9D4D;
+  background: #ce9d4d;
   font-size: 0.75rem;
   text-align: center;
   font-weight: 700;
@@ -85,15 +86,15 @@
 .tableItem .time li:before {
   content: "•";
   padding-right: 0.25rem;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .agendaButton {
   width: 100%;
   padding: 0.5rem;
   margin: 1rem 0 0;
-  color: #CE9D4D;
-  border: 0.1rem solid #CE9D4D;
+  color: #ce9d4d;
+  border: 0.1rem solid #ce9d4d;
   font-weight: 700;
   text-transform: uppercase;
   transition: 0.25s background ease;
@@ -101,8 +102,8 @@
 
 .agendaButton:hover,
 .agendaButton:active {
-  color: #FFFFFF;
-  background: #CE9D4D;
+  color: #ffffff;
+  background: #ce9d4d;
   transition: 0.25s background ease;
 }
 
@@ -110,8 +111,8 @@
   width: 100%;
   padding: 0.5rem;
   margin: 1rem 0 0;
-  color: #FFFFFF;
-  background: #CE9D4D;
+  color: #ffffff;
+  background: #ce9d4d;
   font-weight: 700;
   text-transform: uppercase;
   transition: 0.25s background ease;
@@ -119,12 +120,12 @@
 
 .finishButton:hover,
 .finishButton:active {
-  background: #CE9D4D;
+  background: #ce9d4d;
   transition: 0.25s background ease;
 }
 
 .finishButton:disabled {
-  background: #AAA;
+  background: #aaa;
 }
 
 .courseName {
@@ -164,22 +165,22 @@
   width: 100%;
   max-width: 600px;
   max-height: 100%;
-  background: #FFF;
+  background: #fff;
   padding: 2rem;
 }
 
-.agendaModuleContainer input, 
+.agendaModuleContainer input,
 .agendaModuleContainer select {
   width: 100%;
-  border-bottom: 0.2rem solid #CE9D4D;
+  border-bottom: 0.2rem solid #ce9d4d;
   padding: 0.5rem 1rem;
   margin-bottom: 0.5rem;
 }
 
 .agendaModuleContainer h3 {
   width: 100%;
-  color: #FFFFFF;
-  background: #CE9D4D;
+  color: #ffffff;
+  background: #ce9d4d;
   margin-top: -0.5rem;
   margin-bottom: 0.5rem;
   padding: 0.5rem 1rem;
@@ -189,24 +190,38 @@
 
 .agendaModuleContainer button {
   padding: 0.5rem 1rem;
-  color: #FFFFFF;
+  color: #ffffff;
   margin-left: 1rem;
 }
 
 .agendaModuleContainer button.add {
-  color: #FFFFFF;
-  background: #CE9D4D;
+  color: #ffffff;
+  background: #ce9d4d;
   font-weight: 700;
 }
 
 .agendaModuleContainer button.cancel {
-  color: #CE9D4D;
-  border: 0.1rem solid #CE9D4D;
+  color: #ce9d4d;
+  border: 0.1rem solid #ce9d4d;
   font-weight: 700;
 }
 
-.agendaModuleContainer button.cancel:hover{
-  color: #FFFFFF;
-  background: #CE9D4D;
+.agendaModuleContainer button.cancel:hover {
+  color: #ffffff;
+  background: #ce9d4d;
   transition: 0.25s background ease;
+}
+
+@media screen and (max-width: 40em) {
+  .pickedSchedule {
+    display: none;
+    width: 100%;
+  }
+  .pickedSchedule .on {
+    display: block;
+  }
+
+  .buttonLink {
+    display: none !important;
+  }
 }

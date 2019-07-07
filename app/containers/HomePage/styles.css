@@ -1,89 +1,109 @@
-.hero {
-  width: 100%;
-  height: auto;
+.landingPage {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  position: relative;
-}
-
-.posContainer {
-  width: auto;
-  height: auto;
+  width: 100vw;
   max-width: 100vw;
-  max-height: 100vh;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
+  justify-content: space-between;
+  align-self: center;
+}
+.center {
+  text-align: center;
 }
 
-.logo {
-  color: #CE9D4D;
-  font-weight: 700;
+.tagline {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.tagline img {
+  max-height: 10rem;
+  object-fit: contain;
+}
+
+.accent img {
+  max-height: 3.5rem;
+}
+
+.login {
+  padding-bottom: 7.5%;
+}
+
+.center h1 {
+  line-height: 3rem;
   font-size: 5rem;
-  margin: 0;
-  line-height: 1;
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  display: inline-block;
+  color: #ce9d4d;
 }
 
-.logo span {
-  color: #CE9D4D;
-}
-
-.subtitle {
-  font-size: 1.25rem;
+.center h1 span {
   color: #308077;
-  line-height: 1;
-  margin: -0.5rem 0 0;
+}
+
+.center img {
+  max-height: 3.5rem;
 }
 
 .loginButton {
-  padding: 1rem 2rem;
-  background: #CE9D4D;
-  color: #FFFFFF;
-  font-size: 1.5rem;
+  padding: 0.75rem 10rem;
+  margin: 1rem 0 0;
+  color: #ffffff;
+  background: #ce9d4d;
   font-weight: 700;
-  margin-top: 3rem;
+  text-transform: uppercase;
+  transition: 0.25s background ease;
 }
 
 .loginButton:hover,
 .loginButton:active {
-  background: #308077;
+  background: #ce9d4d;
+  transition: 0.25s background ease;
 }
 
-.link {
-  display: inline-block;
-  color: #308077;
-  border-bottom: 0.25rem solid #CE9D4D;
-  line-height: 1;
-  margin: 0;
-  padding: 0.25rem;
-  text-decoration: none;
+.accent .broughtToYou {
+  display: none;
 }
 
-.link:hover,
-.link:active {
-  text-decoration: none;
-  color: #FFFFFF;
-  background: #CE9D4D;
-}
-
-.gabungJadwalInfo {
-  font-size: 1.25rem;
-  margin: 1rem 0 0;
-}
-
-.noticeBar {
-  width: 100%;
-  padding: 1rem 2rem;
-  background: #308077;
-  color: #FFFFFF;
-  font-size: 1.25rem;
-  line-height: 1;
-  margin-top: 3rem;
-}
-
-.disclaimer {
-  margin: 1rem 0 0;
-  font-size: 1rem;
-  font-weight: 300;
-  color: #CE9D4D;
+@media screen and (max-width: 768px) {
+  .broughtToYou {
+    display: none;
+  }
+  .center h1 {
+    font-size: 3rem;
+  }
+  .login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .loginButtonWrapper {
+    width: 100%;
+  }
+  .loginButton {
+    font-size: 1rem;
+    padding: 0.75rem;
+    width: calc(100% - 2rem);
+    margin: 0 1rem;
+    max-width: 20rem;
+  }
+  .accent > img {
+    display: none;
+  }
+  .tagline {
+    visibility: hidden;
+  }
+  .landingPage {
+  }
+  .accent .broughtToYou {
+    display: block;
+  }
+  .accent .broughtToYou span {
+    display: block;
+  }
 }

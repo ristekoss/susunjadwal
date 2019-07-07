@@ -1,8 +1,9 @@
-.header { /* stylelint-disable */
+.header {
+  /* stylelint-disable */
   width: 100%;
   height: auto;
   padding: 0.5rem 0 0.5rem 0;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -11,7 +12,7 @@
   height: auto;
   padding: 0.5rem 0 0.5rem 0;
   position: fixed;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -21,7 +22,7 @@
   font-size: 2rem;
   font-weight: 700;
   display: inline-block;
-  color: #CE9D4D;
+  color: #ce9d4d;
 }
 
 .logo span {
