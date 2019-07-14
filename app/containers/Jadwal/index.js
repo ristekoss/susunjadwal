@@ -84,7 +84,7 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
               <div className="row expanded">
                 <div className="small-3 columns">
                   <div className={styles.listItemContent}>
-                    <p>SCHED_NAME 📝</p>
+                    <p>SCHED_NAME</p>
                   </div>
                 </div>
                 <div className="small-3 columns">
@@ -136,8 +136,9 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
           ]}
         />
         <Header>
-          <button onClick={() => this.props.push('/logout')}>Logout</button>
-          <button onClick={() => this.props.push('/susun')}>Buat Jadwal Baru</button>
+          <button onClick={() => this.props.push("/logout")}>Logout</button>
+          <button onClick={() => this.props.push('/susun')}>Buat Jadwal</button>
+          <button onClick={() => this.props.push("/jadwal")}>Riwayat Jadwal</button>
         </Header>
         <div className={styles.jadwal}>
           <div className={styles.scheduleList}>

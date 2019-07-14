@@ -32,7 +32,7 @@
 	width: 100%;
 	color: #222222;
 	background: #FFF;
-	border-bottom: 0.1rem solid #308077;
+	border-top: 0.05rem solid rgba(48,128,119,0.5);
 }
 
 .listItemContent {
@@ -45,7 +45,7 @@
 }
 
 .listItem a {
-	color: #222222;
+	text-decoration: underline;
 }
 
 .listItem button {

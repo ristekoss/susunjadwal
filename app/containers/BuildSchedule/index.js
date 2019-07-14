@@ -455,18 +455,9 @@ export class BuildSchedule extends React.Component {
           </div>
         </div>
         <Header isFixed={true}>
-          <button
-            className={styles.buttonLink}
-            onClick={() => this.props.push("/logout")}
-          >
-            Logout
-          </button>
-          <button
-            className={styles.buttonLink}
-            onClick={() => this.props.push("/jadwal")}
-          >
-            Riwayat Jadwal
-          </button>
+          <button className={styles.buttonLink} onClick={() => this.props.push("/logout")}>Logout</button>
+          <button onClick={() => this.props.push('/susun')}>Buat Jadwal</button>
+          <button className={styles.buttonLink} onClick={() => this.props.push("/jadwal")}>Riwayat Jadwal</button>
         </Header>
         <div className="row expanded">
           <div className="small-12 medium-9 columns">
@@ -584,7 +575,7 @@ export class BuildSchedule extends React.Component {
             </div>
           </div>
         </div>
-      </div>
+      </div >
     );
   }
 }

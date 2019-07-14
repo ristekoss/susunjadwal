@@ -39,8 +39,12 @@
   margin-right: 2rem;
 }
 
+.active {
+  color: #308077 !important;
+}
+
 .header button:hover,
 .headerFixed button:hover {
   /* background: #CE9D4D; */
-  color: #0909;
+  color: #308077;
 }

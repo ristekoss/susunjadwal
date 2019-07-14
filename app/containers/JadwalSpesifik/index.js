@@ -12,6 +12,7 @@ import { push } from 'react-router-redux';
 import { fetch } from './actions';
 import styles from './styles.css';
 import { isEmpty } from 'lodash';
+import editIcon from './baseline-edit-24px.png';
 
 import Header from 'components/Header';
 
@@ -25,24 +26,24 @@ export class JadwalSpesifik extends React.Component { // eslint-disable-line rea
   };
 
   componentDidMount() {
-    if(this.props.firstTimeLoad) {
+    if (this.props.firstTimeLoad) {
       this.props.fetch(this.props.params.slug);
     }
   }
 
   getCookie(cname) {
-      var name = cname + "=";
-      var ca = document.cookie.split(';');
-      for(var i = 0; i < ca.length; i++) {
-          var c = ca[i];
-          while (c.charAt(0) == ' ') {
-              c = c.substring(1);
-          }
-          if (c.indexOf(name) == 0) {
-              return c.substring(name.length, c.length);
-          }
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
       }
-      return "";
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
   }
 
   convertToMinute(val) {
@@ -64,14 +65,14 @@ export class JadwalSpesifik extends React.Component { // eslint-disable-line rea
       ];
     }
 
-    let primarySchedElem = null;
-    if(!isEmpty(this.props.primarySched)) {
+    let schedElem = null;
+    if (!isEmpty(this.props.primarySched)) {
       console.log('primarySched', this.props.primarySched);
-      primarySchedElem = this.props.primarySched["schedule_items"].map((value, key) => {
+      schedElem = this.props.primarySched["schedule_items"].map((value, key) => {
         const dur = this.convertToMinute(value.end) - this.convertToMinute(value.start);
         const start = this.convertToMinute(value.start) - this.convertToMinute('08.00');
         return (
-          <div key={`entryJadwal-${value.name}-${value.day.toLowerCase()}-${value.start}-${value.end}-${value.room}`} className={`entryJadwal ${value.day.toLowerCase()}`} style={{height: `${(dur / 30) * 2}rem`, top: `${(start / 30) * 2}rem`}}>
+          <div key={`entryJadwal-${value.name}-${value.day.toLowerCase()}-${value.start}-${value.end}-${value.room}`} className={`entryJadwal ${value.day.toLowerCase()}`} style={{ height: `${(dur / 30) * 2}rem`, top: `${(start / 30) * 2}rem` }}>
             <div className="entryTime">
               <p>{value.start} - {value.end}</p>
             </div>
@@ -93,11 +94,13 @@ export class JadwalSpesifik extends React.Component { // eslint-disable-line rea
           ]}
         />
         <Header>
-          {navbarButton}
+          <button onClick={() => this.props.push("/logout")}>Logout</button>
+          <button onClick={() => this.props.push('/susun')}>Buat Jadwal</button>
+          <button onClick={() => this.props.push("/jadwal")}>Riwayat Jadwal</button>
         </Header>
         <div className={styles.jadwal}>
           <div className={styles.pageTitle}>
-            <p>SCHED_NAME 📝</p>
+            <p>SCHED_NAME <img src={editIcon} alt="Edit" /></p>
           </div>
           <div className={styles.scheduleModule}>
             <div className={styles.scheduleHeader}>
@@ -156,7 +159,34 @@ export class JadwalSpesifik extends React.Component { // eslint-disable-line rea
                 </div>
               </div>
               <div className={styles.dayContent}>
-                {primarySchedElem}
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                <div className={styles.divider} />
+                {schedElem}
               </div>
             </div>
           </div>

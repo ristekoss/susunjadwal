@@ -4,6 +4,10 @@
 	padding: 2rem 0 0 3rem;
 }
 
+.pageTitle img {
+	max-height: 1.5rem;
+}
+
 .jadwal { /* stylelint-disable */
 	top: 4rem;
 	width: 100%;
@@ -68,15 +72,12 @@
 
 .timeContent p {
 	margin: 0;
-	padding: 0.5rem 0;
+	padding: 0.475rem 0;
 	font-size: 1rem;
 	color: #222222;
 	background: #FFF;
 	line-height: 1;
-}
-
-.timeContent p:nth-of-type(even) {
-	background: #A0D1CC;
+	border-bottom: 0.05rem solid rgba(48,128,119,0.2);
 }
 
 .dayContent {
@@ -140,4 +141,10 @@
 	line-height: 1;
 	padding: 0;
 	border-bottom: 0.1rem solid #222222;
+}
+
+.divider {
+	border-bottom: 0.05rem solid rgba(48,128,119,0.2);
+	width: 100%;
+	margin-top: 1.95rem;
 }
