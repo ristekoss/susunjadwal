@@ -17,8 +17,8 @@ export function* asyncCheckConflict() {
   const localState = yield select(selectBuildSchedule());
 
   let combinedSchedules = [];
-  if(!isEmpty(localState.picked)) {
-    for(let [key, value] of Object.entries(localState.picked)) {
+  if (!isEmpty(localState.picked)) {
+    for (let [key, value] of Object.entries(localState.picked)) {
       value.schedule_items.map((item, index) => { combinedSchedules.push(item); });
     }
   }
@@ -28,39 +28,39 @@ export function* asyncCheckConflict() {
 }
 
 function checkConflict(data) {
-	var flag = [];
-	for(var i = 0; i < 2000; i++) flag[i] = -1;
-	var conflictIdx = new Set();
-	for(var i = 0; i < data.length; i++) {
-		var matkul = data[i];
-		var startTime = convertToMinute(data[i].start, data[i].day.toLowerCase());
-		var endTime = convertToMinute(data[i].end, data[i].day.toLowerCase());
-		console.log(startTime);
-		for(var j = startTime; j <= endTime; j++) {
-			if(flag[j] >= 0) {
-				conflictIdx.add(data[i]);
-				conflictIdx.add(data[flag[j]]);
-			}
-			flag[j] = i;
-		}
-	}
-	var res = [];
-	conflictIdx.forEach(function(value) {
-		res.push(value);
-	});
-	return res;
+  var flag = [];
+  for (var i = 0; i < 2000; i++) flag[i] = -1;
+  var conflictIdx = new Set();
+  for (var i = 0; i < data.length; i++) {
+    var matkul = data[i];
+    var startTime = convertToMinute(matkul.start, matkul.day.toLowerCase());
+    var endTime = convertToMinute(matkul.end, matkul.day.toLowerCase());
+    console.log(startTime);
+    for (var j = startTime; j <= endTime; j++) {
+      if (flag[j] >= 0) {
+        conflictIdx.add(matkul);
+        conflictIdx.add(data[flag[j]]);
+      }
+      flag[j] = i;
+    }
+  }
+  var res = [];
+  conflictIdx.forEach(function (value) {
+    res.push(value);
+  });
+  return res;
 }
 
 function convertToMinute(val, day) {
-	var days = ['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu'];
-	for (var i = 0; i < 6; i++) {
-		if (day === days[i]) day = i;
-	}
+  var days = ['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu'];
+  for (var i = 0; i < 6; i++) {
+    if (day === days[i]) day = i;
+  }
 
-	var temp = val.split(".");
-	var hour = parseInt(temp[0]);
-	var minute = parseInt(temp[1]);
-	return day * 3600 + hour * 60 + minute;
+  var temp = val.split(".");
+  var hour = parseInt(temp[0]);
+  var minute = parseInt(temp[1]);
+  return day * 3600 + hour * 60 + minute;
 }
 
 /**
@@ -74,11 +74,6 @@ export function* asyncCheckConflictOnRemoveSaga() {
   yield takeLatest(REMOVE_SELECTED_CLASS, asyncCheckConflict);
 }
 
-
-
-/**
- * Github repos request/response handler
- */
 export function* saveJadwal() {
   yield put(loading());
   const globalState = yield select(selectGlobal());
@@ -88,9 +83,8 @@ export function* saveJadwal() {
 
   let stagedJadwals = [];
 
-  if(!isEmpty(localState.picked)) {
-    for(let [key, value] of Object.entries(localState.picked)) {
-      console.log(value);
+  if (!isEmpty(localState.picked)) {
+    for (let [key, value] of Object.entries(localState.picked)) {
       value.schedule_items.map((item, index) => {
         stagedJadwals.push({ name: value.name, day: item.day, start: item.start, end: item.end, room: item.room });
       });
@@ -109,13 +103,13 @@ export function* saveJadwal() {
     }),
   });
 
-  if(!saveJadwalPostCall.err || !(saveJadwalPostCall.err === 'SyntaxError: Unexpected end of JSON input')) {
+  if (!saveJadwalPostCall.err) {
     yield put(push(`/jadwal/${saveJadwalPostCall.data.id}`));
-    yield put(loadingDone());
+    window.location.reload();
   } else {
-    console.log(saveJadwalPostCall.err);
-    yield put(loadingDone());
+    // TO-DO error
   }
+  yield put(loadingDone());
 }
 
 /**
@@ -146,7 +140,7 @@ export function* fetchJadwal() {
     },
   });
 
-  if(!fetchJadwalPostCall.err || !(fetchJadwalPostCall.err === 'SyntaxError: Unexpected end of JSON input')) {
+  if (!fetchJadwalPostCall.err) {
     yield put(fetchJadwalSuccess(fetchJadwalPostCall.data.courses));
     yield put(loadingDone());
   } else {
@@ -175,5 +169,5 @@ export function* buildScheduleSaga() {
 
 // Bootstrap sagas
 export default [
- buildScheduleSaga,
+  buildScheduleSaga,
 ];

@@ -44,25 +44,25 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
     if (!(major_id !== '') || !(token !== '') || !(user_id !== '')) {
       this.props.push('/');
     } else {
-      if(globalStateObject.major_id === '' && globalStateObject.token === '' && globalStateObject.user_id === '') {
+      if (globalStateObject.major_id === '' && globalStateObject.token === '' && globalStateObject.user_id === '') {
         this.props.setLoginData(major_id, token, user_id);
       }
     }
   }
 
   getCookie(cname) {
-      var name = cname + "=";
-      var ca = document.cookie.split(';');
-      for(var i = 0; i < ca.length; i++) {
-          var c = ca[i];
-          while (c.charAt(0) == ' ') {
-              c = c.substring(1);
-          }
-          if (c.indexOf(name) == 0) {
-              return c.substring(name.length, c.length);
-          }
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
       }
-      return "";
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
   }
 
   convertToMinute(val) {
@@ -73,34 +73,13 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
   }
 
   render() {
-    let primarySchedElem = null;
-    console.log(this.props.localState.primarySched)
-    if(!isEmpty(this.props.localState.primarySched)) {
-      primarySchedElem = this.props.localState.primarySched["schedule_items"].map((value, key) => {
-        const dur = this.convertToMinute(value.end) - this.convertToMinute(value.start);
-        const start = this.convertToMinute(value.start) - this.convertToMinute('08.00');
-        return (
-          <div key={`entryJadwal-${value.name}-${value.day.toLowerCase()}-${value.start}-${value.end}-${value.room}`} className={`entryJadwal ${value.day.toLowerCase()}`} style={{height: `${(dur / 30) * 2}rem`, top: `${(start / 30) * 2}rem`}}>
-            <div className="entryTime">
-              <p>{value.start} - {value.end}</p>
-            </div>
-            <div className="entryContent">
-              <h1>{value.name}</h1>
-              <h3>{value.room}</h3>
-            </div>
-          </div>
-        );
-      });
-    }
-
     let scheduleListElem = null;
 
-    if(!isEmpty(this.props.localState.scheduleList)) {
+    if (!isEmpty(this.props.localState.scheduleList)) {
       scheduleListElem = this.props.localState.scheduleList.map((value, key) => {
-        let primaryElement = null;
         const createdAt = new Date(value.created_at);
-        primaryElement = (
-          <div key={`primary-sched-${value.id}`} className="small-12 columns flashUpdate">
+        let elem = (
+          <div key={`primary-sched-${value.id}`} className="small-12 columns">
             <div className={styles.listItem}>
               <div className="row expanded">
                 <div className="small-3 columns">
@@ -119,18 +98,33 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
                   </div>
                 </div>
                 <div className="small-2 columns">
-                      <div className={styles.listItemContent}>
-                        <button onClick={() => this.props.deleteJadwal(value.id)}>
-                          <img src={deleteIcon} alt="Delete" /> Delete
-                        </button>
-                      </div>
-                    </div>
+                  <div className={styles.listItemContent}>
+                    <button onClick={() => this.props.deleteJadwal(value.id)}>
+                      <img src={deleteIcon} alt="Delete" />
+                      Delete
+                    </button>
+                  </div>
                 </div>
+              </div>
             </div>
           </div>
         );
-        return primaryElement;
+        return elem;
       });
+    } else {
+      scheduleListElem = (
+        <div className="small-12 columns">
+          <div className={styles.listItem}>
+            <div className="row expanded">
+              <div className="small-12 columns">
+                <div className={styles.listItemContent}>
+                  <p>You haven't created any schedules.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
     }
 
     return (
@@ -165,14 +159,9 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
                       <p>Tanggal Dibuat</p>
                     </div>
                   </div>
-                  <div className="small-4 columns">
+                  <div className="small-6 columns">
                     <div className={styles.listHeader}>
                       <p>Shareable Link</p>
-                    </div>
-                  </div>
-                  <div className="small-2 columns">
-                    <div className={styles.listHeader}>
-                      <p>DEL_COLUMN</p>
                     </div>
                   </div>
                 </div>

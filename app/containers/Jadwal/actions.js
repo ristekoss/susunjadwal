@@ -25,10 +25,9 @@ export function fetch() {
   };
 }
 
-export function fetchDone(mainSched, schedList) {
+export function fetchDone(schedList) {
   return {
     type: FETCH_DONE,
-    mainSched,
     schedList,
   };
 }

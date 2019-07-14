@@ -1,9 +1,3 @@
-/*
- *
- * BuildSchedule
- *
- */
-
 import React, { PropTypes } from "react";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
@@ -162,9 +156,9 @@ export class BuildSchedule extends React.Component {
     ) {
       this.props.addSelectedClass(
         `${this.state.agendaModule.name} - ${
-          this.state.agendaModule.schedule.day
+        this.state.agendaModule.schedule.day
         } - ${this.state.agendaModule.schedule.start} - ${
-          this.state.agendaModule.schedule.end
+        this.state.agendaModule.schedule.end
         } - ${this.state.agendaModule.schedule.room}`,
         {
           name: `${this.state.agendaModule.name}`,

@@ -62,3 +62,9 @@
   padding-right: 0.25rem;
   color: #222222;
 }
+
+@media screen and (max-width: 40em) {
+  .small-4 {
+    display: none !important;
+  }
+}
