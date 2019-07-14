@@ -35,14 +35,7 @@ import "./app.css";
 const FontObserver = new FontFaceObserver("Proxima Nova", {});
 
 // When Ubuntu is loaded, add a font-family using Ubuntu to the body
-FontObserver.load(null, 10000).then(
-  () => {
-    console.log("pleb");
-  },
-  () => {
-    console.log("plob");
-  }
-);
+FontObserver.load(null, 10000);
 
 // Create redux store with history
 // this uses the singleton browserHistory provided by react-router
