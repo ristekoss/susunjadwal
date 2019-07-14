@@ -5,6 +5,7 @@
 */
 
 import React from 'react';
+import { Link } from 'react-router';
 
 
 import styles from './styles.css';
@@ -14,9 +15,10 @@ function Header(props) {
 
   return (
     <div className={headerStyle}>
-      <h1 className={styles.logo} >Susun<span>Jadwal</span></h1>
+      <Link to={`/`}>
+        <h1 className={styles.logo} >Susun<span>Jadwal</span></h1>
+      </Link>
       {React.Children.toArray(props.children)}
-      {/* <div className={styles.divider} /> */}
     </div>
   );
 }

@@ -94,7 +94,7 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
                 </div>
                 <div className="small-4 columns">
                   <div className={styles.listItemContent}>
-                    <Link to={`/jadwal/${value.id}`}>{`http://www.sunjad.com/jadwal/${value.id}`}</Link>
+                    <Link to={`/jadwal/${value.id}`}>{`${window.location.href}/${value.id}`}</Link>
                   </div>
                 </div>
                 <div className="small-2 columns">
