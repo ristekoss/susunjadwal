@@ -1,0 +1,52 @@
+.gabungJadwal { /* stylelint-disable */
+	min-height: calc(100vh - 5rem);
+	padding: 5rem 1rem;
+}
+
+.gabungJadwal h1,
+.gabungJadwal h2,
+.gabungJadwal h3 {
+	line-height: 1;
+	margin: 0;
+
+}
+.gabungJadwal h1 {
+	font-weight: 700;
+	font-size: 5rem;
+	color: #CE9D4D;
+	margin-bottom: 1rem;
+}
+
+.gabungJadwal h2 {
+	color: #444;
+	font-size: 1.25rem;
+	margin-bottom: 0.5rem;
+}
+
+.gabungJadwal h3 {
+	font-size: 1rem;
+	color: #888;
+	margin-bottom: 1.25rem;
+}
+
+.gabungJadwal input {
+	width: 100%;
+	max-width: 600px;
+	border: 0.25rem solid #308077;
+	padding: 0.5rem 1rem;
+	margin-bottom: 0.75rem;
+}
+
+.gabungJadwal button {
+	border: 0.25rem solid #CE9D4D;
+	color: #CE9D4D;
+	margin: 0 0.5rem;
+	padding: 0.5rem 2rem 0.25rem;
+	text-transform: uppercase;
+}
+
+.gabungJadwal button:hover,
+.gabungJadwal button:active {
+	color: #FFFFFF;
+	background: #CE9D4D;
+}

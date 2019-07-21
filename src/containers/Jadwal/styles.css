@@ -1,0 +1,53 @@
+.pageTitle {
+	font-size: 1.5rem;
+	font-weight: 700;
+	padding: 0 0 0 3rem;
+}
+
+.scheduleList {
+	margin-top: 2rem;
+}
+
+.scheduleList h1 {
+	font-weight: 700;
+	line-height: 1;
+	margin: 0 0 0.5rem;
+	color: #CE9D4D;
+}
+
+.listHeader {
+	width: 100%;
+	background: #308077;
+	padding: 0.75rem 0 0.75rem 3rem;
+}
+
+.listHeader p {
+	color: #FFFFFF;
+	margin: 0;	
+	line-height: 1;
+	font-weight: 700;
+}
+
+.listItem {
+	width: 100%;
+	color: #222222;
+	background: #FFF;
+	border-top: 0.05rem solid rgba(48,128,119,0.5);
+}
+
+.listItemContent {
+	padding: 0.5rem 0 0.5rem 3rem;
+}
+
+.listItem p {
+	margin: 0;
+	line-height: 1.5;
+}
+
+.listItem a {
+	text-decoration: underline;
+}
+
+.listItem button {
+	color: #CE9D4D;
+}
