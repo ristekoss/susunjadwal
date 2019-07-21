@@ -19,31 +19,40 @@ def login(sso_profile):
     major_name = sso_profile["attributes"]["study_program"]
     major = Major.objects(name=major_name).first()
     if major is None:
-        major = Major(name=major_name)
-        major.courses = scrape_major(major_name)
-        major.save()
-
-    npm = sso_profile["attributes"]["npm"]
-    user = User.objects(npm=npm).first()
-    if user is None:
-        data = {
-            "name": sso_profile["attributes"]["ldap_cn"],
-            "username": sso_profile["username"],
-            "npm": npm,
-            "angkatan": f"20{npm[:2]}",
-            "major": major,
-            "role": "UNUSED"
+        courses = scrape_major(major_name)
+        if courses:
+            major = Major(name=major_name)
+            major.courses = courses
+            major.save()
+    if major is None:
+        context = {
+            "sender": app.config["CLIENT_URL"],
+            "payload": {
+                "err": f"Your faculty {major} isn't supported yet. Please contact Ristek Fasilkom UI if you are interested"
+            }
         }
-        user = User(**data)
-        user.save()
+    else:
+        npm = sso_profile["attributes"]["npm"]
+        user = User.objects(npm=npm).first()
+        if user is None:
+            data = {
+                "name": sso_profile["attributes"]["ldap_cn"],
+                "username": sso_profile["username"],
+                "npm": npm,
+                "angkatan": f"20{npm[:2]}",
+                "major": major,
+                "role": "UNUSED"
+            }
+            user = User(**data)
+            user.save()
 
-    token = generate_token(user.id, user.major.id, user.role)
-    context = {
-        "sender": app.config["CLIENT_URL"],
-        "payload": {
-            "user_id": str(user.id),
-            "major_id": str(user.major.id),
-            "token": token
+        token = generate_token(user.id, user.major.id, user.role)
+        context = {
+            "sender": app.config["CLIENT_URL"],
+            "payload": {
+                "user_id": str(user.id),
+                "major_id": str(user.major.id),
+                "token": token
+            }
         }
-    }
     return (render_template("sso/login.html", **context), 200)

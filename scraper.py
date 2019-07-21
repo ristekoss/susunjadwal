@@ -21,6 +21,8 @@ JADWAL_URL = f"{BASE_URL}/Schedule/Index?period={JADWAL_PERIOD}&search="
 
 def scrape_major(major):
     username, password = fetch_credential(major)
+    if (username is None) or (password is None):
+        return None
 
     req = requests.Session()
     r = req.post(AUTH_URL, data={'u': username, 'p': password}, verify=False)
@@ -34,8 +36,8 @@ def scrape_major(major):
 def fetch_credential(major):
     with open("credentials.json") as cred:
         credentials = json.loads(cred.read())
-        val = credentials[major]
-        return (val["username"], val["password"])
+        val = credentials.get(major, {})
+        return (val.get("username"), val.get("password"))
 
 
 def parse_schedule(html):
