@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-# SusunJadwal
-
-### Requirements
-1. Ensure NodeJS and NPM are installed
-2. `npm install`
-3. Start developmening at localhost:9000/susunjadwal using `npm run start`
-
-### Building
-1. `run npm build`
-
-### License
-Made with love by SIG Webdev 2016 Ristek Fasilkom UI, originally developed by Pandago Studio.
-
-Made with React, Redux, Webpack stack based on React Boilerplate project, [here](http://reactboilerplate.com). Docs from the React Boilerplate can be seen on /docs.
-
-Big thanks to Max Stoiber, the creator of React Boilerplate.
-=======
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -84,4 +66,3 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
->>>>>>> Initial commit from Create React App
