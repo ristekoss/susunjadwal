@@ -8,11 +8,12 @@ from .utils import (
     authenticate,
     normalize_username,
     get_additional_info,
+    add_params
 )
 import functools
 
 
-def with_sso_ui(f, force_login=True):
+def login_sso_ui(f, force_login=True):
 
     @functools.wraps(f)
     def sso_ui_wrapper(*args, **kwargs):
@@ -31,5 +32,22 @@ def with_sso_ui(f, force_login=True):
             return f(*args, **kwargs)
         else:
             return redirect(login_url)
+
+    return sso_ui_wrapper
+
+
+def logout_sso_ui(f):
+
+    @functools.wraps(f)
+    def sso_ui_wrapper(*args, **kwargs):
+        service_url = add_params(get_service_url(request), {"success": "true"})
+        client = get_cas_client()
+        logout_url = client.get_logout_url(redirect_url=service_url)
+
+        success = request.args.get("success")
+        if success:
+            return f(*args, **kwargs)
+        else:
+            return redirect(logout_url)
 
     return sso_ui_wrapper

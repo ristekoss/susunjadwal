@@ -1,7 +1,7 @@
 import os
 import json
 from cas import CASClient
-from urllib.parse import urlunparse
+from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
 from flask import current_app as app
 
@@ -26,7 +26,7 @@ def get_service_url(request, redirect_to=None):
 
 
 def get_cas_client(service_url=None, request=None):
-    server_url = app.config["SSO_UI_URL"]
+    server_url = f"{app.config['SSO_UI_URL']}"
     if server_url and request and server_url.startswith("/"):
         scheme = request.headers.get("X-Forwarded-Proto", request.scheme)
         server_url = scheme + "://" + request.headers["HTTP_HOST"] + server_url
@@ -57,3 +57,10 @@ def get_additional_info(kd_org):
             return as_json[kd_org]
 
     return None
+
+
+def add_params(url, params):
+    url_parts = urlparse(url)
+    query = {**dict(parse_qsl(url_parts.query)), **params}
+    new_url_parts = url_parts._replace(query=urlencode(query))
+    return urlunparse(new_url_parts)

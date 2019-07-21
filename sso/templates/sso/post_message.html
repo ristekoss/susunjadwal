@@ -8,7 +8,6 @@
     Please Wait...
   </body>
   <script type="application/javascript">
-    console.log(window.opener)
     if (window.opener) {
         window.opener.postMessage({{ payload|safe }}, "{{sender|safe}}");
     }

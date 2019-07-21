@@ -8,13 +8,13 @@ from models.user import User
 from models.major import Major
 from jwt_utils import generate_token
 from scraper import scrape_major
-from sso.decorators import with_sso_ui
+from sso.decorators import login_sso_ui, logout_sso_ui
 
 router_sso = Blueprint('router_sso', __name__, template_folder="templates")
 
 
 @router_sso.route("/login/")
-@with_sso_ui
+@login_sso_ui
 def login(sso_profile):
     major_name = sso_profile["attributes"]["study_program"]
     major = Major.objects(name=major_name).first()
@@ -55,4 +55,16 @@ def login(sso_profile):
                 "token": token
             }
         }
-    return (render_template("sso/login.html", **context), 200)
+    return (render_template("sso/post_message.html", **context), 200)
+
+
+@router_sso.route("/logout/")
+@logout_sso_ui
+def logout():
+    context = {
+        "sender": app.config["CLIENT_URL"],
+        "payload": {
+            "success": "true"
+        }
+    }
+    return (render_template("sso/post_message.html", **context), 200)
