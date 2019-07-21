@@ -4,25 +4,26 @@
  *
  */
 
-import React from 'react';
-import { connect } from 'react-redux';
-import Helmet from 'react-helmet';
-import { createStructuredSelector } from 'reselect';
-import selectGlobal from 'containers/App/selectors';
-import selectJadwal from './selectors';
-import { push } from 'react-router-redux';
-import { Link } from 'react-router';
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
-import { deleteJadwal, setJadwalUtama, fetch } from './actions';
-import styles from './styles.css';
-import { isEmpty } from 'lodash';
-import { setLoginData } from 'containers/App/actions';
-import deleteIcon from './baseline-delete-24px.png';
+import React from "react";
+import { connect } from "react-redux";
+import Helmet from "react-helmet";
+import { createStructuredSelector } from "reselect";
+import selectGlobal from "containers/App/selectors";
+import selectJadwal from "./selectors";
+import { push } from "react-router-redux";
+import { Link } from "react-router";
+import { FormattedMessage } from "react-intl";
+import messages from "./messages";
+import { deleteJadwal, setJadwalUtama, fetch } from "./actions";
+import styles from "./styles.css";
+import { isEmpty } from "lodash";
+import { setLoginData } from "containers/App/actions";
+import deleteIcon from "./baseline-delete-24px.png";
 
-import Header from 'components/Header';
+import Header from "components/Header";
 
-export class Jadwal extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class Jadwal extends React.Component {
+  // eslint-disable-line react/prefer-stateless-function
   static propTypes = {
     push: React.PropTypes.func,
     fetch: React.PropTypes.func,
@@ -30,7 +31,7 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
     setLoginData: React.PropTypes.func,
     deleteJadwal: React.PropTypes.func,
     globalState: React.PropTypes.object,
-    localState: React.PropTypes.object,
+    localState: React.PropTypes.object
   };
 
   componentDidMount() {
@@ -41,10 +42,14 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
     var major_id = this.getCookie("major_id");
     var token = this.getCookie("token");
     var user_id = this.getCookie("user_id");
-    if (!(major_id !== '') || !(token !== '') || !(user_id !== '')) {
-      this.props.push('/');
+    if (!(major_id !== "") || !(token !== "") || !(user_id !== "")) {
+      this.props.push("/");
     } else {
-      if (globalStateObject.major_id === '' && globalStateObject.token === '' && globalStateObject.user_id === '') {
+      if (
+        globalStateObject.major_id === "" &&
+        globalStateObject.token === "" &&
+        globalStateObject.user_id === ""
+      ) {
         this.props.setLoginData(major_id, token, user_id);
       }
     }
@@ -52,10 +57,10 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
 
   getCookie(cname) {
     var name = cname + "=";
-    var ca = document.cookie.split(';');
+    var ca = document.cookie.split(";");
     for (var i = 0; i < ca.length; i++) {
       var c = ca[i];
-      while (c.charAt(0) == ' ') {
+      while (c.charAt(0) == " ") {
         c = c.substring(1);
       }
       if (c.indexOf(name) == 0) {
@@ -76,44 +81,54 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
     let scheduleListElem = null;
 
     if (!isEmpty(this.props.localState.scheduleList)) {
-      scheduleListElem = this.props.localState.scheduleList.map((value, key) => {
-        const createdAt = new Date(value.created_at);
-        let elem = (
-          <div key={`primary-sched-${value.id}`} className="small-12 columns">
-            <div className={styles.listItem}>
-              <div className="row expanded">
-                <div className="small-3 columns">
-                  <div className={styles.listItemContent}>
-                    <p>SCHED_NAME</p>
+      scheduleListElem = this.props.localState.scheduleList.map(
+        (value, key) => {
+          const createdAt = new Date(value.created_at);
+          let elem = (
+            <div
+              key={`primary-sched-${value.id}`}
+              className="small-12 columns mobile-hide"
+            >
+              <div className={styles.listItem}>
+                <div className="row expanded">
+                  <div className="small-2 columns">
+                    <div className={styles.listItemContent}>
+                      <p>SCHED_NAME</p>
+                    </div>
                   </div>
-                </div>
-                <div className="small-3 columns">
-                  <div className={styles.listItemContent}>
-                    <p>{createdAt.getDate()} - {createdAt.getMonth() + 1} - {createdAt.getFullYear()}</p>
+                  <div className="small-2 columns">
+                    <div className={styles.listItemContent}>
+                      <p>
+                        {createdAt.getDate()} - {createdAt.getMonth() + 1} -{" "}
+                        {createdAt.getFullYear()}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className="small-4 columns">
-                  <div className={styles.listItemContent}>
-                    <Link to={`/jadwal/${value.id}`}>{`${window.location.href}/${value.id}`}</Link>
+                  <div className="small-6 columns">
+                    <div className={styles.listItemContent}>
+                      <Link to={`/jadwal/${value.id}`}>{`${
+                        window.location.href
+                      }/${value.id}`}</Link>
+                    </div>
                   </div>
-                </div>
-                <div className="small-2 columns">
-                  <div className={styles.listItemContent}>
-                    <button onClick={() => this.props.deleteJadwal(value.id)}>
-                      <img src={deleteIcon} alt="Delete" />
-                      Delete
-                    </button>
+                  <div className="small-2 columns">
+                    <div className={styles.listItemContent}>
+                      <button onClick={() => this.props.deleteJadwal(value.id)}>
+                        <img src={deleteIcon} alt="Delete" />
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        );
-        return elem;
-      });
+          );
+          return elem;
+        }
+      );
     } else {
       scheduleListElem = (
-        <div className="small-12 columns">
+        <div className="small-12 columns mobile-hide">
           <div className={styles.listItem}>
             <div className="row expanded">
               <div className="small-12 columns">
@@ -131,14 +146,14 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
       <div>
         <Helmet
           title="Jadwal"
-          meta={[
-            { name: 'description', content: 'Description of Jadwal' },
-          ]}
+          meta={[{ name: "description", content: "Description of Jadwal" }]}
         />
         <Header>
           <button onClick={() => this.props.push("/logout")}>Logout</button>
-          <button onClick={() => this.props.push('/susun')}>Buat Jadwal</button>
-          <button onClick={() => this.props.push("/jadwal")}>Riwayat Jadwal</button>
+          <button onClick={() => this.props.push("/susun")}>Buat Jadwal</button>
+          <button onClick={() => this.props.push("/jadwal")}>
+            Riwayat Jadwal
+          </button>
         </Header>
         <div className={styles.jadwal}>
           <div className={styles.scheduleList}>
@@ -150,17 +165,17 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
               </div>
               <div className="small-12 columns">
                 <div className="row expanded">
-                  <div className="small-3 columns">
+                  <div className="small-2 columns">
                     <div className={styles.listHeader}>
                       <p>Nama Jadwal</p>
                     </div>
                   </div>
-                  <div className="small-3 columns">
+                  <div className="small-2 columns">
                     <div className={styles.listHeader}>
                       <p>Tanggal Dibuat</p>
                     </div>
                   </div>
-                  <div className="small-6 columns">
+                  <div className="small-8 columns mobile-hide">
                     <div className={styles.listHeader}>
                       <p>Shareable Link</p>
                     </div>
@@ -178,18 +193,22 @@ export class Jadwal extends React.Component { // eslint-disable-line react/prefe
 
 const mapStateToProps = createStructuredSelector({
   globalState: selectGlobal(),
-  localState: selectJadwal(),
+  localState: selectJadwal()
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    push: (url) => dispatch(push(url)),
+    push: url => dispatch(push(url)),
     fetch: () => dispatch(fetch()),
-    setJadwalUtama: (id) => dispatch(setJadwalUtama(id)),
-    deleteJadwal: (id) => dispatch(deleteJadwal(id)),
-    setLoginData: (majorId, token, userId) => dispatch(setLoginData(majorId, token, userId)),
-    dispatch,
+    setJadwalUtama: id => dispatch(setJadwalUtama(id)),
+    deleteJadwal: id => dispatch(deleteJadwal(id)),
+    setLoginData: (majorId, token, userId) =>
+      dispatch(setLoginData(majorId, token, userId)),
+    dispatch
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Jadwal);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Jadwal);

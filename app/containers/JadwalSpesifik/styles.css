@@ -1,150 +1,150 @@
 .pageTitle {
-	font-size: 1.5rem;
-	font-weight: 700;
-	padding: 2rem 0 0 3rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 2rem 0 0 3rem;
 }
 
 .pageTitle img {
-	max-height: 1.5rem;
+  max-height: 1.5rem;
 }
 
-.jadwal { /* stylelint-disable */
-	top: 4rem;
-	width: 100%;
-	height: auto;
+.jadwal {
+  /* stylelint-disable */
+  top: 4rem;
+  width: 100%;
+  height: auto;
 }
 
 .scheduleModule {
-	width: 100%;
-	min-width: 1366px;
-	height: auto;
+  width: 100%;
+  height: auto;
 }
 
 .scheduleHeader {
-	width: 100%;
-	background: #308077;
-	/* padding: 0.75rem 0 0.75rem 3rem; */
-	height: auto;
-	color: #FFFFFF;
-	text-align: center;
+  width: 100%;
+  background: #308077;
+  /* padding: 0.75rem 0 0.75rem 3rem; */
+  height: auto;
+  color: #ffffff;
+  text-align: center;
 }
 
 .scheduleHeader p {
-	font-weight: 700;
-	margin: 0;
-	line-height: 1;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1;
 }
 
 .timeHeader,
 .dayHeader,
 .timeContent,
 .dayContent {
-	display: inline-block;
-	margin: 0;
+  display: inline-block;
+  margin: 0;
 }
 
 .timeHeader {
-	width: 10%;
-	color: #FFFFFF;
-	padding: 0.75rem 0;
+  width: 10%;
+  color: #ffffff;
+  padding: 0.75rem 0;
 }
 
 .dayHeader {
-	width: 15%;
-	padding: 0.75rem 0;
+  width: 15%;
+  padding: 0.75rem 0;
 }
 
 .timeContent {
-	width: 10%;
-	text-align: center;
-	padding: 0;
-	height: 42rem;
-	position: relative;
+  width: 10%;
+  text-align: center;
+  padding: 0;
+  height: 42rem;
+  position: relative;
 }
 
 .timeContent .container {
-	position: absolute;
-	width: 100%;
-	top: 0;
-	right: 0;
-	left: 0;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  right: 0;
+  left: 0;
 }
 
 .timeContent p {
-	margin: 0;
-	padding: 0.475rem 0;
-	font-size: 1rem;
-	color: #222222;
-	background: #FFF;
-	line-height: 1;
-	border-bottom: 0.05rem solid rgba(48,128,119,0.2);
+  margin: 0;
+  padding: 0.475rem 0;
+  font-size: 1rem;
+  color: #222222;
+  background: #fff;
+  line-height: 1;
+  border-bottom: 0.05rem solid rgba(48, 128, 119, 0.2);
 }
 
 .dayContent {
-	width: 90%;
-	background: #FFF;
-	height: 42rem;
-	position: relative;
+  width: 90%;
+  background: #fff;
+  height: 42rem;
+  position: relative;
 }
 
 .rabuSepuluhDuabelas {
-	position: absolute;
-	width: calc(100% / 6);
-	height: 9rem;
-	top: 8rem;
-	left: 0;
-	background: #308077;
+  position: absolute;
+  width: calc(100% / 6);
+  height: 9rem;
+  top: 8rem;
+  left: 0;
+  background: #308077;
 }
 
 .scheduleList {
-	margin-top: 3rem;
+  margin-top: 3rem;
 }
 
 .scheduleList h1 {
-	font-weight: 700;
-	line-height: 1;
-	margin: 0 0 0.5rem;
-	color: #CE9D4D;
+  font-weight: 700;
+  line-height: 1;
+  margin: 0 0 0.5rem;
+  color: #ce9d4d;
 }
 
 .listHeader {
-	width: 100%;
-	background: #308077;
-	color: #FFFFFF;
-	padding: 0.75rem 1rem;
+  width: 100%;
+  background: #308077;
+  color: #ffffff;
+  padding: 0.75rem 1rem;
 }
 
 .listHeader p {
-	margin: 0;
-	line-height: 1;
-	font-weight: 700;
+  margin: 0;
+  line-height: 1;
+  font-weight: 700;
 }
 
 .listItem {
-	width: 100%;
-	color: #222222;
-	background: #FFF;
-	border-bottom: 0.1rem solid #308077;
+  width: 100%;
+  color: #222222;
+  background: #fff;
+  border-bottom: 0.1rem solid #308077;
 }
 
 .listItemContent {
-	padding: 0.75rem 1rem;
+  padding: 0.75rem 1rem;
 }
 
 .listItem p {
-	margin: 0;
-	line-height: 1.5;
+  margin: 0;
+  line-height: 1.5;
 }
 
 .listItem button {
-	margin: 0;
-	line-height: 1;
-	padding: 0;
-	border-bottom: 0.1rem solid #222222;
+  margin: 0;
+  line-height: 1;
+  padding: 0;
+  border-bottom: 0.1rem solid #222222;
 }
 
 .divider {
-	border-bottom: 0.05rem solid rgba(48,128,119,0.2);
-	width: 100%;
-	margin-top: 1.95rem;
+  border-bottom: 0.05rem solid rgba(48, 128, 119, 0.2);
+  width: 100%;
+  margin-top: 1.95rem;
 }
