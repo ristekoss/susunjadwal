@@ -41,12 +41,11 @@ def login(sso_profile):
                 "npm": npm,
                 "angkatan": f"20{npm[:2]}",
                 "major": major,
-                "role": "UNUSED"
             }
             user = User(**data)
             user.save()
 
-        token = generate_token(user.id, user.major.id, user.role)
+        token = generate_token(user.id, user.major.id)
         context = {
             "sender": app.config["CLIENT_URL"],
             "payload": {

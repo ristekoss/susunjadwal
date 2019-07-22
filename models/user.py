@@ -7,4 +7,3 @@ class User(mongo.Document):
     npm = mongo.StringField(max_length=20)
     angkatan = mongo.StringField(max_length=5)
     major = mongo.ReferenceField("Major")
-    role = mongo.StringField()
