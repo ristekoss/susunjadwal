@@ -3,11 +3,11 @@ from datetime import datetime
 
 
 class ScheduleItem(mongo.EmbeddedDocument):
-    name = mongo.StringField()
-    day = mongo.StringField()
-    room = mongo.StringField()
-    start = mongo.StringField()
-    end = mongo.StringField()
+    name = mongo.StringField(max_length=128)
+    day = mongo.StringField(max_length=16)
+    room = mongo.StringField(max_length=64)
+    start = mongo.StringField(max_length=16)
+    end = mongo.StringField(max_length=16)
 
     def serialize(self):
         return {

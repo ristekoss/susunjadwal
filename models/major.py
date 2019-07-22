@@ -2,10 +2,10 @@ import mongoengine as mongo
 
 
 class ScheduleItem(mongo.EmbeddedDocument):
-    day = mongo.StringField()
-    start = mongo.StringField()
-    end = mongo.StringField()
-    room = mongo.StringField()
+    day = mongo.StringField(max_length=16)
+    start = mongo.StringField(max_length=16)
+    end = mongo.StringField(max_length=16)
+    room = mongo.StringField(max_length=64)
 
     def serialize(self):
         return {
@@ -17,9 +17,9 @@ class ScheduleItem(mongo.EmbeddedDocument):
 
 
 class Class(mongo.EmbeddedDocument):
-    name = mongo.StringField()
+    name = mongo.StringField(max_length=128)
     schedule_items = mongo.ListField(mongo.EmbeddedDocumentField(ScheduleItem))
-    lecturer = mongo.ListField(mongo.StringField())
+    lecturer = mongo.ListField(mongo.StringField(max_length=128))
 
     def __get_schedule_items(self):
         data = []
@@ -36,7 +36,7 @@ class Class(mongo.EmbeddedDocument):
 
 
 class Course(mongo.EmbeddedDocument):
-    name = mongo.StringField()
+    name = mongo.StringField(max_length=128)
     credit = mongo.IntField()
     term = mongo.IntField()
     classes = mongo.ListField(mongo.EmbeddedDocumentField(Class))
@@ -57,7 +57,7 @@ class Course(mongo.EmbeddedDocument):
 
 
 class Major(mongo.Document):
-    name = mongo.StringField()
+    name = mongo.StringField(max_length=256)
     courses = mongo.ListField(mongo.EmbeddedDocumentField(Course))
 
     def create_course(self, name, credit, term):
