@@ -64,3 +64,16 @@ def delete_user_schedule(user_id, user_schedule_id):
     user_schedule.deleted = True
     user_schedule.save()
     return (jsonify(), 204)
+
+
+@router_main.route('/users/<user_id>/user_schedules/<user_schedule_id>/change_name', methods=['POST'])
+@require_jwt_token
+@require_same_user_id
+def rename_user_schedule(user_id, user_schedule_id):
+    data = request.json
+    user_schedule = UserSchedule.objects(id=user_schedule_id).first()
+    user_schedule.name = data["name"]
+    user_schedule.save()
+    return (jsonify({
+        'user_schedule': user_schedule.serialize()
+    }), 200)

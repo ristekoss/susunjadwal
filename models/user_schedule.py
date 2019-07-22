@@ -21,6 +21,7 @@ class ScheduleItem(mongo.EmbeddedDocument):
 
 class UserSchedule(mongo.Document):
     user_id = mongo.ReferenceField("User")
+    name = mongo.StringField(max_length=128)
     schedule_items = mongo.ListField(mongo.EmbeddedDocumentField(ScheduleItem))
     deleted = mongo.BooleanField(default=False)
     created_at = mongo.DateTimeField(default=datetime.now)
@@ -39,6 +40,7 @@ class UserSchedule(mongo.Document):
     def serialize(self):
         return {
             "id": str(self.id),
+            "name": self.name,
             "created_at": self.created_at,
             "schedule_items": self.__get_schedule_items()
         }
