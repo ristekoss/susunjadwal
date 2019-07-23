@@ -15,6 +15,7 @@ app.config["SSO_UI_URL"] = "https://sso.ui.ac.id/cas2/"
 app.config["SSO_UI_FORCE_SERVICE_HTTPS"] = False
 app.config["CLIENT_URL"] = "http://localhost:9000/"
 app.config["SECRET_KEY"] = "password"
+app.config["ACTIVE_PERIOD"] = "2018-1"
 
 app.config.from_pyfile("config.cfg")
 app.register_blueprint(router_sso, url_prefix=app.config["BASE_PATH"])

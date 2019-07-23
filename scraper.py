@@ -11,15 +11,13 @@ from models.major import (
 )
 
 
-JADWAL_PERIOD = '2018-3'
-
 BASE_URL = 'https://academic.ui.ac.id/main'
 AUTH_URL = f"{BASE_URL}/Authentication/Index"
 CHANGEROLE_URL = f"{BASE_URL}/Authentication/ChangeRole"
-JADWAL_URL = f"{BASE_URL}/Schedule/Index?period={JADWAL_PERIOD}&search="
+SCHEDULE_URL = f"{BASE_URL}/Schedule/Index?period={{period}}&search="
 
 
-def scrape_major(major):
+def scrape_major(major, period):
     username, password = fetch_credential(major)
     if (username is None) or (password is None):
         return None
@@ -27,9 +25,9 @@ def scrape_major(major):
     req = requests.Session()
     r = req.post(AUTH_URL, data={'u': username, 'p': password}, verify=False)
     r = req.get(CHANGEROLE_URL)
-    r = req.get(JADWAL_URL)
+    r = req.get(SCHEDULE_URL.format(period=period))
 
-    courses = parse_schedule(r.text)
+    courses = create_courses(r.text, period)
     return courses
 
 
@@ -40,7 +38,7 @@ def fetch_credential(major):
         return (val.get("username"), val.get("password"))
 
 
-def parse_schedule(html):
+def create_courses(html, period):
     soup = BeautifulSoup(html, 'html.parser')
     classes = soup.find_all('th', class_='sub border2 pad2')
 
@@ -92,6 +90,9 @@ def parse_schedule(html):
 
             except IndexError as e:
                 pass
-        courses.append(Course(name=course_name, credit=credit,
-                              term=term, classes=classes))
+
+        courses.append(
+            Course(name=course_name, credit=credit,
+                   term=term, classes=classes, period=period)
+        )
     return courses

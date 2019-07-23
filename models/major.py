@@ -39,6 +39,7 @@ class Course(mongo.EmbeddedDocument):
     name = mongo.StringField(max_length=128)
     credit = mongo.IntField()
     term = mongo.IntField()
+    period = mongo.StringField(max_length=16)
     classes = mongo.ListField(mongo.EmbeddedDocumentField(Class))
 
     def __get_classes(self):
@@ -65,15 +66,23 @@ class Major(mongo.Document):
         self.courses.append(course)
         return course
 
-    def __get_courses(self):
+    def filter_courses(self, period):
+        return [course for course in self.courses if course.period == period]
+
+    def __get_courses(self, period=None):
+        if period is not None:
+            courses = self.filter_courses(period)
+        else:
+            courses = self.courses
+
         data = []
-        for course in self.courses:
+        for course in courses:
             data.append(course.serialize())
 
         return data
 
-    def serialize(self):
+    def serialize(self, period=None):
         return {
             "name": self.name,
-            "courses": self.__get_courses()
+            "courses": self.__get_courses(period)
         }

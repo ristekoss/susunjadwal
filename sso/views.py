@@ -5,7 +5,7 @@ from flask import (
 )
 
 from models.user import User
-from models.major import Major
+from models.major import Major, Course
 from jwt_utils import generate_token
 from scraper import scrape_major
 from sso.decorators import login_sso_ui, logout_sso_ui
@@ -18,11 +18,11 @@ router_sso = Blueprint('router_sso', __name__, template_folder="templates")
 def login(sso_profile):
     major_name = sso_profile["attributes"]["study_program"]
     major = Major.objects(name=major_name).first()
-    if major is None:
-        courses = scrape_major(major_name)
+    if major is None or len(major.filter_courses(app.config["ACTIVE_PERIOD"])) == 0:
+        courses = scrape_major(major_name, app.config["ACTIVE_PERIOD"])
         if courses:
-            major = Major(name=major_name)
-            major.courses = courses
+            major = (major if major is not None else Major(name=major_name))
+            major.courses.extend(courses)
             major.save()
     if major is None:
         context = {

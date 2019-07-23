@@ -1,5 +1,6 @@
 from flask import (
     Blueprint,
+    current_app as app,
     jsonify,
     request
 )
@@ -16,8 +17,9 @@ router_main = Blueprint('router_sunjad', __name__)
 @router_main.route('/majors/<major_id>/courses', methods=['GET'])
 @require_jwt_token
 def get_courses(major_id):
+    active_period = get_app_config("ACTIVE_PERIOD")
     major = Major.objects(id=major_id).first()
-    return (jsonify(major.serialize()), 200)
+    return (jsonify(major.serialize(active_period)), 200)
 
 
 @router_main.route('/users/<user_id>/user_schedule', methods=['POST'])
@@ -77,3 +79,7 @@ def rename_user_schedule(user_id, user_schedule_id):
     return (jsonify({
         'user_schedule': user_schedule.serialize()
     }), 200)
+
+
+def get_app_config(varname):
+    return app.config.get(varname)
