@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 
+import GlobalContext from "contexts/GlobalContext";
 import Button from "components/Button";
 
 function Agenda({ visible, onClose }) {
+  const { addSchedule } = useContext(GlobalContext);
+
   const [name, setName] = useState("");
   const [day, setDay] = useState("Senin");
   const [start, setStart] = useState("");
@@ -11,6 +14,14 @@ function Agenda({ visible, onClose }) {
   const [room, setRoom] = useState("");
   const [error, setError] = useState({});
 
+  function addAgenda() {
+    addSchedule({
+      parentName: name,
+      name,
+      schedule_items: [{ start, end, room, day }]
+    });
+    onClose();
+  }
   return (
     <Container visible={visible || true}>
       <FormContainer>
@@ -52,7 +63,7 @@ function Agenda({ visible, onClose }) {
           <Button width="100px" onClick={onClose} intent="secondary">
             BATAL
           </Button>
-          <Button width="100px" onClick={() => {}}>
+          <Button width="100px" onClick={addAgenda}>
             SIMPAN
           </Button>
         </div>
