@@ -15,3 +15,9 @@ export function setupAxiosInstance(token) {
 export function getCourses(majorId) {
   return instance.get(`${API_BASE_URL}/majors/${majorId}/courses`);
 }
+
+export function postSaveSchedule(userId, scheduleItems) {
+  return instance.post(`${API_BASE_URL}/users/${userId}/user_schedule`, {
+    schedule_items: scheduleItems
+  });
+}

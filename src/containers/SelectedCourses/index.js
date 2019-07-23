@@ -1,17 +1,47 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styled, { css } from "styled-components";
+import { withRouter } from "react-router";
 
+import { postSaveSchedule } from "api";
 import GlobalContext from "contexts/GlobalContext";
 import { isScheduleConflict } from "./utils";
 import TrashIcon from "assets/trash.png";
 import TrashWhiteIcon from "assets/trash-white.png";
+import Agenda from "./Agenda";
 
-function SelectedCourses() {
-  const { schedules, removeSchedule } = useContext(GlobalContext);
+function transformSchedules(schedules) {
+  return schedules
+    .map(schedule =>
+      schedule.schedule_items.map(item => ({
+        ...item,
+        name: schedule.name
+      }))
+    )
+    .reduce((prev, now) => [...prev, ...now], []);
+}
+
+function SelectedCourses({ history }) {
+  const { auth, schedules, removeSchedule, setLoading } = useContext(
+    GlobalContext
+  );
+  const [isAgendaModalVisible, setAgendaModalVisibility] = useState(false);
   const totalCredits = schedules.reduce((prev, { credit }) => prev + credit, 0);
 
+  async function saveSchedule() {
+    setLoading(true);
+    try {
+      const {
+        data: { id: scheduleId }
+      } = await postSaveSchedule(auth.userId, transformSchedules(schedules));
+      history.push(`/jadwal/${scheduleId}`);
+    } catch (e) {
+      // todo: handle error
+    }
+    setTimeout(() => setLoading(false), 1000);
+  }
+
   let isConflict = false;
-  const items = schedules.map(schedule => {
+  const items = schedules.map((schedule, idx) => {
     const isCurrentScheduleConflict = isScheduleConflict(schedules, schedule);
     isConflict = isConflict || isCurrentScheduleConflict;
 
@@ -22,7 +52,7 @@ function SelectedCourses() {
     ));
 
     return (
-      <TableContentRow inverted={isCurrentScheduleConflict}>
+      <TableContentRow key={idx} inverted={isCurrentScheduleConflict}>
         <div className="courseName">{schedule.name}</div>
         <div>{classesTimes}</div>
         <div className="small-2 columns">{schedule.credit}</div>
@@ -38,38 +68,51 @@ function SelectedCourses() {
   });
 
   return (
-    <Container>
-      <h3>Kelas Pilihan</h3>
-      <TableHeader>
-        <div>Kelas</div>
-        <div>Waktu</div>
-        <div>SKS</div>
-      </TableHeader>
-      {items}
-      <TableCreditSum>
-        <div>
-          <span>Total SKS</span>
+    <React.Fragment>
+      <Agenda
+        visible={isAgendaModalVisible}
+        onClose={() => setAgendaModalVisibility(false)}
+      />
+      <Container>
+        <h3>Kelas Pilihan</h3>
+        <TableHeader>
+          <div>Kelas</div>
+          <div>Waktu</div>
+          <div>SKS</div>
+        </TableHeader>
+        {items}
+        <TableCreditSum>
+          <div>
+            <span>Total SKS</span>
+          </div>
+          <div>{totalCredits}</div>
+        </TableCreditSum>
+        {isConflict && (
+          <MessageContainer>
+            <p>Ada konflik jadwal, perbaiki terlebih dahulu!</p>
+          </MessageContainer>
+        )}
+        <div className="small-12 columns">
+          <button
+            className={"agendaButton"}
+            onClick={() => setAgendaModalVisibility(true)}
+          >
+            Tambah Agenda
+          </button>
         </div>
-        <div>{totalCredits}</div>
-      </TableCreditSum>
-      {isConflict && (
-        <MessageContainer>
-          <p>Ada konflik jadwal, perbaiki terlebih dahulu!</p>
-        </MessageContainer>
-      )}
-
-      <button
-        className="finishButton"
-        //onClick={this.props.saveJadwal}
-        disabled={isConflict || totalCredits > 24 || schedules.length === 0}
-      >
-        Simpan Jadwal
-      </button>
-    </Container>
+        <button
+          className="finishButton"
+          onClick={saveSchedule}
+          disabled={isConflict || totalCredits > 24 || schedules.length === 0}
+        >
+          Simpan Jadwal
+        </button>
+      </Container>
+    </React.Fragment>
   );
 }
 
-export default SelectedCourses;
+export default withRouter(SelectedCourses);
 
 const Container = styled.div`
   width: 100%;

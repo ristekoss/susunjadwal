@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { Route } from "react-router";
 
+import Loading from "components/Loading";
 import GlobalContext from "./contexts/GlobalContext";
 import { loadAuth } from "./utils/auth";
 import routes from "./routes";
@@ -12,6 +13,7 @@ function removeScheduleItem(schedule, scheduleItem) {
 }
 
 function App() {
+  const [loading, setLoading] = useState(false);
   const [auth, setAuth] = useState(() => loadAuth());
   const [schedules, setSchedules] = useState([]);
 
@@ -33,8 +35,16 @@ function App() {
 
   return (
     <GlobalContext.Provider
-      value={{ schedules, auth, setAuth, removeSchedule, addSchedule }}
+      value={{
+        schedules,
+        auth,
+        setAuth,
+        removeSchedule,
+        addSchedule,
+        setLoading
+      }}
     >
+      <Loading visible={loading} />
       {routes.map(route => (
         <Route key={route.name} {...route} />
       ))}

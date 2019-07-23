@@ -5,7 +5,6 @@ import GlobalContext from "contexts/GlobalContext";
 
 function CourseClass({ course, courseClass }) {
   const { schedules, addSchedule, removeSchedule } = useContext(GlobalContext);
-
   const isActive = schedules.find(
     schedule => schedule.name === courseClass.name
   );
@@ -25,7 +24,6 @@ function CourseClass({ course, courseClass }) {
     }
   };
 
-  console.log({ courseClass });
   const classSchedules = courseClass.schedule_items.map((item, idx) => (
     <span key={idx}>
       - {item.day}, {item.start}-{item.end}
@@ -35,7 +33,7 @@ function CourseClass({ course, courseClass }) {
     <span key={idx}>{item.room}</span>
   ));
   const lecturers = courseClass.lecturer.map((lecturer, idx) => (
-    <span>- {lecturer}</span>
+    <span key={idx}>- {lecturer}</span>
   ));
 
   return (
@@ -69,7 +67,11 @@ function Course({ course }) {
           <HeaderItem flex={4}>Pengajar</HeaderItem>
         </Header>
         {course.classes.map(currentClass => (
-          <CourseClass course={course} courseClass={currentClass} />
+          <CourseClass
+            key={currentClass.name}
+            course={course}
+            courseClass={currentClass}
+          />
         ))}
       </CourseContainer>
     </div>

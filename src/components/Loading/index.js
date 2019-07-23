@@ -2,9 +2,12 @@ import React from "react";
 
 import "./styles.css";
 
-function Loading() {
+function Loading({ visible }) {
   return (
-    <div className="loadingScreen" style={{ display: "block" }}>
+    <div
+      className="loadingScreen"
+      style={{ display: visible ? "block" : "none" }}
+    >
       <div className="container">
         <div className="centralizer text-center">
           <div className="sk-folding-cube">

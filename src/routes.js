@@ -13,6 +13,11 @@ function createRoutes() {
       path: "/susun",
       name: "buildSchedule",
       component: BuildSchedule
+    },
+    {
+      path: "/jadwal/:scheduleId",
+      name: "showSchedule",
+      component: BuildSchedule
     }
 
     //     const renderRoute = loadModule(cb);
