@@ -16,14 +16,16 @@ function Agenda({ visible, onClose }) {
 
   function addAgenda() {
     addSchedule({
-      parentName: name,
+      parentName: `__agenda-${name}`,
       name,
+      credit: 0,
       schedule_items: [{ start, end, room, day }]
     });
     onClose();
   }
+
   return (
-    <Container visible={visible || true}>
+    <Container visible={visible}>
       <FormContainer>
         <h1>Tambah Agenda</h1>
         <input

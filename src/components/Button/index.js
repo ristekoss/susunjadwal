@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 const intentStyle = {
@@ -26,7 +25,8 @@ const Button = styled.button`
     color: white;
   }
 
-  width: ${({ width }) => `${width}px` || "100%"};
+  width: ${({ width }) => (width ? `${width}px` : "100%")};
+  text-transform: uppercase;
   transition: 0.25s background ease;
 `;
 

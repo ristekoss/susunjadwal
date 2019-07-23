@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import styled, { css } from "styled-components";
 import { withRouter } from "react-router";
 
+import Button from "components/Button";
 import { postSaveSchedule } from "api";
 import GlobalContext from "contexts/GlobalContext";
 import { isScheduleConflict } from "./utils";
@@ -55,10 +56,11 @@ function SelectedCourses({ history }) {
       <TableContentRow key={idx} inverted={isCurrentScheduleConflict}>
         <div className="courseName">{schedule.name}</div>
         <div>{classesTimes}</div>
-        <div className="small-2 columns">{schedule.credit}</div>
+        <div className="small-2 columns">
+          <span>{schedule.credit}</span>
+        </div>
         <div className="small-1 columns text-right">
           <DeleteButton
-            className="removeButton"
             inverted={isCurrentScheduleConflict}
             onClick={() => removeSchedule(schedule)}
           />
@@ -78,35 +80,36 @@ function SelectedCourses({ history }) {
         <TableHeader>
           <div>Kelas</div>
           <div>Waktu</div>
-          <div>SKS</div>
+          <div>
+            <span>SKS</span>
+          </div>
         </TableHeader>
         {items}
         <TableCreditSum>
           <div>
             <span>Total SKS</span>
           </div>
-          <div>{totalCredits}</div>
+          <div>
+            <span>{totalCredits}</span>
+          </div>
         </TableCreditSum>
         {isConflict && (
           <MessageContainer>
             <p>Ada konflik jadwal, perbaiki terlebih dahulu!</p>
           </MessageContainer>
         )}
-        <div className="small-12 columns">
-          <button
-            className={"agendaButton"}
-            onClick={() => setAgendaModalVisibility(true)}
-          >
-            Tambah Agenda
-          </button>
-        </div>
-        <button
-          className="finishButton"
+        <Button
+          intent="secondary"
+          onClick={() => setAgendaModalVisibility(true)}
+        >
+          Tambah Agenda
+        </Button>
+        <Button
           onClick={saveSchedule}
           disabled={isConflict || totalCredits > 24 || schedules.length === 0}
         >
           Simpan Jadwal
-        </button>
+        </Button>
       </Container>
     </React.Fragment>
   );
@@ -117,7 +120,7 @@ export default withRouter(SelectedCourses);
 const Container = styled.div`
   width: 100%;
   height: 100%;
-  background-color: #222222;
+  color: white;
 
   h3 {
     font-size: 1.5rem;
@@ -125,12 +128,17 @@ const Container = styled.div`
     font-weight: bold;
     margin-bottom: 16px;
   }
+
+  > button {
+    margin-top: 16px;
+  }
 `;
 
 const TableHeader = styled.div`
   display: flex;
   border-bottom: 2px solid #308077;
   font-weight: bold;
+  align-items: center;
 
   div {
     padding: 0.5rem 0;
@@ -142,6 +150,9 @@ const TableHeader = styled.div`
     }
     &:nth-child(3) {
       flex: 3;
+      span {
+        margin-left: 12px;
+      }
     }
   }
 `;
@@ -150,6 +161,7 @@ const TableContentRow = styled.div`
   display: flex;
   font-size: 0.75rem;
   background-color: ${({ inverted }) => (inverted ? "#C74550" : "#0000")};
+  min-height: 70px;
 
   div {
     padding: 0.5rem 0;
@@ -165,6 +177,10 @@ const TableContentRow = styled.div`
     &:nth-child(3) {
       flex: 2;
       font-size: 16px;
+
+      span {
+        margin-left: 12px;
+      }
     }
     &:nth-child(4) {
       flex: 1;
@@ -189,6 +205,9 @@ const TableCreditSum = styled.div`
       margin-right: 16px;
     }
     &:nth-child(2) {
+      span {
+        margin-left: 12px;
+      }
       flex: 3;
     }
   }
