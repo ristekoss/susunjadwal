@@ -36,7 +36,6 @@ def process(sso_profile):
         courses = scrape_courses(major_name, period_name)
         if not courses:
             result = {
-                "sender": app.config["CLIENT_URL"],
                 "payload": {
                     "err": f"Your faculty {major} isn't supported yet. Please contact Ristek Fasilkom UI if you are interested."
                 }
