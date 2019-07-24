@@ -1,18 +1,18 @@
-import React, { useContext } from "react";
+import React, { useCallback, useMemo } from "react";
 import styled from "styled-components";
-
-import { GlobalContext } from "contexts/GlobalContext";
+import { useSelector, useDispatch } from "react-redux";
+import { addSchedule, removeSchedule } from "redux/modules/schedules";
 
 function CourseClass({ course, courseClass }) {
-  const {
-    state: { schedules },
-    dispatch
-  } = useContext(GlobalContext);
-  const isActive = schedules.find(
-    schedule => schedule.name === courseClass.name
+  const schedules = useSelector(state => state.schedules);
+  const dispatch = useDispatch();
+
+  const isActive = useMemo(
+    () => schedules.find(schedule => schedule.name === courseClass.name),
+    [schedules, courseClass]
   );
 
-  const handleChange = () => {
+  const handleChange = useCallback(() => {
     const item = {
       ...courseClass,
       credit: course.credit,
@@ -21,23 +21,37 @@ function CourseClass({ course, courseClass }) {
     };
 
     if (isActive) {
-      dispatch({ type: "removeSchedule", payload: item });
+      dispatch(removeSchedule(item));
     } else {
-      dispatch({ type: "addSchedule", payload: item });
+      dispatch(addSchedule(item));
     }
-  };
+  }, [dispatch, course, courseClass, isActive]);
 
-  const classSchedules = courseClass.schedule_items.map((item, idx) => (
-    <span key={idx}>
-      - {item.day}, {item.start}-{item.end}
-    </span>
-  ));
-  const rooms = courseClass.schedule_items.map((item, idx) => (
-    <span key={idx}>{item.room}</span>
-  ));
-  const lecturers = courseClass.lecturer.map((lecturer, idx) => (
-    <span key={idx}>- {lecturer}</span>
-  ));
+  const classSchedules = useMemo(
+    () =>
+      courseClass.schedule_items.map((item, idx) => (
+        <span key={idx}>
+          - {item.day}, {item.start}-{item.end}
+        </span>
+      )),
+    [courseClass]
+  );
+
+  const rooms = useMemo(
+    () =>
+      courseClass.schedule_items.map((item, idx) => (
+        <span key={idx}>{item.room}</span>
+      )),
+    [courseClass]
+  );
+
+  const lecturers = useMemo(
+    () =>
+      courseClass.lecturer.map((lecturer, idx) => (
+        <span key={idx}>- {lecturer}</span>
+      )),
+    [courseClass]
+  );
 
   return (
     <CourseClassContainer onClick={handleChange}>

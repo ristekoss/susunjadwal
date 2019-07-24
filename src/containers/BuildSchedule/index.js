@@ -1,26 +1,27 @@
-import React, { useContext, useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
-
+import { useSelector, useDispatch } from "react-redux";
 import Helmet from "react-helmet";
-import { getCourses } from "api";
+
+import { getCourses } from "services/api";
 import Header from "components/Header";
 import SelectedCourses from "containers/SelectedCourses";
+import { setLoading } from "redux/modules/loading";
+
 import Course from "./Course";
-import { GlobalContext } from "contexts/GlobalContext";
 
 function BuildSchedule({ history }) {
-  const {
-    state: { auth },
-    dispatch
-  } = useContext(GlobalContext);
+  const auth = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+
   const [courses, setCourses] = useState(null);
 
   const fetchCourses = useCallback(
     async majorId => {
-      dispatch({ type: "setLoading", payload: true });
+      dispatch(setLoading(true));
       const { data } = await getCourses(majorId);
       setCourses(data.courses);
-      setTimeout(() => dispatch({ type: "setLoading", payload: false }), 1000);
+      setTimeout(() => dispatch(setLoading(false)), 1000);
     },
     [dispatch]
   );

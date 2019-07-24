@@ -1,11 +1,12 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 
-import { GlobalContext } from "contexts/GlobalContext";
 import Button from "components/Button";
+import { addSchedule } from "redux/modules/schedules";
 
 function Agenda({ visible, onClose }) {
-  const { dispatch } = useContext(GlobalContext);
+  const dispatch = useDispatch();
 
   const [name, setName] = useState("");
   const [day, setDay] = useState("Senin");
@@ -15,15 +16,14 @@ function Agenda({ visible, onClose }) {
   const [error, setError] = useState({});
 
   function addAgenda() {
-    dispatch({
-      type: "addSchedule",
-      payload: {
+    dispatch(
+      addSchedule({
         parentName: `__agenda-${name}`,
         name,
         credit: 0,
         schedule_items: [{ start, end, room, day }]
-      }
-    });
+      })
+    );
     onClose();
   }
 

@@ -1,23 +1,22 @@
-import React, { useState, useCallback, useReducer } from "react";
+import React from "react";
+import { Provider } from "react-redux";
 import { Route } from "react-router";
 
 import Loading from "components/Loading";
-import GlobalStateProvider from "./contexts/GlobalContext";
 
 import routes from "./routes";
+import store from "./redux/store";
 
 import "./app.css";
 
 function App() {
-  console.log("root rerender");
-
   return (
-    <GlobalStateProvider>
+    <Provider store={store}>
       {routes.map(route => (
         <Route key={route.name} {...route} />
       ))}
       <Loading />
-    </GlobalStateProvider>
+    </Provider>
   );
 }
 

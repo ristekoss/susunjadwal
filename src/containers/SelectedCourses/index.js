@@ -1,14 +1,16 @@
-import React, { useContext, useState } from "react";
-import styled, { css } from "styled-components";
+import React, { useState } from "react";
+import styled from "styled-components";
 import { withRouter } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
 
 import Button from "components/Button";
-import { postSaveSchedule } from "api";
-import { GlobalContext } from "contexts/GlobalContext";
+import { postSaveSchedule } from "services/api";
 import { isScheduleConflict } from "./utils";
 import TrashIcon from "assets/trash.png";
 import TrashWhiteIcon from "assets/trash-white.png";
 import Agenda from "./Agenda";
+import { setLoading } from "redux/modules/loading";
+import { removeSchedule } from "redux/modules/schedules";
 
 function transformSchedules(schedules) {
   return schedules
@@ -22,16 +24,15 @@ function transformSchedules(schedules) {
 }
 
 function SelectedCourses({ history }) {
-  const {
-    state: { schedules, auth },
-    dispatch
-  } = useContext(GlobalContext);
+  const schedules = useSelector(state => state.schedules);
+  const auth = useSelector(state => state.auth);
+  const dispatch = useDispatch();
 
   const [isAgendaModalVisible, setAgendaModalVisibility] = useState(false);
   const totalCredits = schedules.reduce((prev, { credit }) => prev + credit, 0);
 
   async function saveSchedule() {
-    dispatch({ type: "setLoading", payload: true });
+    dispatch(setLoading(true));
     try {
       const {
         data: { id: scheduleId }
@@ -40,7 +41,7 @@ function SelectedCourses({ history }) {
     } catch (e) {
       // todo: handle error
     }
-    setTimeout(() => dispatch({ type: "setLoading", payload: false }), 1000);
+    setTimeout(() => dispatch(setLoading(false)), 1000);
   }
 
   let isConflict = false;
@@ -64,9 +65,7 @@ function SelectedCourses({ history }) {
         <div className="small-1 columns text-right">
           <DeleteButton
             inverted={isCurrentScheduleConflict}
-            onClick={() =>
-              dispatch({ type: "removeSchedule", payload: schedule })
-            }
+            onClick={() => dispatch(removeSchedule(schedule))}
           />
         </div>
       </TableContentRow>

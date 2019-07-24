@@ -1,8 +1,9 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import { API_BASE_URL } from "../../api.js";
-import { persistAuth } from "../../utils/auth";
-import { GlobalContext } from "../../contexts/GlobalContext";
+import { API_BASE_URL } from "services/api";
+import { persistAuth } from "utils/auth";
+import { setAuth } from "redux/modules/auth";
 
 import Logoset from "./LogosetColored.png";
 import Accent from "./Accent.png";
@@ -14,14 +15,12 @@ function openSSOWindow() {
 }
 
 function HomePage({ history }) {
-  const {
-    state: { auth },
-    dispatch
-  } = useContext(GlobalContext);
+  const auth = useSelector(state => state.auth);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     function messageListener(event) {
-      if (API_BASE_URL.indexOf(event.origin) == 0) {
+      if (API_BASE_URL.indexOf(event.origin) === 0) {
         const {
           data: { major_id, token, user_id }
         } = event;
@@ -31,7 +30,7 @@ function HomePage({ history }) {
           token: token,
           userId: user_id
         };
-        dispatch({ type: "setAuth", payload: auth });
+        dispatch(setAuth(auth));
         persistAuth(auth);
         event.source.close();
       }

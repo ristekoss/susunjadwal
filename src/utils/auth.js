@@ -1,4 +1,4 @@
-import { setupAxiosInstance } from "api";
+import { setupAxiosInstance } from "services/api";
 
 export function persistAuth(auth) {
   setupAxiosInstance(auth.token);

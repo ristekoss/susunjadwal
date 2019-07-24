@@ -1,12 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 
-import { GlobalContext } from "contexts/GlobalContext";
 import "./styles.css";
 
 function Loading() {
-  const {
-    state: { loading }
-  } = useContext(GlobalContext);
+  const loading = useSelector(state => state.loading);
+
   return (
     <div
       className="loadingScreen"
