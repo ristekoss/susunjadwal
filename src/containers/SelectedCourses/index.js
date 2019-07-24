@@ -4,7 +4,7 @@ import { withRouter } from "react-router";
 
 import Button from "components/Button";
 import { postSaveSchedule } from "api";
-import GlobalContext from "contexts/GlobalContext";
+import { GlobalContext } from "contexts/GlobalContext";
 import { isScheduleConflict } from "./utils";
 import TrashIcon from "assets/trash.png";
 import TrashWhiteIcon from "assets/trash-white.png";
@@ -22,14 +22,16 @@ function transformSchedules(schedules) {
 }
 
 function SelectedCourses({ history }) {
-  const { auth, schedules, removeSchedule, setLoading } = useContext(
-    GlobalContext
-  );
+  const {
+    state: { schedules, auth },
+    dispatch
+  } = useContext(GlobalContext);
+
   const [isAgendaModalVisible, setAgendaModalVisibility] = useState(false);
   const totalCredits = schedules.reduce((prev, { credit }) => prev + credit, 0);
 
   async function saveSchedule() {
-    setLoading(true);
+    dispatch({ type: "setLoading", payload: true });
     try {
       const {
         data: { id: scheduleId }
@@ -38,7 +40,7 @@ function SelectedCourses({ history }) {
     } catch (e) {
       // todo: handle error
     }
-    setTimeout(() => setLoading(false), 1000);
+    setTimeout(() => dispatch({ type: "setLoading", payload: false }), 1000);
   }
 
   let isConflict = false;
@@ -62,7 +64,9 @@ function SelectedCourses({ history }) {
         <div className="small-1 columns text-right">
           <DeleteButton
             inverted={isCurrentScheduleConflict}
-            onClick={() => removeSchedule(schedule)}
+            onClick={() =>
+              dispatch({ type: "removeSchedule", payload: schedule })
+            }
           />
         </div>
       </TableContentRow>

@@ -1,10 +1,13 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 
-import GlobalContext from "contexts/GlobalContext";
+import { GlobalContext } from "contexts/GlobalContext";
 
 function CourseClass({ course, courseClass }) {
-  const { schedules, addSchedule, removeSchedule } = useContext(GlobalContext);
+  const {
+    state: { schedules },
+    dispatch
+  } = useContext(GlobalContext);
   const isActive = schedules.find(
     schedule => schedule.name === courseClass.name
   );
@@ -18,9 +21,9 @@ function CourseClass({ course, courseClass }) {
     };
 
     if (isActive) {
-      removeSchedule(item);
+      dispatch({ type: "removeSchedule", payload: item });
     } else {
-      addSchedule(item);
+      dispatch({ type: "addSchedule", payload: item });
     }
   };
 
@@ -50,6 +53,7 @@ function CourseClass({ course, courseClass }) {
 }
 
 function Course({ course }) {
+  console.log(`render course ${course.name}`);
   return (
     <div>
       <CourseTitle>

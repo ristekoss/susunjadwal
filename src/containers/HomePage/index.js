@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from "react";
 
 import { API_BASE_URL } from "../../api.js";
 import { persistAuth } from "../../utils/auth";
-import GlobalContext from "../../contexts/GlobalContext";
+import { GlobalContext } from "../../contexts/GlobalContext";
 
 import Logoset from "./LogosetColored.png";
 import Accent from "./Accent.png";
@@ -14,7 +14,10 @@ function openSSOWindow() {
 }
 
 function HomePage({ history }) {
-  const { auth, setAuth } = useContext(GlobalContext);
+  const {
+    state: { auth },
+    dispatch
+  } = useContext(GlobalContext);
 
   useEffect(() => {
     function messageListener(event) {
@@ -28,13 +31,17 @@ function HomePage({ history }) {
           token: token,
           userId: user_id
         };
-        setAuth(auth);
+        dispatch({ type: "setAuth", payload: auth });
         persistAuth(auth);
         event.source.close();
       }
     }
+
     window.addEventListener("message", messageListener);
-  }, [setAuth]);
+    return () => {
+      window.removeEventListener("message", messageListener);
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     if (auth) {

@@ -6,20 +6,23 @@ import { getCourses } from "api";
 import Header from "components/Header";
 import SelectedCourses from "containers/SelectedCourses";
 import Course from "./Course";
-import GlobalContext from "contexts/GlobalContext";
+import { GlobalContext } from "contexts/GlobalContext";
 
 function BuildSchedule({ history }) {
-  const { auth, setLoading } = useContext(GlobalContext);
+  const {
+    state: { auth },
+    dispatch
+  } = useContext(GlobalContext);
   const [courses, setCourses] = useState(null);
 
   const fetchCourses = useCallback(
     async majorId => {
-      setLoading(true);
+      dispatch({ type: "setLoading", payload: true });
       const { data } = await getCourses(majorId);
       setCourses(data.courses);
-      setTimeout(() => setLoading(false), 1000);
+      setTimeout(() => dispatch({ type: "setLoading", payload: false }), 1000);
     },
-    [setLoading]
+    [dispatch]
   );
 
   useEffect(() => {
@@ -27,6 +30,7 @@ function BuildSchedule({ history }) {
     fetchCourses(majorId);
   }, [auth, fetchCourses]);
 
+  console.log("render");
   return (
     <div>
       <Helmet title="Buat Jadwal" />

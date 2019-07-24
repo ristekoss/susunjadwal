@@ -1,11 +1,11 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
 
-import GlobalContext from "contexts/GlobalContext";
+import { GlobalContext } from "contexts/GlobalContext";
 import Button from "components/Button";
 
 function Agenda({ visible, onClose }) {
-  const { addSchedule } = useContext(GlobalContext);
+  const { dispatch } = useContext(GlobalContext);
 
   const [name, setName] = useState("");
   const [day, setDay] = useState("Senin");
@@ -15,11 +15,14 @@ function Agenda({ visible, onClose }) {
   const [error, setError] = useState({});
 
   function addAgenda() {
-    addSchedule({
-      parentName: `__agenda-${name}`,
-      name,
-      credit: 0,
-      schedule_items: [{ start, end, room, day }]
+    dispatch({
+      type: "addSchedule",
+      payload: {
+        parentName: `__agenda-${name}`,
+        name,
+        credit: 0,
+        schedule_items: [{ start, end, room, day }]
+      }
     });
     onClose();
   }

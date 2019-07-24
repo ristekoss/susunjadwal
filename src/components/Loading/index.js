@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 
+import { GlobalContext } from "contexts/GlobalContext";
 import "./styles.css";
 
-function Loading({ visible }) {
+function Loading() {
+  const {
+    state: { loading }
+  } = useContext(GlobalContext);
   return (
     <div
       className="loadingScreen"
-      style={{ display: visible ? "block" : "none" }}
+      style={{ display: loading ? "block" : "none" }}
     >
       <div className="container">
         <div className="centralizer text-center">
