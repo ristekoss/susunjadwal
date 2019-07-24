@@ -7,6 +7,7 @@ import { getCourses } from "services/api";
 import Header from "components/Header";
 import SelectedCourses from "containers/SelectedCourses";
 import { setLoading } from "redux/modules/loading";
+import { setCourses as reduxSetCourses } from "redux/modules/courses";
 
 import Course from "./Course";
 
@@ -21,6 +22,7 @@ function BuildSchedule({ history }) {
       dispatch(setLoading(true));
       const { data } = await getCourses(majorId);
       setCourses(data.courses);
+      dispatch(reduxSetCourses(data.courses));
       setTimeout(() => dispatch(setLoading(false)), 1000);
     },
     [dispatch]

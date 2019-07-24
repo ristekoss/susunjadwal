@@ -3,15 +3,15 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { addSchedule, removeSchedule } from "redux/modules/schedules";
 
+const whyDidYouRender = require("@welldone-software/why-did-you-render");
+
+whyDidYouRender(React);
+
 function CourseClass({ course, courseClass }) {
-  const schedules = useSelector(state => state.schedules);
+  const key = `${course.name}-${courseClass.name}`;
+  const isActive = useSelector(state => state.courses[key]);
   const dispatch = useDispatch();
-
-  const isActive = useMemo(
-    () => schedules.find(schedule => schedule.name === courseClass.name),
-    [schedules, courseClass]
-  );
-
+  console.log(`render course ${course.name} ${courseClass}`);
   const handleChange = useCallback(() => {
     const item = {
       ...courseClass,
@@ -66,8 +66,12 @@ function CourseClass({ course, courseClass }) {
   );
 }
 
+// CourseClass.whyDidYouRender = {
+//   logOnDifferentValues: true,
+//   customName: "EnhancedMenu"
+// };
+
 function Course({ course }) {
-  console.log(`render course ${course.name}`);
   return (
     <div>
       <CourseTitle>
