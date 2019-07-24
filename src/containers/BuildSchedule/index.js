@@ -33,7 +33,6 @@ function BuildSchedule({ history }) {
     fetchCourses(majorId);
   }, [auth, fetchCourses]);
 
-  console.log("render");
   return (
     <div>
       <Helmet title="Buat Jadwal" />

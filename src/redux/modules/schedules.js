@@ -8,7 +8,6 @@ function filterSchedule(schedules, { parentName }) {
 export default function reducer(state = [], { type, payload }) {
   switch (type) {
     case ADD_SCHEDULE:
-      console.log({ payload });
       return [...filterSchedule(state, payload), payload];
     case REMOVE_SCHEDULE:
       return filterSchedule(state, payload);

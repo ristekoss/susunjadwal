@@ -1,5 +1,5 @@
 /**
- * optimize schedule lookup
+ * optimize course isSelected lookup
  */
 
 export const ADD_SCHEDULE = "ADD_SCHEDULE";
@@ -12,28 +12,24 @@ export default function reducer(state = {}, { type, payload }) {
       const result = {};
       payload.forEach(course => {
         course.classes.forEach(class_ => {
-          result[`${course.name}-${class_.name}`] = false;
+          const key = `${course.name}-${class_.name}`;
+          result[key] = !!state[key];
         });
       });
       return result;
+
     case ADD_SCHEDULE:
-      console.log({ payload });
+    case REMOVE_SCHEDULE:
       const nextState = { ...state };
       const activatedKey = `${payload.parentName}-${payload.name}`;
       Object.keys(state).forEach(key => {
         if (key.indexOf(payload.parentName) === 0) {
-          nextState[key] = key === activatedKey;
+          nextState[key] = type !== REMOVE_SCHEDULE && key === activatedKey;
         }
       });
-      console.log({ nextState });
+
       return nextState;
-    case REMOVE_SCHEDULE:
-      const newState = { ...state };
-      const removedKey = `${payload.parentName}-${payload.name}`;
-      if (typeof newState[removedKey] === "boolean") {
-        newState[removedKey] = false;
-      }
-      return newState;
+
     default:
       return state;
   }
