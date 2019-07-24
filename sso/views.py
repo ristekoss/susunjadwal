@@ -1,7 +1,9 @@
 from flask import (
     Blueprint,
     current_app as app,
-    render_template
+    jsonify,
+    render_template,
+    request
 )
 
 from jwt_utils import generate_token
@@ -9,14 +11,15 @@ from models.major import Major
 from models.period import Period
 from models.user import User
 from scraper import scrape_courses
-from sso.decorators import login_sso_ui, logout_sso_ui
+from sso.utils import (
+    authenticate,
+    get_cas_client
+)
 
 router_sso = Blueprint('router_sso', __name__, template_folder="templates")
 
 
-@router_sso.route("/login/")
-@login_sso_ui
-def login(sso_profile):
+def process(sso_profile):
     period_name = app.config["ACTIVE_PERIOD"]
 
     user_npm = sso_profile["attributes"]["npm"]
@@ -32,13 +35,13 @@ def login(sso_profile):
     if period is None:
         courses = scrape_courses(major_name, period_name)
         if not courses:
-            context = {
+            result = {
                 "sender": app.config["CLIENT_URL"],
                 "payload": {
                     "err": f"Your faculty {major} isn't supported yet. Please contact Ristek Fasilkom UI if you are interested."
                 }
             }
-            return (render_template("sso/post_message.html", **context), 200)
+            return result
 
         period = Period(major_id=major.id, name=period_name, courses=courses)
         period.save()
@@ -55,8 +58,7 @@ def login(sso_profile):
         user.save()
 
     token = generate_token(user.id, user.major.id)
-    context = {
-        "sender": app.config["CLIENT_URL"],
+    result = {
         "payload": {
             "user_id": str(user.id),
             "major_id": str(user.major.id),
@@ -64,16 +66,19 @@ def login(sso_profile):
         }
     }
 
-    return (render_template("sso/post_message.html", **context), 200)
+    return result
 
 
-@router_sso.route("/logout/")
-@logout_sso_ui
-def logout():
-    context = {
-        "sender": app.config["CLIENT_URL"],
-        "payload": {
-            "success": "true"
-        }
-    }
-    return (render_template("sso/post_message.html", **context), 200)
+@router_sso.route("/auth/", methods=['POST'])
+def auth():
+    data = request.json
+    ticket = data.get("ticket")
+    service_url = data.get("service_url")
+    if (ticket is not None) and (service_url is not None):
+        client = get_cas_client(service_url)
+        sso_profile = authenticate(ticket, client)
+        if sso_profile is not None:
+            user_data = process(sso_profile)
+            return (jsonify(user_data), 200)
+
+    return (jsonify(), 400)

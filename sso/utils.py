@@ -1,28 +1,8 @@
 import os
 import json
 from cas import CASClient
-from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
 from flask import current_app as app
-
-
-def normalize_username(username):
-    return username.lower()
-
-
-def get_protocol(request):
-    if request.is_secure or app.config["SSO_UI_FORCE_SERVICE_HTTPS"]:
-        return "https"
-
-    return "http"
-
-
-def get_service_url(request, redirect_to=None):
-    protocol = get_protocol(request)
-    host = request.host
-    service = urlunparse((protocol, host, request.path, "", "", ""))
-
-    return service
 
 
 def get_cas_client(service_url=None, request=None):
@@ -57,10 +37,3 @@ def get_additional_info(kd_org):
             return as_json[kd_org]
 
     return None
-
-
-def add_params(url, params):
-    url_parts = urlparse(url)
-    query = {**dict(parse_qsl(url_parts.query)), **params}
-    new_url_parts = url_parts._replace(query=urlencode(query))
-    return urlunparse(new_url_parts)

@@ -45,7 +45,7 @@ def get_user_schedule_detail(user_schedule_id):
     }), 200)
 
 
-@router_main.route('/users/<user_id>/user_schedules', methods=['GET'])
+@router_main.route('/users/<user_id>/user_schedules')
 @require_jwt_token
 @require_same_user_id
 def get_user_schedule_list(user_id):
