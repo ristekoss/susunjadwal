@@ -31,16 +31,17 @@ def login(sso_profile):
     period = Period.objects(major_id=major.id, name=period_name).first()
     if period is None:
         courses = scrape_courses(major_name, period_name)
+        if not courses:
+            context = {
+                "sender": app.config["CLIENT_URL"],
+                "payload": {
+                    "err": f"Your faculty {major} isn't supported yet. Please contact Ristek Fasilkom UI if you are interested."
+                }
+            }
+            return (render_template("sso/post_message.html", **context), 200)
+
         period = Period(major_id=major.id, name=period_name, courses=courses)
         period.save()
-    else:
-        context = {
-            "sender": app.config["CLIENT_URL"],
-            "payload": {
-                "err": f"Your faculty {major} isn't supported yet. Please contact Ristek Fasilkom UI if you are interested"
-            }
-        }
-        return (render_template("sso/post_message.html", **context), 200)
 
     user = User.objects(npm=user_npm).first()
     if user is None:
