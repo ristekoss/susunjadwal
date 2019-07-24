@@ -43,7 +43,9 @@ function BuildSchedule({ history }) {
         <CoursePickerContainer>
           <h1>Buat Jadwal</h1>
           {courses &&
-            courses.map(course => <Course key={course.name} course={course} />)}
+            courses.map((course, idx) => (
+              <Course key={`${course.name}-${idx}`} course={course} />
+            ))}
         </CoursePickerContainer>
         <SelectedCoursesContainer>
           <SelectedCourses />
