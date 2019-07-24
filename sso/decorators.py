@@ -2,13 +2,13 @@ import json
 
 from flask import request, redirect
 
-from .utils import (
+from sso.utils import (
+    add_params,
+    authenticate,
+    get_additional_info,
     get_cas_client,
     get_service_url,
-    authenticate,
-    normalize_username,
-    get_additional_info,
-    add_params
+    normalize_username
 )
 import functools
 

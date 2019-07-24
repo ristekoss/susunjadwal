@@ -1,12 +1,13 @@
 import json
-import re
 import os
+import re
 import requests
 from bs4 import BeautifulSoup
 
-from models.major import (
-    Course,
+from models.period import (
     Class,
+    Course,
+    Period,
     ScheduleItem
 )
 
@@ -17,7 +18,7 @@ CHANGEROLE_URL = f"{BASE_URL}/Authentication/ChangeRole"
 SCHEDULE_URL = f"{BASE_URL}/Schedule/Index?period={{period}}&search="
 
 
-def scrape_major(major, period):
+def scrape_courses(major, period):
     username, password = fetch_credential(major)
     if (username is None) or (password is None):
         return None
@@ -27,7 +28,7 @@ def scrape_major(major, period):
     r = req.get(CHANGEROLE_URL)
     r = req.get(SCHEDULE_URL.format(period=period))
 
-    courses = create_courses(r.text, period)
+    courses = create_courses(r.text)
     return courses
 
 
@@ -38,7 +39,7 @@ def fetch_credential(major):
         return (val.get("username"), val.get("password"))
 
 
-def create_courses(html, period):
+def create_courses(html):
     soup = BeautifulSoup(html, 'html.parser')
     classes = soup.find_all('th', class_='sub border2 pad2')
 
@@ -93,6 +94,6 @@ def create_courses(html, period):
 
         courses.append(
             Course(name=course_name, credit=credit,
-                   term=term, classes=classes, period=period)
+                   term=term, classes=classes)
         )
     return courses

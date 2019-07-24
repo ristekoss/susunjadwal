@@ -7,7 +7,7 @@ from flask import (
 
 from decorators import require_same_user_id
 from jwt_utils import require_jwt_token
-from models.major import Major
+from models.period import Period
 from models.user_schedule import UserSchedule
 
 
@@ -18,8 +18,8 @@ router_main = Blueprint('router_sunjad', __name__)
 @require_jwt_token
 def get_courses(major_id):
     active_period = get_app_config("ACTIVE_PERIOD")
-    major = Major.objects(id=major_id).first()
-    return (jsonify(major.serialize(active_period)), 200)
+    period = Period.objects(major_id=major_id, name=active_period).first()
+    return (jsonify(period.serialize()), 200)
 
 
 @router_main.route('/users/<user_id>/user_schedule', methods=['POST'])
