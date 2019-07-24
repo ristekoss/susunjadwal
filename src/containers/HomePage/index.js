@@ -18,7 +18,7 @@ function HomePage({ history }) {
 
   useEffect(() => {
     function messageListener(event) {
-      if (API_BASE_URL.indexOf(event.origin) >= 0) {
+      if (API_BASE_URL.indexOf(event.origin) == 0) {
         const {
           data: { major_id, token, user_id }
         } = event;
@@ -28,16 +28,12 @@ function HomePage({ history }) {
           token: token,
           userId: user_id
         };
-        setAuth({ auth });
+        setAuth(auth);
         persistAuth(auth);
         event.source.close();
       }
     }
     window.addEventListener("message", messageListener);
-
-    return () => {
-      window.removeEventListener("message", messageListener);
-    };
   }, [setAuth]);
 
   useEffect(() => {
