@@ -37,17 +37,9 @@ function BuildSchedule({ history }) {
   return (
     <div>
       <Helmet title="Buat Jadwal" />
-      <Header isFixed={true}>
-        <button className="buttonLink" onClick={() => history.push("/logout")}>
-          Logout
-        </button>
-        <button onClick={() => history.push("/susun")}>Buat Jadwal</button>
-        <button className="buttonLink" onClick={() => history.push("/jadwal")}>
-          Riwayat Jadwal
-        </button>
-      </Header>
+      <Header />
       <Container>
-        <CoursePickerContainer>
+        <CoursePickerContainer isMobile={isMobile}>
           <h1>Buat Jadwal</h1>
           {courses &&
             courses.map((course, idx) => (
@@ -71,7 +63,7 @@ const Container = styled.div`
   display: flex;
 `;
 const CoursePickerContainer = styled.div`
-  padding: 32px 48px;
+  padding: ${({ isMobile }) => (isMobile ? "1rem" : "32px 48px")};
   flex: 9;
 
   h1 {
