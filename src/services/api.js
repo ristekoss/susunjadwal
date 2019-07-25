@@ -13,11 +13,15 @@ export function setupAxiosInstance(token) {
 }
 
 export function getCourses(majorId) {
-  return instance.get(`${API_BASE_URL}/majors/${majorId}/courses`);
+  return instance.get(`/majors/${majorId}/courses`);
 }
 
 export function postSaveSchedule(userId, scheduleItems) {
-  return instance.post(`${API_BASE_URL}/users/${userId}/user_schedule`, {
+  return instance.post(`/users/${userId}/user_schedule`, {
     schedule_items: scheduleItems
   });
+}
+
+export function getSchedule(scheduleId) {
+  return instance.get(`/user_schedules/${scheduleId}`);
 }
