@@ -13,6 +13,7 @@ import Course from "./Course";
 
 function BuildSchedule({ history }) {
   const auth = useSelector(state => state.auth);
+  const isMobile = useSelector(state => state.appState.isMobile);
   const dispatch = useDispatch();
 
   const [courses, setCourses] = useState(null);
@@ -53,9 +54,11 @@ function BuildSchedule({ history }) {
               <Course key={`${course.name}-${idx}`} course={course} />
             ))}
         </CoursePickerContainer>
-        <SelectedCoursesContainer>
-          <SelectedCourses />
-        </SelectedCoursesContainer>
+        {!isMobile && (
+          <SelectedCoursesContainer>
+            <SelectedCourses />
+          </SelectedCoursesContainer>
+        )}
       </Container>
     </div>
   );
