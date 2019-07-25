@@ -1,10 +1,17 @@
 import React from "react";
-
-import { Route, Redirect } from "react-router";
+import styled from "styled-components";
+import { Route, Switch, Redirect } from "react-router";
 import { useSelector } from "react-redux";
 import HomePage from "./containers/HomePage";
 import BuildSchedule from "./containers/BuildSchedule";
 import Header from "./containers/Header";
+import ViewSchedule from "./containers/ViewSchedule";
+import NotFoundPage from "./containers/NotFoundPage";
+
+const ROUTES = [
+  { path: "/susun", component: BuildSchedule, auth: true },
+  { path: "/jadwal/:scheduleId", component: ViewSchedule, auth: false }
+];
 
 function Routes() {
   return (
@@ -15,18 +22,19 @@ function Routes() {
   );
 }
 
-const PRIVATE_ROUTES = [
-  { path: "/susun", component: BuildSchedule },
-  { path: "/jadwal/:scheduleId", component: BuildSchedule }
-];
-
 function RoutesWithNavbar() {
   return (
     <div>
       <Header />
-      {PRIVATE_ROUTES.map(route => (
-        <PrivateRoute key={route.path} {...route} />
-      ))}
+      <ComponentWrapper>
+        <Switch>
+          {ROUTES.map(route => {
+            const Component = route.auth ? PrivateRoute : Route;
+            return <Component key={route.path} {...route} />;
+          })}
+          <Route component={NotFoundPage} />
+        </Switch>
+      </ComponentWrapper>
     </div>
   );
 }
@@ -46,4 +54,7 @@ function PrivateRoute({ component: Component, ...rest }) {
     />
   );
 }
+const ComponentWrapper = styled.div`
+  padding-top: 64px;
+`;
 export default Routes;

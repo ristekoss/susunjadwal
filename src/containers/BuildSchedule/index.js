@@ -35,32 +35,30 @@ function BuildSchedule({ history }) {
   }, [auth, fetchCourses]);
 
   return (
-    <div>
+    <Container>
       <Helmet title="Buat Jadwal" />
-      <Container>
-        <CoursePickerContainer isMobile={isMobile}>
-          <h1>Buat Jadwal</h1>
-          {courses &&
-            courses.map((course, idx) => (
-              <Course key={`${course.name}-${idx}`} course={course} />
-            ))}
-        </CoursePickerContainer>
-        {!isMobile && (
-          <SelectedCoursesContainer>
-            <SelectedCourses />
-          </SelectedCoursesContainer>
-        )}
-      </Container>
-    </div>
+      <CoursePickerContainer isMobile={isMobile}>
+        <h1>Buat Jadwal</h1>
+        {courses &&
+          courses.map((course, idx) => (
+            <Course key={`${course.name}-${idx}`} course={course} />
+          ))}
+      </CoursePickerContainer>
+      {!isMobile && (
+        <SelectedCoursesContainer>
+          <SelectedCourses />
+        </SelectedCoursesContainer>
+      )}
+    </Container>
   );
 }
 
 export default BuildSchedule;
 
 const Container = styled.div`
-  padding-top: 64px;
   display: flex;
 `;
+
 const CoursePickerContainer = styled.div`
   padding: ${({ isMobile }) => (isMobile ? "1rem" : "32px 48px")};
   flex: 9;

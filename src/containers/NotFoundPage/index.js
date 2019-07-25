@@ -1,25 +1,20 @@
-/**
- * NotFoundPage
- *
- * This is the page we show when the user visits a url that doesn't have a route
- *
- * NOTE: while this component should technically be a stateless functional
- * component (SFC), hot reloading does not currently support SFCs. If hot
- * reloading is not a necessity for you then you can refactor it and remove
- * the linting exception.
- */
+import React from "react";
+import styled from "styled-components";
 
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
-
-export default class NotFound extends React.Component { // eslint-disable-line react/prefer-stateless-function
-
+export default class NotFound extends React.Component {
   render() {
     return (
-      <h1>
-        <FormattedMessage {...messages.header} />
-      </h1>
+      <Container>
+        <h1>Uh oh, it seems that you followed a wrong link :(</h1>
+      </Container>
     );
   }
 }
+
+const Container = styled.div`
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
