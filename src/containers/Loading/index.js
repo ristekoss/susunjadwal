@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import "./styles.css";
 
 function Loading() {
-  const loading = useSelector(state => state.loading);
+  const loading = useSelector(state => state.appState.loading);
 
   return (
     <div

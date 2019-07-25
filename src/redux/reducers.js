@@ -1,13 +1,13 @@
 import { combineReducers } from "redux";
 
 import auth from "./modules/auth";
-import loading from "./modules/loading";
+import appState from "./modules/appState";
 import schedules from "./modules/schedules";
 import courses from "./modules/courses";
 
 const rootReducer = combineReducers({
   auth,
-  loading,
+  appState,
   schedules,
   courses
 });

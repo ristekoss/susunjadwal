@@ -9,7 +9,7 @@ import { isScheduleConflict } from "./utils";
 import TrashIcon from "assets/trash.png";
 import TrashWhiteIcon from "assets/trash-white.png";
 import Agenda from "./Agenda";
-import { setLoading } from "redux/modules/loading";
+import { setLoading } from "redux/modules/appState";
 import { removeSchedule } from "redux/modules/schedules";
 
 function transformSchedules(schedules) {

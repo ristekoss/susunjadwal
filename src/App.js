@@ -2,7 +2,8 @@ import React from "react";
 import { Provider } from "react-redux";
 import { Route } from "react-router";
 
-import Loading from "components/Loading";
+import MediaQuery from "containers/MediaQuery";
+import Loading from "containers/Loading";
 
 import routes from "./routes";
 import store from "./redux/store";
@@ -15,6 +16,7 @@ function App() {
       {routes.map(route => (
         <Route key={route.name} {...route} />
       ))}
+      <MediaQuery />
       <Loading />
     </Provider>
   );

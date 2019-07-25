@@ -6,7 +6,7 @@ import Helmet from "react-helmet";
 import { getCourses } from "services/api";
 import Header from "components/Header";
 import SelectedCourses from "containers/SelectedCourses";
-import { setLoading } from "redux/modules/loading";
+import { setLoading } from "redux/modules/appState";
 import { setCourses as reduxSetCourses } from "redux/modules/courses";
 
 import Course from "./Course";
