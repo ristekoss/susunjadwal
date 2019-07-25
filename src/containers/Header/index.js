@@ -42,13 +42,15 @@ function Header() {
           Susun<span>Jadwal</span>
         </h1>
       </LogoLink>
-      <NotificationBadgeContainer>
-        <NotificationBadge
-          count={notifCount}
-          effect={Effect.SCALE}
-          frameLength={10.0}
-        />
-      </NotificationBadgeContainer>
+      {isMobile && (
+        <NotificationBadgeContainer>
+          <NotificationBadge
+            count={notifCount}
+            effect={Effect.SCALE}
+            frameLength={10.0}
+          />
+        </NotificationBadgeContainer>
+      )}
       {isMobile ? (
         <Menu
           burgerButtonClassName="menu"

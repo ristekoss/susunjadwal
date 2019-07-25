@@ -12,7 +12,7 @@ const intentStyle = {
 };
 
 const Button = styled.button`
-  height: 32px;
+  height: 40px;
   background-color: ${({ intent }) =>
     intentStyle[intent || "primary"].backgroundColor};
   border: 2px solid #ce9d4d;

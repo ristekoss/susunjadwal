@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Helmet from "react-helmet";
 
 import { getCourses } from "services/api";
-import Header from "components/Header";
+import Header from "containers/Header";
 import SelectedCourses from "containers/SelectedCourses";
 import { setLoading } from "redux/modules/appState";
 import { setCourses as reduxSetCourses } from "redux/modules/courses";
@@ -37,7 +37,6 @@ function BuildSchedule({ history }) {
   return (
     <div>
       <Helmet title="Buat Jadwal" />
-      <Header />
       <Container>
         <CoursePickerContainer isMobile={isMobile}>
           <h1>Buat Jadwal</h1>

@@ -135,6 +135,8 @@ const Container = styled.div`
   > button {
     margin-top: 16px;
   }
+
+  margin-bottom: 32px;
 `;
 
 const TableHeader = styled.div`

@@ -1,118 +1,49 @@
+import React from "react";
+
+import { Route, Redirect } from "react-router";
+import { useSelector } from "react-redux";
 import HomePage from "./containers/HomePage";
 import BuildSchedule from "./containers/BuildSchedule";
+import Header from "./containers/Header";
 
-function createRoutes() {
-  return [
-    {
-      path: "/",
-      name: "home",
-      exact: true,
-      component: HomePage
-    },
-    {
-      path: "/susun",
-      name: "buildSchedule",
-      component: BuildSchedule
-    },
-    {
-      path: "/jadwal/:scheduleId",
-      name: "showSchedule",
-      component: BuildSchedule
-    }
-
-    //     const renderRoute = loadModule(cb);
-
-    //     importModules.then(([reducer, sagas, component]) => {
-    //       injectReducer("buildSchedule", reducer.default);
-    //       injectSagas(sagas.default);
-    //       renderRoute(component);
-    //     });
-
-    //     importModules.catch(errorLoading);
-    //   }
-    // },
-    // {
-    //   path: "jadwal",
-    //   name: "jadwal",
-    //   getComponent(nextState, cb) {
-    //     const importModules = Promise.all([
-    //       System.import("containers/Jadwal/reducer"),
-    //       System.import("containers/Jadwal/sagas"),
-    //       System.import("containers/Jadwal")
-    //     ]);
-
-    //     const renderRoute = loadModule(cb);
-
-    //     importModules.then(([reducer, sagas, component]) => {
-    //       injectReducer("jadwal", reducer.default);
-    //       injectSagas(sagas.default);
-    //       renderRoute(component);
-    //     });
-
-    //     importModules.catch(errorLoading);
-    //   }
-    // },
-    // {
-    //   path: "jadwal/:slug",
-    //   name: "jadwalSpesifik",
-    //   getComponent(nextState, cb) {
-    //     const importModules = Promise.all([
-    //       System.import("containers/JadwalSpesifik/reducer"),
-    //       System.import("containers/JadwalSpesifik/sagas"),
-    //       System.import("containers/JadwalSpesifik")
-    //     ]);
-
-    //     const renderRoute = loadModule(cb);
-
-    //     importModules.then(([reducer, sagas, component]) => {
-    //       injectReducer("jadwalSpesifik", reducer.default);
-    //       injectSagas(sagas.default);
-    //       renderRoute(component);
-    //     });
-
-    //     importModules.catch(errorLoading);
-    //   }
-    // },
-    // {
-    //   path: "/gabung",
-    //   name: "gabungJadwal",
-    //   getComponent(nextState, cb) {
-    //     const importModules = Promise.all([
-    //       System.import("containers/GabungJadwal/reducer"),
-    //       System.import("containers/GabungJadwal/sagas"),
-    //       System.import("containers/GabungJadwal")
-    //     ]);
-
-    //     const renderRoute = loadModule(cb);
-
-    //     importModules.then(([reducer, sagas, component]) => {
-    //       injectReducer("gabungJadwal", reducer.default);
-    //       injectSagas(sagas.default);
-    //       renderRoute(component);
-    //     });
-
-    //     importModules.catch(errorLoading);
-    //   }
-    // },
-    // {
-    //   path: "/logout",
-    //   name: "logoutModule",
-    //   getComponent(location, cb) {
-    //     System.import("containers/LogoutModule")
-    //       .then(loadModule(cb))
-    //       .catch(errorLoading);
-    //   }
-    // },
-    // {
-    //   path: "*",
-    //   name: "notfound",
-    //   getComponent(nextState, cb) {
-    //     System.import("containers/NotFoundPage")
-    //       .then(loadModule(cb))
-    //       .catch(errorLoading);
-    //   }
-    // }
-  ];
+function Routes() {
+  return (
+    <React.Fragment>
+      <Route path="/" name="home" component={HomePage} exact />
+      <Route component={RoutesWithNavbar} />
+    </React.Fragment>
+  );
 }
 
-export default createRoutes();
+const PRIVATE_ROUTES = [
+  { path: "/susun", component: BuildSchedule },
+  { path: "/jadwal/:scheduleId", component: BuildSchedule }
+];
+
+function RoutesWithNavbar() {
+  return (
+    <div>
+      <Header />
+      {PRIVATE_ROUTES.map(route => (
+        <PrivateRoute key={route.path} {...route} />
+      ))}
+    </div>
+  );
+}
+function PrivateRoute({ component: Component, ...rest }) {
+  const auth = useSelector(state => state.auth);
+
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        auth ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+        )
+      }
+    />
+  );
+}
+export default Routes;
