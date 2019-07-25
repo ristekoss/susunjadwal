@@ -3,7 +3,7 @@ import Helmet from "react-helmet";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { getSchedule } from "services/api";
-import "./styles.css";
+import { makeAtLeastMs } from "utils/promise";
 import editIcon from "./baseline-edit-24px.png";
 import { setLoading } from "redux/modules/appState";
 
@@ -39,7 +39,7 @@ function ViewSchedule({ match }) {
       dispatch(setLoading(true));
       const {
         data: { user_schedule }
-      } = await getSchedule(match.params.scheduleId);
+      } = await makeAtLeastMs(getSchedule(match.params.scheduleId), 1000);
       setSchedule(user_schedule);
       dispatch(setLoading(false));
     }
@@ -107,6 +107,10 @@ const Header = styled.div`
       width: 120px;
     }
   }
+
+  div + div {
+    margin-left: 4px;
+  }
 `;
 const TimeLabel = styled.div`
   place-self: center;
@@ -130,6 +134,7 @@ const Schedule = styled.div`
   grid-area: ${({ start }) => displayToMinute(start)} /
     ${({ day }) => dayToGridColumn(day)} / ${({ end }) => displayToMinute(end)} /
     ${({ day }) => dayToGridColumn(day) + 1};
+
   div {
     padding: 4px;
     &:first-child {
