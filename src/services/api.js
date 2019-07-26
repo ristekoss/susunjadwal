@@ -26,6 +26,10 @@ export function getSchedule(scheduleId) {
   return instance.get(`/user_schedules/${scheduleId}`);
 }
 
+export function getSchedules(userId) {
+  return instance.get(`/users/${userId}/user_schedules`);
+}
+
 export function postAuthTicket(ticket, serviceUrl) {
   return instance.post(`/auth/`, {
     ticket,
