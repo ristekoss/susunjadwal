@@ -25,3 +25,10 @@ export function postSaveSchedule(userId, scheduleItems) {
 export function getSchedule(scheduleId) {
   return instance.get(`/user_schedules/${scheduleId}`);
 }
+
+export function postAuthTicket(ticket, serviceUrl) {
+  return instance.post(`/auth/`, {
+    ticket,
+    service_url: serviceUrl
+  });
+}

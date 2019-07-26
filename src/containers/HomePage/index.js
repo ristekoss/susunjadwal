@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { parse } from "query-string";
 
-import { API_BASE_URL } from "services/api";
+import { API_BASE_URL, postAuthTicket } from "services/api";
+import { SSO_UI_URL } from "config";
 import { persistAuth } from "utils/auth";
 import { setAuth } from "redux/modules/auth";
 
@@ -10,37 +12,36 @@ import Accent from "./Accent.png";
 import Tagline from "./Tagline.png";
 import "./styles.css";
 
-function openSSOWindow() {
-  window.open(`${API_BASE_URL}/login/`, "_blank", "width=600,height=600");
+function getServiceUrl() {
+  return window.location.href.split("?")[0];
 }
 
-function HomePage({ history }) {
+function redirectToSSO() {
+  const serviceUrl = encodeURIComponent(getServiceUrl());
+  const loginUrl = `${SSO_UI_URL}/login?service=${serviceUrl}`;
+  window.location.replace(loginUrl);
+}
+
+function HomePage({ history, location }) {
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    function messageListener(event) {
-      if (API_BASE_URL.indexOf(event.origin) === 0) {
-        const {
-          data: { major_id, token, user_id }
-        } = event;
-
-        const auth = {
-          majorId: major_id,
-          token: token,
-          userId: user_id
-        };
-        dispatch(setAuth(auth));
-        persistAuth(auth);
-        event.source.close();
-      }
+    async function authenticate(ticket, serviceUrl) {
+      const {
+        data: { major_id: majorId, user_id: userId, token }
+      } = await postAuthTicket(ticket, serviceUrl);
+      console.log(majorId, userId, token);
+      dispatch(setAuth({ majorId, userId, token }));
+      persistAuth({ majorId, userId, token });
     }
 
-    window.addEventListener("message", messageListener);
-    return () => {
-      window.removeEventListener("message", messageListener);
-    };
-  }, [dispatch]);
+    const { ticket } = parse(location.search);
+    if (ticket) {
+      const serviceUrl = getServiceUrl();
+      authenticate(ticket, serviceUrl);
+    }
+  }, [location, dispatch]);
 
   useEffect(() => {
     if (auth) {
@@ -71,7 +72,7 @@ function HomePage({ history }) {
         </div>
         {renderBroughtToYouBy()}
         <div className={"center loginButtonWrapper"}>
-          <button className={"loginButton"} onClick={openSSOWindow}>
+          <button className={"loginButton"} onClick={redirectToSSO}>
             LOGIN WITH SSO
           </button>
         </div>
