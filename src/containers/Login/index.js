@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { parse } from "query-string";
 
 import { postAuthTicket } from "services/api";
-import { SSO_UI_LOGIN_URL } from "config";
+import { SSO_UI_LOGIN_URL, SSO_UI_LOGOUT_URL } from "config";
 import { persistAuth } from "utils/auth";
 import { makeAtLeastMs } from "utils/promise";
 import { setAuth } from "redux/modules/auth";
@@ -18,22 +18,38 @@ function getServiceUrl() {
   return window.location.href.split("?")[0];
 }
 
-function redirectToSSO() {
+function redirectToSSOLogin() {
   window.location.replace(SSO_UI_LOGIN_URL);
 }
 
+function redirectToSSOLogout() {
+  window.location.replace(SSO_UI_LOGOUT_URL);
+}
+
 function Login({ history, location }) {
+  const [error, setError] = useState(null);
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
     async function authenticate(ticket, serviceUrl) {
-      dispatch(setLoading(true));
-      const {
-        data: { major_id: majorId, user_id: userId, token }
-      } = await makeAtLeastMs(postAuthTicket(ticket, serviceUrl), 1000);
-      dispatch(setAuth({ majorId, userId, token }));
-      persistAuth({ majorId, userId, token });
+      try {
+        dispatch(setLoading(true));
+        const {
+          data: { major_id: majorId, user_id: userId, token, err }
+        } = await makeAtLeastMs(postAuthTicket(ticket, serviceUrl), 1000);
+
+        if (err) {
+          dispatch(setLoading(false));
+          setError(err);
+        } else {
+          dispatch(setAuth({ majorId, userId, token }));
+          persistAuth({ majorId, userId, token });
+        }
+      } catch (e) {
+        dispatch(setLoading(false));
+        history.replace("/");
+      }
     }
 
     const { ticket } = parse(location.search);
@@ -71,11 +87,22 @@ function Login({ history, location }) {
           </h1>
         </div>
         {renderBroughtToYouBy()}
-        <div className={"center loginButtonWrapper"}>
-          <button className={"loginButton"} onClick={redirectToSSO}>
-            LOGIN WITH SSO
-          </button>
-        </div>
+        {error ? (
+          <React.Fragment>
+            <p className="center">{error}</p>
+            <div className={"center loginButtonWrapper"}>
+              <button className={"loginButton"} onClick={redirectToSSOLogout}>
+                LOG OUT
+              </button>
+            </div>
+          </React.Fragment>
+        ) : (
+          <div className={"center loginButtonWrapper"}>
+            <button className={"loginButton"} onClick={redirectToSSOLogin}>
+              LOGIN WITH SSO
+            </button>
+          </div>
+        )}
       </div>
       <div className={"accent"}>
         <img src={Accent} />
