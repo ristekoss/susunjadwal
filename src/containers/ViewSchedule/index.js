@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import Helmet from "react-helmet";
 import { useSelector, useDispatch } from "react-redux";
 
-import { getSchedule } from "services/api";
+import { getSchedule, postRenameSchedule } from "services/api";
 import { makeAtLeastMs } from "utils/promise";
 import { setLoading } from "redux/modules/appState";
 
 import Schedule from "./Schedule";
+import ControlledInput from "./ControlledInput";
 
 function ViewSchedule({ match }) {
   const dispatch = useDispatch();
   const isMobile = useSelector(state => state.appState.isMobile);
+  const auth = useSelector(state => state.auth);
 
   const [schedule, setSchedule] = useState(null);
 
@@ -32,6 +35,19 @@ function ViewSchedule({ match }) {
         title="Jadwal"
         meta={[{ name: "description", content: "Description of Jadwal" }]}
       />
+
+      {schedule && (
+        <Container>
+          <ControlledInput
+            name={schedule.name}
+            slug={match.params.scheduleId}
+            rename={(slug, value) => {
+              postRenameSchedule(auth.userId, slug, value);
+            }}
+          />
+        </Container>
+      )}
+
       <Schedule
         width="100%"
         pxPerMinute={isMobile ? 0.7 : 0.9}
@@ -46,5 +62,10 @@ function ViewSchedule({ match }) {
     </React.Fragment>
   );
 }
+
+const Container = styled.div`
+  padding: 32px 48px;
+  padding-bottom: 16px;
+`;
 
 export default ViewSchedule;

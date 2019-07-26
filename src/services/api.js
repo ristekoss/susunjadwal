@@ -36,3 +36,10 @@ export function postAuthTicket(ticket, serviceUrl) {
     service_url: serviceUrl
   });
 }
+
+export function postRenameSchedule(userId, scheduleId, name) {
+  return instance.post(
+    `/users/${userId}/user_schedules/${scheduleId}/change_name`,
+    { name }
+  );
+}
