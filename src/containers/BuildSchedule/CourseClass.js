@@ -9,11 +9,11 @@ const CourseClassMobile = props => {
       <h2>{props.name}</h2>
       <h3>Pengajar</h3>
       {props.lecturer.map(lecturer => (
-        <span>- {lecturer}</span>
+        <span key={lecturer}>- {lecturer}</span>
       ))}
       <h3>Jadwal</h3>
-      {props.schedule_items.map(item => (
-        <span>
+      {props.schedule_items.map((item, idx) => (
+        <span key={idx}>
           - {item.day}, {item.start}-{item.end} ({item.room})
         </span>
       ))}

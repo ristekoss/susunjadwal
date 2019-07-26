@@ -57,7 +57,7 @@ function Login({ history, location }) {
       const serviceUrl = getServiceUrl();
       authenticate(ticket, serviceUrl);
     }
-  }, [location, dispatch]);
+  }, [location, dispatch, history]);
 
   useEffect(() => {
     if (auth) {

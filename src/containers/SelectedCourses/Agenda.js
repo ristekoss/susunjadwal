@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 
@@ -13,7 +13,6 @@ function Agenda({ visible, onClose }) {
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
   const [room, setRoom] = useState("");
-  const [error, setError] = useState({});
 
   function addAgenda() {
     dispatch(

@@ -4,9 +4,7 @@ import { useSelector } from "react-redux";
 import { createGlobalStyle } from "styled-components";
 import { Link, NavLink } from "react-router-dom";
 import { slide as Menu } from "react-burger-menu";
-import NotificationBadge, { Effect } from "react-notification-badge";
 
-import SelectedCourses from "containers/SelectedCourses";
 import "./styles.css";
 
 const HideBodyOverflow = createGlobalStyle`
@@ -25,7 +23,9 @@ function renderHeaderLink() {
   return (
     <React.Fragment>
       {LINKS.map(({ to, label }) => (
-        <HeaderLink to={to}>{label}</HeaderLink>
+        <HeaderLink key={to} to={to}>
+          {label}
+        </HeaderLink>
       ))}
     </React.Fragment>
   );
@@ -36,8 +36,8 @@ function Header() {
   const [isOpened, setOpen] = useState(false);
 
   return (
-    <Container isMobile={isMobile}>
-      <LogoLink to="/" isMobile={isMobile}>
+    <Container>
+      <LogoLink to="/">
         <h1>
           Susun<span>Jadwal</span>
         </h1>
@@ -58,7 +58,9 @@ function Header() {
         >
           {isOpened && <HideBodyOverflow />}
           {LINKS.map(({ to, label }) => (
-            <MenuLink to={to}>{label}</MenuLink>
+            <MenuLink key={to} to={to}>
+              {label}
+            </MenuLink>
           ))}
         </Menu>
       ) : (
@@ -100,7 +102,7 @@ const HeaderLink = styled(NavLink)`
 
 const LogoLink = styled(Link)`
   h1 {
-    margin: 0 0 0 ${({ isMobile }) => (isMobile ? "1rem" : "3rem")};
+    margin: 0 0 0 ${props => (props.theme.mobile ? "1rem" : "3rem")};
     line-height: 3rem;
     font-size: 2rem;
     font-weight: 700;
@@ -111,17 +113,4 @@ const LogoLink = styled(Link)`
       color: #308077;
     }
   }
-`;
-
-const NotificationBadgeContainer = styled.div`
-  position: absolute;
-  width: 1.5rem;
-  height: 1.25rem;
-  right: 0.75rem;
-  top: 1.1rem;
-  pointer-events: none;
-  z-index: 1001;
-`;
-const Spacer = styled.div`
-  height: 32px;
 `;

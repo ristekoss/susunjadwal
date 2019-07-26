@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import Helmet from "react-helmet";
 
 import { getCourses } from "services/api";
-import Header from "containers/Header";
 import SelectedCourses from "containers/SelectedCourses";
-import { useSelector, useDispatch } from "react-redux";
 import { setLoading } from "redux/modules/appState";
 import { setCourses as reduxSetCourses } from "redux/modules/courses";
 
