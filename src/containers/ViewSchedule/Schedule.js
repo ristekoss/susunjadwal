@@ -140,7 +140,7 @@ const ScheduleItem = styled.div`
     ${({ day }) => day + 1};
 
   .header {
-    padding: 0 4px;
+    padding: 0 4px !important;
     display: flex;
     flex-direction: row;
     align-items: center;
