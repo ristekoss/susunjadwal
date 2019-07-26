@@ -1,12 +1,9 @@
-import { ADD_SCHEDULE, REMOVE_SCHEDULE } from "./schedules";
-
 export const SET_LOADING = "SET_LOADING";
 export const SET_MOBILE = "SET_MOBILE";
 
 export const initialState = {
   loading: false,
-  isMobile: false,
-  notifCount: 0
+  isMobile: false
 };
 
 export default function reducer(state = initialState, { type, payload }) {
@@ -15,10 +12,6 @@ export default function reducer(state = initialState, { type, payload }) {
       return { ...state, loading: payload };
     case SET_MOBILE:
       return { ...state, isMobile: payload };
-    case ADD_SCHEDULE:
-      return { ...state, notifCount: state.notifCount + 1 };
-    case REMOVE_SCHEDULE:
-      return { ...state, notifCount: state.notifCount - 1 };
     default:
       return state;
   }

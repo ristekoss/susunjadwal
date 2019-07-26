@@ -62,7 +62,8 @@ const Container = styled.div`
 `;
 
 const CoursePickerContainer = styled.div`
-  padding: ${({ isMobile }) => (isMobile ? "1rem" : "32px 48px")};
+  padding: ${({ isMobile }) =>
+    isMobile ? "1rem 1rem 3rem 1rem" : "32px 48px"};
   flex: 9;
 
   h1 {

@@ -33,7 +33,6 @@ function renderHeaderLink() {
 
 function Header() {
   const isMobile = useSelector(state => state.appState.isMobile);
-  const notifCount = useSelector(state => state.appState.notifCount);
   const [isOpened, setOpen] = useState(false);
 
   return (
@@ -43,15 +42,6 @@ function Header() {
           Susun<span>Jadwal</span>
         </h1>
       </LogoLink>
-      {isMobile && (
-        <NotificationBadgeContainer>
-          <NotificationBadge
-            count={notifCount}
-            effect={Effect.SCALE}
-            frameLength={10.0}
-          />
-        </NotificationBadgeContainer>
-      )}
       {isMobile ? (
         <Menu
           burgerButtonClassName="menu"
@@ -70,8 +60,6 @@ function Header() {
           {LINKS.map(({ to, label }) => (
             <MenuLink to={to}>{label}</MenuLink>
           ))}
-          <Spacer />
-          <SelectedCourses />
         </Menu>
       ) : (
         renderHeaderLink()
