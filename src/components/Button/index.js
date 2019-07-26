@@ -25,6 +25,12 @@ const Button = styled.button`
     color: white;
   }
 
+  &:disabled {
+    background-color: #aaa;
+    color: white;
+    border-color: #aaa;
+  }
+
   width: ${({ width }) => (width ? `${width}px` : "100%")};
   text-transform: uppercase;
   transition: 0.25s background ease;
