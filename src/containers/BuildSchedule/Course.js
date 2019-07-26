@@ -38,7 +38,7 @@ function Course({ course }) {
 }
 
 const CourseContainer = styled.div`
-  border: 2px solid #308077;
+  border: 1px solid #308077;
   margin-bottom: 32px;
 `;
 

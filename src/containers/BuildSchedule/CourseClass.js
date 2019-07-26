@@ -94,7 +94,7 @@ const CourseClassItem = styled.div`
 `;
 
 const Radio = styled.div`
-  border: 2px solid #308077;
+  border: 1px solid #308077;
   height: 24px;
   width: 24px;
 
@@ -103,8 +103,8 @@ const Radio = styled.div`
     display: block;
     background-color: ${({ active }) => (active ? "#308077" : "#0000")};
     margin: 4px;
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
   }
 `;
 
@@ -132,7 +132,7 @@ const CouseClassMobileContainer = styled.div`
   }
 
   & + & {
-    border-top: 2px solid #308077;
+    border-top: 1px solid #308077;
   }
 `;
 export default CourseClass;

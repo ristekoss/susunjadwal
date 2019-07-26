@@ -1,15 +1,16 @@
 import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
 import Helmet from "react-helmet";
 
 import { getCourses } from "services/api";
 import Header from "containers/Header";
 import SelectedCourses from "containers/SelectedCourses";
+import { useSelector, useDispatch } from "react-redux";
 import { setLoading } from "redux/modules/appState";
 import { setCourses as reduxSetCourses } from "redux/modules/courses";
 
 import Course from "./Course";
+import Checkout from "./Checkout";
 
 function BuildSchedule({ history }) {
   const auth = useSelector(state => state.auth);
@@ -49,6 +50,7 @@ function BuildSchedule({ history }) {
           <SelectedCourses />
         </SelectedCoursesContainer>
       )}
+      <Checkout isMobile={isMobile} />
     </Container>
   );
 }
