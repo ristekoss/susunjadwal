@@ -86,7 +86,7 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: auto repeat(6, calc(90% / 6));
   grid-template-rows: repeat(1680, 1.2px);
-  height: 2016px;
+  // height: 2016px;
   width: 100%;
 `;
 

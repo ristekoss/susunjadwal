@@ -2,36 +2,36 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { parse } from "query-string";
 
-import { API_BASE_URL, postAuthTicket } from "services/api";
-import { SSO_UI_URL } from "config";
+import { postAuthTicket } from "services/api";
+import { SSO_UI_LOGIN_URL } from "config";
 import { persistAuth } from "utils/auth";
+import { makeAtLeastMs } from "utils/promise";
 import { setAuth } from "redux/modules/auth";
 
-import Logoset from "./LogosetColored.png";
-import Accent from "./Accent.png";
-import Tagline from "./Tagline.png";
+import Logoset from "assets/LogosetColored.png";
+import Accent from "assets/Accent.png";
+import Tagline from "assets/Tagline.png";
 import "./styles.css";
+import { setLoading } from "redux/modules/appState";
 
 function getServiceUrl() {
   return window.location.href.split("?")[0];
 }
 
 function redirectToSSO() {
-  const serviceUrl = encodeURIComponent(getServiceUrl());
-  const loginUrl = `${SSO_UI_URL}/login?service=${serviceUrl}`;
-  window.location.replace(loginUrl);
+  window.location.replace(SSO_UI_LOGIN_URL);
 }
 
-function HomePage({ history, location }) {
+function Login({ history, location }) {
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
     async function authenticate(ticket, serviceUrl) {
+      dispatch(setLoading(true));
       const {
         data: { major_id: majorId, user_id: userId, token }
-      } = await postAuthTicket(ticket, serviceUrl);
-      console.log(majorId, userId, token);
+      } = await makeAtLeastMs(postAuthTicket(ticket, serviceUrl), 1000);
       dispatch(setAuth({ majorId, userId, token }));
       persistAuth({ majorId, userId, token });
     }
@@ -85,4 +85,4 @@ function HomePage({ history, location }) {
   );
 }
 
-export default HomePage;
+export default Login;

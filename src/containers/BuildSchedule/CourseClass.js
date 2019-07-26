@@ -131,7 +131,7 @@ const CouseClassMobileContainer = styled.div`
     top: 12px;
   }
 
-  &:nth-child(even) {
+  & + & {
     border-top: 2px solid #308077;
   }
 `;

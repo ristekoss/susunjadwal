@@ -12,7 +12,7 @@ export default class NotFound extends React.Component {
 }
 
 const Container = styled.div`
-  height: 100vh;
+  height: calc(100vh - 64px);
   width: 100%;
   display: flex;
   align-items: center;

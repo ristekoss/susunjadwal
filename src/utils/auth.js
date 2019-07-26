@@ -1,8 +1,12 @@
 import { setupAxiosInstance } from "services/api";
 
 export function persistAuth(auth) {
-  setupAxiosInstance(auth.token);
-  localStorage.setItem("auth", JSON.stringify(auth));
+  if (!auth) {
+    localStorage.clear();
+  } else {
+    setupAxiosInstance(auth.token);
+    localStorage.setItem("auth", JSON.stringify(auth));
+  }
 }
 
 export function loadAuth() {

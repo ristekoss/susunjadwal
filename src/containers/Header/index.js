@@ -14,6 +14,7 @@ const HideBodyOverflow = createGlobalStyle`
     overflow: hidden;
   }
 `;
+
 const LINKS = [
   { to: "/logout", label: "Logout" },
   { to: "/susun", label: "Buat Jadwal" },

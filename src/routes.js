@@ -2,23 +2,26 @@ import React from "react";
 import styled from "styled-components";
 import { Route, Switch, Redirect } from "react-router";
 import { useSelector } from "react-redux";
-import HomePage from "./containers/HomePage";
+
+import Login from "./containers/Login";
 import BuildSchedule from "./containers/BuildSchedule";
 import Header from "./containers/Header";
 import ViewSchedule from "./containers/ViewSchedule";
 import NotFoundPage from "./containers/NotFoundPage";
+import Logout from "./containers/Logout";
 
 const ROUTES = [
   { path: "/susun", component: BuildSchedule, auth: true },
-  { path: "/jadwal/:scheduleId", component: ViewSchedule, auth: false }
+  { path: "/jadwal/:scheduleId", component: ViewSchedule, auth: false },
+  { path: "/logout/", component: Logout, auth: true }
 ];
 
 function Routes() {
   return (
-    <React.Fragment>
-      <Route path="/" name="home" component={HomePage} exact />
+    <Switch>
+      <Route path="/" name="home" component={Login} exact />
       <Route component={RoutesWithNavbar} />
-    </React.Fragment>
+    </Switch>
   );
 }
 
