@@ -36,9 +36,7 @@ def process(sso_profile):
         courses = scrape_courses(major_name, period_name)
         if not courses:
             result = {
-                "payload": {
-                    "err": f"Your faculty {major} isn't supported yet. Please contact Ristek Fasilkom UI if you are interested."
-                }
+                "err": f"Your faculty {major} isn't supported yet. Please contact Ristek Fasilkom UI if you are interested."
             }
             return result
 
@@ -58,11 +56,9 @@ def process(sso_profile):
 
     token = generate_token(user.id, user.major.id)
     result = {
-        "payload": {
-            "user_id": str(user.id),
-            "major_id": str(user.major.id),
-            "token": token
-        }
+        "user_id": str(user.id),
+        "major_id": str(user.major.id),
+        "token": token
     }
 
     return result
