@@ -1,33 +1,49 @@
 import React from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
+import { isScheduleConflict } from "containers/SelectedCourses/utils";
 
-function Checkout({isMobile}) {
-  //TODO: Implement conflict
-  const conflict = true;
+function Checkout({ onClickDetail }) {
   //TODO: Account for agenda tambahan
+  const isMobile = useSelector(state => state.appState.isMobile);
   const schedules = useSelector(state => state.schedules);
-  if (isMobile && schedules.length > 0) {
-    const totalCredits = schedules.reduce((prev, { credit }) => prev + credit, 0);
-    return (
-      //TODO: onClick go to apa checkout page
-      <CheckoutContainer conflict={conflict}>
-        <div>
-          <h2>{schedules.length} mata kuliah | {totalCredits} SKS</h2>
-          {conflict ? <p>Tidak ada konflik jadwal.</p> : <p>Terdapat jadwal yang bentrok.</p>}
-        </div>
-        <div>
-          {conflict ? <h2>Simpan</h2> : null}
-        </div>
-      </CheckoutContainer>
-    );
-  } else {
+  if (!isMobile || schedules.length === 0) {
     return null;
   }
+
+  const totalCredits = schedules.reduce((prev, { credit }) => prev + credit, 0);
+  const conflict = schedules.find(schedule =>
+    isScheduleConflict(schedules, schedule)
+  );
+
+  function goToDetail() {
+    if (!conflict) {
+      onClickDetail();
+    }
+  }
+  return (
+    <CheckoutContainer conflict={conflict} onClick={goToDetail}>
+      <div>
+        <h2>
+          {schedules.length} Mata Kuliah | {totalCredits} SKS
+        </h2>
+        <p>
+          {conflict
+            ? "Terdapat jadwal yang bentrok."
+            : "Tidak ada konflik jadwal."}
+        </p>
+      </div>
+      {!conflict && (
+        <div>
+          <h2>Lihat</h2>
+        </div>
+      )}
+    </CheckoutContainer>
+  );
 }
 
 const CheckoutContainer = styled.div`
-  background: ${props => props.conflict ? "#308077" : "#C74550"};
+  background: ${props => (props.conflict ? "#C74550" : "#308077")};
   color: #ffffff;
   position: fixed;
   justify-content: space-between;

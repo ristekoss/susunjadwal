@@ -10,10 +10,13 @@ import { setCourses as reduxSetCourses } from "redux/modules/courses";
 
 import Course from "./Course";
 import Checkout from "./Checkout";
+import Detail from "./Detail";
 
 function BuildSchedule({ history }) {
   const auth = useSelector(state => state.auth);
   const isMobile = useSelector(state => state.appState.isMobile);
+  const [isDetailOpened, setDetailOpened] = useState(false);
+
   const dispatch = useDispatch();
 
   const [courses, setCourses] = useState(null);
@@ -49,7 +52,11 @@ function BuildSchedule({ history }) {
           <SelectedCourses />
         </SelectedCoursesContainer>
       )}
-      <Checkout isMobile={isMobile} />
+      <Checkout
+        isMobile={isMobile}
+        onClickDetail={() => setDetailOpened(true)}
+      />
+      {isDetailOpened && <Detail />}
     </Container>
   );
 }

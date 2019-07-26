@@ -15,6 +15,7 @@ function Schedule({
   width,
   showLabel,
   showHeader,
+  showRoom,
   mobile
 }) {
   const rowToDisplay = minute => {
@@ -36,7 +37,6 @@ function Schedule({
   const TIME_MARKERS = Array(endHour - startHour + 1)
     .fill()
     .map((_, idx) => rowToDisplay(idx * 60));
-
   const renderHeader = () => (
     <React.Fragment>
       {showLabel && (
@@ -74,12 +74,12 @@ function Schedule({
                 <span>
                   {start} - {end}
                 </span>
-                <span>{room}</span>
+                {showRoom && <span>{room}</span>}
               </div>
             )}
             <div className="content">
               <span>{name}</span>
-              {mobile && <span>{room}</span>}
+              {showRoom && mobile && <span>{room}</span>}
             </div>
           </ScheduleItem>
         ))}

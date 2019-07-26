@@ -14,9 +14,9 @@ const HideBodyOverflow = createGlobalStyle`
 `;
 
 const LINKS = [
-  { to: "/logout", label: "Logout" },
   { to: "/susun", label: "Buat Jadwal" },
-  { to: "/jadwal", label: "Riwayat Jadwal" }
+  { to: "/jadwal", label: "Riwayat Jadwal" },
+  { to: "/logout", label: "Logout" }
 ];
 
 function renderHeaderLink() {

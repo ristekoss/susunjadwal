@@ -40,6 +40,7 @@ function ViewSchedule({ match }) {
         endHour={21}
         showHeader
         showLabel
+        showRoom
         mobile={isMobile}
       />
     </React.Fragment>
