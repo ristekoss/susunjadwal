@@ -22,9 +22,13 @@ function Schedule({
     return `${pad(hour)}.${pad(minute % 60)}`;
   };
 
-  const displayToRinute = display => {
+  const displayToMinute = display => {
     var [hour, minute] = display.split(".").map(part => parseInt(part, 10));
-    return (hour - startHour + 2) * 60 + minute;
+    return (hour - startHour + 2) * 60 + minute - (showHeader ? 0 : 30);
+  };
+
+  const minuteToRow = minute => {
+    return (minute + 1) * 60 - (showHeader ? 0 : 30);
   };
 
   const dayToColumn = day => DAYS.indexOf(day) + 1 + (showLabel ? 1 : 0);
@@ -36,12 +40,12 @@ function Schedule({
   const renderHeader = () => (
     <React.Fragment>
       {showLabel && (
-        <Header mobile={mobile}>
+        <Header>
           <span>Jam</span>
         </Header>
       )}
       {DAYS.map(day => (
-        <Header mobile={mobile}>
+        <Header>
           <span>{day}</span>
         </Header>
       ))}
@@ -52,21 +56,18 @@ function Schedule({
     <Container pxPerMinute={pxPerMinute} width={width} showLabel={showLabel}>
       {showHeader && renderHeader()}
       {TIME_MARKERS.map((_, idx) => (
-        <TimeMarker row={idx} showLabel={showLabel} />
+        <TimeMarker row={minuteToRow(idx)} showLabel={showLabel} />
       ))}
       {showLabel &&
         TIME_MARKERS.map((marker, idx) => (
-          <TimeLabel row={idx} mobile={mobile}>
-            {marker}
-          </TimeLabel>
+          <TimeLabel row={minuteToRow(idx)}>{marker}</TimeLabel>
         ))}
       {schedule &&
         schedule.schedule_items.map(({ day, start, end, room, name }) => (
           <ScheduleItem
-            start={displayToRinute(start)}
-            end={displayToRinute(end)}
+            start={displayToMinute(start)}
+            end={displayToMinute(end)}
             day={dayToColumn(day)}
-            mobile={mobile}
           >
             {!mobile && (
               <div className="header">
@@ -86,11 +87,14 @@ function Schedule({
   );
 }
 
+const getContainerWidth = ({ showLabel }) => (showLabel ? "90%" : "100%");
+const getFirstColumnWidth = ({ showLabel }) => (showLabel ? "auto" : "");
+
 const Container = styled.div`
   display: grid;
-  grid-template-columns: ${({ showLabel }) => (showLabel ? "auto" : "")} repeat(
+  grid-template-columns: ${getFirstColumnWidth} repeat(
       6,
-      calc(${({ showLabel }) => (showLabel ? "90%" : "100%")} / 6)
+      calc(${getContainerWidth} / 6)
     );
   grid-template-rows: repeat(930, ${({ pxPerMinute }) => pxPerMinute}px);
   width: ${({ width }) => width};
@@ -98,17 +102,13 @@ const Container = styled.div`
 
 const TimeLabel = styled.div`
   place-self: center;
-  grid-area: ${({ row }) => (row + 1) * 60 + 30} / 1 /
-    ${({ row }) => (row + 2) * 60 + 30} / 1;
-
-  font-size: ${mobile => (mobile ? "12px" : "14px")};
+  grid-area: ${({ row }) => row + 30} / 1 / ${({ row }) => row + 90} / 1;
+  font-size: ${props => (props.theme.mobile ? "12px" : "16px")};
 `;
 
 const TimeMarker = styled.div`
-  grid-area: ${({ row }) => (row + 1) * 60} /
-    ${({ showLabel }) => (showLabel ? "2" : "1")} /
-    ${({ row }) => (row + 2) * 60 + 1} /
-    ${({ showLabel }) => (showLabel ? "8" : "7")};
+  grid-area: ${({ row }) => row} / ${({ showLabel }) => (showLabel ? "2" : "1")} /
+    ${({ row }) => row + 60 + 1} / ${({ showLabel }) => (showLabel ? "8" : "7")};
   border: 1px solid rgba(48, 128, 119, 0.2);
   border-left: none;
   border-top: none;
@@ -127,7 +127,7 @@ const Header = styled.div`
   grid-row: 1 / 60;
   z-index: 2;
 
-  font-size: ${mobile => (mobile ? "12px" : "14px")};
+  font-size: ${props => (props.theme.mobile ? "12px" : "16px")};
 `;
 
 const ScheduleItem = styled.div`
@@ -152,18 +152,21 @@ const ScheduleItem = styled.div`
   .content {
     padding: 2px 4px;
     font-weight: ${({ mobile }) => (mobile ? "bold" : "bold")};
-    ${({ mobile }) => css`
-      display: flex;
-      flex-direction: column;
 
-      span {
-        &:last-child {
-          font-weight: 400;
+    ${props =>
+      props.theme.mobile &&
+      css`
+        display: flex;
+        flex-direction: column;
+
+        span {
+          &:last-child {
+            font-weight: 400;
+          }
         }
-      }
-    `}
+      `}
 
-    font-size: ${({ mobile }) => (mobile ? "10px" : "14px")};
+    font-size: ${props => (props.theme.mobile ? "10px" : "14px")};
   }
 `;
 

@@ -7,13 +7,15 @@ import styled, { css } from "styled-components";
 import { getSchedules } from "services/api";
 import { setLoading } from "redux/modules/appState";
 import { makeAtLeastMs } from "utils/promise";
-
+import Schedule from "containers/ViewSchedule/Schedule";
 import Button from "components/Button";
 import clipboardImg from "./clipboard.svg";
 import deleteImg from "./baseline-delete-24px.png";
 
 function Jadwal() {
   const auth = useSelector(state => state.auth);
+  const isMobile = useSelector(state => state.appState.isMobile);
+
   const dispatch = useDispatch();
 
   const [schedules, setSchedules] = useState();
@@ -37,26 +39,28 @@ function Jadwal() {
         title="Jadwal"
         meta={[{ name: "description", content: "Description of Jadwal" }]}
       />
-      <PageTitle>Riwayat Jadwal</PageTitle>
-      <Header>
-        <div>Nama</div>
-        <div>Tanggal Dibuat</div>
-        <div>Aksi</div>
-      </Header>
+      <PageTitle mobile={isMobile}>Riwayat Jadwal</PageTitle>
       {schedules &&
         schedules.map(schedule => (
-          <Item>
-            <div>
+          <Card>
+            <div className="header">
               <Link to={`/jadwal/${schedule.id}`}>
-                {schedule.name || "Untitled Schedule"}
+                <h2>{schedule.name || "Undefined"}</h2>
               </Link>
+              <div>
+                <ImageButton src={clipboardImg} />
+                <ImageButton src={clipboardImg} />
+              </div>
             </div>
-            <div>{schedule.created_at}</div>
-            <div>
-              <Button>Salin</Button>
-              <Button>Hapus</Button>
-            </div>
-          </Item>
+            <Schedule
+              startHour={8}
+              endHour={21}
+              schedule={schedule}
+              pxPerMinute={isMobile ? 0.3 : 0.7}
+              width="100%"
+              mobile={isMobile}
+            />
+          </Card>
         ))}
     </div>
   );
@@ -65,7 +69,7 @@ function Jadwal() {
 const PageTitle = styled.h1`
   font-size: 1.5rem;
   font-weight: bold;
-  margin: 32px 48px 16px 48px;
+  margin: ${({ mobile }) => (mobile ? "1rem" : "32px 48px 16px 48px")};
 `;
 
 const ItemStyle = css`
@@ -97,6 +101,19 @@ const Header = styled.div`
   display: flex;
 
   ${ItemStyle}
+`;
+
+const Card = styled.div`
+  border: 0.05rem solid rgba(48, 128, 119, 0.5);
+  border-radius: 4;
+  margin: 1rem;
+
+  .header {
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `;
 
 const Item = styled.div`

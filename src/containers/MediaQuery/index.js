@@ -8,6 +8,7 @@ export const MOBILE_BREAKPOINT = 900; // MAGIC
 
 function MediaQuery() {
   const dispatch = useDispatch();
+
   return (
     <Media
       query={{ maxWidth: MOBILE_BREAKPOINT }}

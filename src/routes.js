@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Route, Switch, Redirect } from "react-router";
 import { useSelector } from "react-redux";
+import { ThemeProvider } from "styled-components";
 
 import Login from "./containers/Login";
 import BuildSchedule from "./containers/BuildSchedule";
@@ -19,11 +20,15 @@ const ROUTES = [
 ];
 
 function Routes() {
+  const isMobile = useSelector(state => state.appState.isMobile);
+
   return (
-    <Switch>
-      <Route path="/" name="home" component={Login} exact />
-      <Route component={RoutesWithNavbar} />
-    </Switch>
+    <ThemeProvider theme={{ mobile: isMobile }}>
+      <Switch>
+        <Route path="/" name="home" component={Login} exact />
+        <Route component={RoutesWithNavbar} />
+      </Switch>
+    </ThemeProvider>
   );
 }
 

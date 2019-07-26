@@ -10,6 +10,8 @@ import Schedule from "./Schedule";
 
 function ViewSchedule({ match }) {
   const dispatch = useDispatch();
+  const isMobile = useSelector(state => state.appState.isMobile);
+
   const [schedule, setSchedule] = useState(null);
 
   useEffect(() => {
@@ -32,13 +34,13 @@ function ViewSchedule({ match }) {
       />
       <Schedule
         width="100%"
-        pxPerMinute={0.9}
+        pxPerMinute={isMobile ? 0.7 : 0.9}
         schedule={schedule}
         startHour={8}
         endHour={21}
         showHeader
         showLabel
-        mobile
+        mobile={isMobile}
       />
     </React.Fragment>
   );
