@@ -122,7 +122,6 @@ export default withRouter(SelectedCourses);
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
   color: white;
 
   h3 {
@@ -136,7 +135,7 @@ const Container = styled.div`
     margin-top: 16px;
   }
 
-  margin-bottom: 32px;
+  padding-bottom: 32px;
 `;
 
 const TableHeader = styled.div`

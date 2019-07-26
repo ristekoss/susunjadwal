@@ -70,7 +70,7 @@ const Container = styled.div`
 const CoursePickerContainer = styled.div`
   padding: ${({ isMobile }) =>
     isMobile ? "1rem 1rem 3rem 1rem" : "32px 48px"};
-  flex: 9;
+  width: 75%;
 
   h1 {
     font-size: 24px;
@@ -80,7 +80,11 @@ const CoursePickerContainer = styled.div`
 `;
 
 const SelectedCoursesContainer = styled.div`
-  flex: 3;
+  width: 25%;
+  position: fixed;
+  right: 0;
   padding: 48px 32px;
   background-color: #222222;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
 `;
