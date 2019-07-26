@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Helmet from "react-helmet";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { getSchedules } from "services/api";
 import { setLoading } from "redux/modules/appState";
@@ -10,7 +10,7 @@ import { makeAtLeastMs } from "utils/promise";
 import Schedule from "containers/ViewSchedule/Schedule";
 import clipboardImg from "./clipboard.svg";
 
-function Jadwal() {
+function Jadwal({ history }) {
   const auth = useSelector(state => state.auth);
   const isMobile = useSelector(state => state.appState.isMobile);
 
@@ -38,28 +38,31 @@ function Jadwal() {
         meta={[{ name: "description", content: "Description of Jadwal" }]}
       />
       <PageTitle mobile={isMobile}>Riwayat Jadwal</PageTitle>
-      {schedules &&
-        schedules.map(schedule => (
-          <Card>
-            <div className="header">
-              <Link to={`/jadwal/${schedule.id}`}>
-                <h2>{schedule.name || "Undefined"}</h2>
-              </Link>
-              <div>
-                <ImageButton src={clipboardImg} />
-                <ImageButton src={clipboardImg} />
+      <CardContainer>
+        {schedules &&
+          schedules.map(schedule => (
+            <Card onClick={() => history.push(`/jadwal/${schedule.id}`)}>
+              <div className="header">
+                <Link to={`/jadwal/${schedule.id}`}>
+                  <h2>{schedule.name || "Undefined"}</h2>
+                </Link>
+                <div>
+                  <ImageButton src={clipboardImg} />
+                  <ImageButton src={clipboardImg} />
+                </div>
               </div>
-            </div>
-            <Schedule
-              startHour={8}
-              endHour={21}
-              schedule={schedule}
-              pxPerMinute={isMobile ? 0.3 : 0.7}
-              width="100%"
-              mobile={isMobile}
-            />
-          </Card>
-        ))}
+              <Schedule
+                startHour={8}
+                endHour={21}
+                schedule={schedule}
+                pxPerMinute={isMobile ? 0.3 : 0.7}
+                width="100%"
+                showRoom
+                mobile={isMobile}
+              />
+            </Card>
+          ))}
+      </CardContainer>
     </div>
   );
 }
@@ -73,7 +76,7 @@ const PageTitle = styled.h1`
 const Card = styled.div`
   border: 0.05rem solid rgba(48, 128, 119, 0.5);
   border-radius: 4;
-  margin: 1rem;
+  cursor: pointer;
 
   .header {
     padding: 1rem;
@@ -81,6 +84,24 @@ const Card = styled.div`
     flex-direction: row;
     justify-content: space-between;
   }
+  ${props =>
+    props.theme.mobile
+      ? "margin: 1rem;"
+      : css`
+          width: 49%;
+          &:nth-child(even) {
+            margin-left: 2%;
+          }
+        `}
+  margin-bottom: 32px;
+`;
+
+const CardContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  flex-direction: ${props => (props.theme.mobile ? "column" : "row")};
+  padding: ${props => (props.theme.mobile ? "1rem" : "0 48px")};
 `;
 
 const ImageButton = styled.button`

@@ -74,7 +74,7 @@ function Schedule({
                 <span>
                   {start} - {end}
                 </span>
-                {showRoom && <span>{room}</span>}
+                {showRoom && <span className="room">{room}</span>}
               </div>
             )}
             <div className="content">
@@ -147,6 +147,13 @@ const ScheduleItem = styled.div`
     justify-content: space-between;
     font-size: 12px;
     border-bottom: 1px solid #fff;
+
+    .room {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      max-width: 40%;
+    }
  }
 
   .content {
