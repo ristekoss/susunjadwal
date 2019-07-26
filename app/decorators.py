@@ -1,7 +1,7 @@
 import functools
 from flask import request
 
-from jwt_utils import extract_data
+from app.jwt_utils import extract_data
 
 
 def require_same_user_id(func):

@@ -6,11 +6,11 @@ from flask import (
     request
 )
 
-from jwt_utils import generate_token
+from app.jwt_utils import generate_token
 from models.major import Major
 from models.period import Period
 from models.user import User
-from scraper import scrape_courses
+from scraper.main import scrape_courses
 from sso.utils import (
     authenticate,
     get_cas_client
@@ -33,14 +33,20 @@ def process(sso_profile):
 
     period = Period.objects(major_id=major.id, name=period_name).first()
     if period is None:
-        courses = scrape_courses(major_name, period_name)
+        courses, is_detail = scrape_courses(major_kd_org, period_name)
+
         if not courses:
             result = {
-                "err": f"Your faculty {major} isn't supported yet. Please contact Ristek Fasilkom UI if you are interested."
+                "err": f"Your faculty {major_name} isn't supported yet. Please contact Ristek Fasilkom UI if you are interested."
             }
             return result
 
-        period = Period(major_id=major.id, name=period_name, courses=courses)
+        period = Period(
+            major_id=major.id,
+            name=period_name,
+            courses=courses,
+            is_detail=is_detail
+        )
         period.save()
 
     user = User.objects(npm=user_npm).first()

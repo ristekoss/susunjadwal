@@ -59,6 +59,7 @@ class Course(mongo.EmbeddedDocument):
 class Period(mongo.Document):
     major_id = mongo.ReferenceField("Major")
     name = mongo.StringField(max_length=16)
+    is_detail = mongo.BooleanField(default=False)
     courses = mongo.ListField(mongo.EmbeddedDocumentField(Course))
 
     def __get_courses(self):
@@ -71,5 +72,6 @@ class Period(mongo.Document):
     def serialize(self):
         return {
             "name": self.name,
+            "is_detail": self.is_detail,
             "courses": self.__get_courses()
         }
