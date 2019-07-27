@@ -38,13 +38,13 @@ function Jadwal({ history }) {
         meta={[{ name: "description", content: "Description of Jadwal" }]}
       />
       <PageTitle mobile={isMobile}>Riwayat Jadwal</PageTitle>
-      <CardContainer>
-        {schedules &&
-          schedules.map(schedule => (
+      {schedules && schedules.length > 0 ? (
+        <CardContainer>
+          {schedules.map(schedule => (
             <Card onClick={() => history.push(`/jadwal/${schedule.id}`)}>
               <div className="header">
                 <Link to={`/jadwal/${schedule.id}`}>
-                  <h2>{schedule.name || "Undefined"}</h2>
+                  <h2>{schedule.name || "Untitled"}</h2>
                 </Link>
                 <div>
                   <ImageButton src={clipboardImg} />
@@ -62,7 +62,12 @@ function Jadwal({ history }) {
               />
             </Card>
           ))}
-      </CardContainer>
+        </CardContainer>
+      ) : (
+        <PageInfo mobile={isMobile}>
+          You haven't created any schedules.
+        </PageInfo>
+      )}
     </div>
   );
 }
@@ -70,6 +75,11 @@ function Jadwal({ history }) {
 const PageTitle = styled.h1`
   font-size: 1.5rem;
   font-weight: bold;
+  margin: ${({ mobile }) => (mobile ? "1rem" : "32px 48px 16px 48px")};
+`;
+
+const PageInfo = styled.h2`
+  font-size: 1.1rem;
   margin: ${({ mobile }) => (mobile ? "1rem" : "32px 48px 16px 48px")};
 `;
 
