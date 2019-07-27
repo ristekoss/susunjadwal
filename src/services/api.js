@@ -43,3 +43,7 @@ export function postRenameSchedule(userId, scheduleId, name) {
     { name }
   );
 }
+
+export function deleteSchedule(userId, scheduleId) {
+  return instance.delete(`/users/${userId}/user_schedules/${scheduleId}`);
+}

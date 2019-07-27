@@ -4,11 +4,14 @@ import Helmet from "react-helmet";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
-import { getSchedules } from "services/api";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+
+import { getSchedules, deleteSchedule } from "services/api";
 import { setLoading } from "redux/modules/appState";
 import { makeAtLeastMs } from "utils/promise";
 import Schedule from "containers/ViewSchedule/Schedule";
 import clipboardImg from "./clipboard.svg";
+import deleteImg from "./delete.svg";
 
 function Jadwal({ history }) {
   const auth = useSelector(state => state.auth);
@@ -31,6 +34,29 @@ function Jadwal({ history }) {
     fetchSchedules();
   }, [dispatch, auth]);
 
+  async function performDeleteSchedule(userId, scheduleId) {
+    dispatch(setLoading(true));
+    await makeAtLeastMs(deleteSchedule(userId, scheduleId), 1000);
+    const {
+      data: { user_schedules }
+    } = await makeAtLeastMs(getSchedules(auth.userId), 1000);
+    setSchedules(user_schedules);
+    dispatch(setLoading(false));
+  }
+
+  function confirmDeleteSchedule(scheduleId) {
+    const response = window.confirm("Apakah kamu yakin akan menghapusnya?");
+    if (response) {
+      performDeleteSchedule(auth.userId, scheduleId);
+    }
+  }
+
+  function showAlertCopy() {
+    alert(
+      "Link telah disalin!! Kamu bisa bagikan link tersebut dengan teman kamu."
+    );
+  }
+
   return (
     <div>
       <Helmet
@@ -41,14 +67,22 @@ function Jadwal({ history }) {
       {schedules && schedules.length > 0 ? (
         <CardContainer>
           {schedules.map(schedule => (
-            <Card onClick={() => history.push(`/jadwal/${schedule.id}`)}>
+            <Card>
               <div className="header">
                 <Link to={`/jadwal/${schedule.id}`}>
                   <h2>{schedule.name || "Untitled"}</h2>
                 </Link>
                 <div>
-                  <ImageButton src={clipboardImg} />
-                  <ImageButton src={clipboardImg} />
+                  <CopyToClipboard
+                    text={`${window.location.href}/${schedule.id}`}
+                    onCopy={showAlertCopy}
+                  >
+                    <ImageButton src={clipboardImg} />
+                  </CopyToClipboard>
+                  <ImageButton
+                    src={deleteImg}
+                    onClick={() => confirmDeleteSchedule(schedule.id)}
+                  />
                 </div>
               </div>
               <Schedule
@@ -86,7 +120,6 @@ const PageInfo = styled.h2`
 const Card = styled.div`
   border: 0.05rem solid rgba(48, 128, 119, 0.5);
   border-radius: 4;
-  cursor: pointer;
 
   .header {
     padding: 1rem;
