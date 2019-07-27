@@ -37,9 +37,8 @@ def process(sso_profile):
 
         if not courses:
             result = {
-                "err": (f"Maaf, fakultas {major_name} belum di-support. "
-                        "Bila kamu tertarik membantu kami, kamu bisa menghubungi Ristek Fasilkom UI "
-                        "di Line @ristekfasilkomui")
+                "err": True,
+                "major_name": major_name
             }
             return result
 
