@@ -35,6 +35,10 @@ function Header() {
   const isMobile = useSelector(state => state.appState.isMobile);
   const [isOpened, setOpen] = useState(false);
 
+  function toggleMenu() {
+    setOpen(!isOpened);
+  }
+
   return (
     <Container>
       <LogoLink to="/">
@@ -44,6 +48,7 @@ function Header() {
       </LogoLink>
       {isMobile ? (
         <Menu
+          isOpen={isOpened}
           burgerButtonClassName="menu"
           right
           onStateChange={({ isOpen }) => setOpen(isOpen)}
@@ -58,7 +63,7 @@ function Header() {
         >
           {isOpened && <HideBodyOverflow />}
           {LINKS.map(({ to, label }) => (
-            <MenuLink key={to} to={to}>
+            <MenuLink key={to} to={to} onClick={toggleMenu}>
               {label}
             </MenuLink>
           ))}
