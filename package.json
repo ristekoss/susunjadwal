@@ -8,6 +8,7 @@
     "query-string": "^6.8.1",
     "react": "^16.8.6",
     "react-burger-menu": "^2.6.10",
+    "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1",
     "react-input-autosize": "^2.2.1",
