@@ -53,7 +53,7 @@ function ScheduleList() {
 
   function showAlertCopy() {
     alert(
-      "Link telah disalin!! Kamu bisa bagikan link tersebut dengan teman kamu."
+      "Link telah disalin!! Kamu bisa bagikan link tersebut ke teman kamu."
     );
   }
 

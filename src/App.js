@@ -11,7 +11,9 @@ import store from "./redux/store";
 
 import "./app.css";
 
-const history = createBrowserHistory();
+const history = createBrowserHistory({
+  basename: "/susunjadwal"
+});
 
 function App() {
   return (
