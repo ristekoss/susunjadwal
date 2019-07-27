@@ -17,6 +17,12 @@ function ViewSchedule({ match }) {
 
   const [schedule, setSchedule] = useState(null);
 
+  function onRename(slug, value) {
+    if (auth) {
+      postRenameSchedule(auth.userId, slug, value);
+    }
+  }
+
   useEffect(() => {
     async function fetchSchedule() {
       dispatch(setLoading(true));
@@ -41,9 +47,7 @@ function ViewSchedule({ match }) {
           <ControlledInput
             name={schedule.name}
             slug={match.params.scheduleId}
-            rename={(slug, value) => {
-              postRenameSchedule(auth.userId, slug, value);
-            }}
+            rename={onRename}
           />
         </Container>
       )}
