@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 import SelectedCourses from "containers/SelectedCourses";
 import Schedule from "containers/ViewSchedule/Schedule";
-import backImg from "./back.svg";
+import backImg from "assets/Back.svg";
 
 const HideBodyOverflow = createGlobalStyle`
   body {

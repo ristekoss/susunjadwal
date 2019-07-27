@@ -11,8 +11,8 @@ import { setAuth } from "redux/modules/auth";
 import Logoset from "assets/LogosetColored.png";
 import Accent from "assets/Accent.png";
 import Tagline from "assets/Tagline.png";
-import "./styles.css";
 import { setLoading } from "redux/modules/appState";
+import "./styles.css";
 
 function getServiceUrl() {
   return window.location.href.split("?")[0];

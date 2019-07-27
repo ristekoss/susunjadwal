@@ -10,10 +10,10 @@ import { getSchedules, deleteSchedule } from "services/api";
 import { setLoading } from "redux/modules/appState";
 import { makeAtLeastMs } from "utils/promise";
 import Schedule from "containers/ViewSchedule/Schedule";
-import clipboardImg from "./clipboard.svg";
-import deleteImg from "./delete.svg";
+import clipboardImg from "assets/Clipboard.svg";
+import deleteImg from "assets/Delete.svg";
 
-function Jadwal({ history }) {
+function ScheduleList() {
   const auth = useSelector(state => state.auth);
   const isMobile = useSelector(state => state.appState.isMobile);
 
@@ -158,4 +158,4 @@ const ImageButton = styled.button`
     margin-left: 8px;
   }
 `;
-export default Jadwal;
+export default ScheduleList;

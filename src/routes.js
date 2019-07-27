@@ -10,12 +10,12 @@ import Header from "./containers/Header";
 import ViewSchedule from "./containers/ViewSchedule";
 import NotFoundPage from "./containers/NotFoundPage";
 import Logout from "./containers/Logout";
-import Jadwal from "./containers/Jadwal";
+import ScheduleList from "./containers/ScheduleList";
 
 const ROUTES = [
   { path: "/susun", component: BuildSchedule, auth: true },
   { path: "/jadwal/:scheduleId", component: ViewSchedule, auth: false },
-  { path: "/jadwal", component: Jadwal, auth: true },
+  { path: "/jadwal", component: ScheduleList, auth: true },
   { path: "/logout", component: Logout, auth: true }
 ];
 
