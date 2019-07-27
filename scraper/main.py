@@ -25,7 +25,7 @@ GENERAL_SCHEDULE_URL = f"{BASE_URL}/Schedule/IndexOthers?fac={{fac}}&org={{org}}
 DEFAULT_CREDENTIAL = "01.00.12.01"
 
 
-def scrape_courses(major_kd_org, period):
+def scrape_courses(major_kd_org, period, skip_not_detail=False):
     username, password = fetch_credential(major_kd_org)
     if (username is not None) and (password is not None):
         req = requests.Session()
@@ -36,16 +36,19 @@ def scrape_courses(major_kd_org, period):
         courses = create_courses(r.text, is_detail=True)
         return courses, True
 
-    username, password = fetch_credential(DEFAULT_CREDENTIAL)
-    fac, org = parse_kd_org(major_kd_org)
-    req = requests.Session()
-    r = req.post(AUTH_URL, data={'u': username,
-                                 'p': password}, verify=False)
-    r = req.get(CHANGEROLE_URL)
-    r = req.get(GENERAL_SCHEDULE_URL.format(
-        fac=fac, org=org, period=period))
-    courses = create_courses(r.text)
-    return courses, False
+    if not skip_not_detail:
+        username, password = fetch_credential(DEFAULT_CREDENTIAL)
+        fac, org = parse_kd_org(major_kd_org)
+        req = requests.Session()
+        r = req.post(AUTH_URL, data={'u': username,
+                                     'p': password}, verify=False)
+        r = req.get(CHANGEROLE_URL)
+        r = req.get(GENERAL_SCHEDULE_URL.format(
+            fac=fac, org=org, period=period))
+        courses = create_courses(r.text)
+        return courses, False
+
+    return None, None
 
 
 def fetch_credential(major_kd_org):
@@ -118,7 +121,7 @@ def create_courses(html, is_detail=False):
                     lecturer=lecturers
                 ))
 
-            except IndexError as e:
+            except (IndexError, ValueError) as e:
                 pass
 
         if classes:

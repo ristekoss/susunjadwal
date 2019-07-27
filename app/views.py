@@ -18,7 +18,18 @@ router_main = Blueprint('router_sunjad', __name__)
 @require_jwt_token
 def get_courses(major_id):
     active_period = get_app_config("ACTIVE_PERIOD")
-    period = Period.objects(major_id=major_id, name=active_period).first()
+    period = Period.objects(
+        major_id=major_id,
+        name=active_period,
+        is_detail=True
+    ).first()
+
+    if period is None:
+        period = Period.objects(
+            major_id=major_id,
+            name=active_period,
+            is_detail=False
+        ).first()
     return (jsonify(period.serialize()), 200)
 
 

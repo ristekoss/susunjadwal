@@ -57,24 +57,33 @@ def process_sso_profile(sso_profile):
         major = Major(name=major_name, kd_org=major_kd_org)
         major.save()
 
-    period = Period.objects(major_id=major.id, name=period_name).first()
-    if period is None:
-        courses, is_detail = scrape_courses(major_kd_org, period_name)
+    period_detail = Period.objects(
+        major_id=major.id, name=period_name, is_detail=True).first()
+    period_not_detail = Period.objects(
+        major_id=major.id, name=period_name, is_detail=False).first()
 
-        if not courses:
-            result = {
-                "err": True,
-                "major_name": major_name
-            }
-            return result
+    if period_detail is None:
+        if period_not_detail is None:
+            courses, is_detail = scrape_courses(major_kd_org, period_name)
 
-        period = Period(
-            major_id=major.id,
-            name=period_name,
-            courses=courses,
-            is_detail=is_detail
-        )
-        period.save()
+            if not courses:
+                result = {
+                    "err": True,
+                    "major_name": major_name
+                }
+                return result
+        else:
+            courses, is_detail = scrape_courses(
+                major_kd_org, period_name, skip_not_detail=True)
+
+        if courses:
+            period = Period(
+                major_id=major.id,
+                name=period_name,
+                courses=courses,
+                is_detail=is_detail
+            )
+            period.save()
 
     user = User.objects(npm=user_npm).first()
     if user is None:
