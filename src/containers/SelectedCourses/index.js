@@ -10,7 +10,7 @@ import TrashIcon from "assets/trash.png";
 import TrashWhiteIcon from "assets/trash-white.png";
 import Agenda from "./Agenda";
 import { setLoading } from "redux/modules/appState";
-import { removeSchedule } from "redux/modules/schedules";
+import { removeSchedule, clearSchedule } from "redux/modules/schedules";
 
 function transformSchedules(schedules) {
   return schedules
@@ -37,9 +37,10 @@ function SelectedCourses({ history }) {
       const {
         data: { id: scheduleId }
       } = await postSaveSchedule(auth.userId, transformSchedules(schedules));
+      dispatch(clearSchedule());
       history.push(`/jadwal/${scheduleId}`);
     } catch (e) {
-      // todo: handle error
+      // TODO: handle error
     }
     setTimeout(() => dispatch(setLoading(false)), 1000);
   }
