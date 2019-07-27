@@ -36,12 +36,20 @@ function Login({ history, location }) {
       try {
         dispatch(setLoading(true));
         const {
-          data: { major_id: majorId, user_id: userId, token, err }
+          data: {
+            major_id: majorId,
+            user_id: userId,
+            token,
+            err,
+            major_name: majorName
+          }
         } = await makeAtLeastMs(postAuthTicket(ticket, serviceUrl), 1000);
 
         if (err) {
           dispatch(setLoading(false));
-          setError(err);
+          setError({
+            majorName
+          });
         } else {
           dispatch(setAuth({ majorId, userId, token }));
           persistAuth({ majorId, userId, token });
@@ -89,7 +97,11 @@ function Login({ history, location }) {
         {renderBroughtToYouBy()}
         {error ? (
           <React.Fragment>
-            <p className="center">{error}</p>
+            <p className="center">
+              Maaf, fakultas {error.majorName} belum didukung nih. Bila kamu
+              tertarik membantu kami, kamu bisa menghubungi Ristek Fasilkom UI
+              di LINE (@ristekfasilkomui).
+            </p>
             <div className={"center loginButtonWrapper"}>
               <button className={"loginButton"} onClick={redirectToSSOLogout}>
                 LOG OUT

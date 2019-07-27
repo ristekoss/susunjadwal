@@ -20,12 +20,14 @@ function BuildSchedule({ history }) {
   const dispatch = useDispatch();
 
   const [courses, setCourses] = useState(null);
+  const [isDetail, setIsDetail] = useState(null);
 
   const fetchCourses = useCallback(
     async majorId => {
       dispatch(setLoading(true));
       const { data } = await getCourses(majorId);
       setCourses(data.courses);
+      setIsDetail(data.is_detail);
       dispatch(reduxSetCourses(data.courses));
       setTimeout(() => dispatch(setLoading(false)), 1000);
     },
@@ -42,6 +44,13 @@ function BuildSchedule({ history }) {
       <Helmet title="Buat Jadwal" />
       <CoursePickerContainer isMobile={isMobile}>
         <h1>Buat Jadwal</h1>
+        {!isDetail && (
+          <InfoContent>
+            Halo! Jadwal kamu belum detail nih, kalo kamu ingin membantu kami
+            agar jadwal ini detail, kamu dapat mengubungi Ristek Fasilkom UI di
+            LINE (@ristekfasilkomui). Terima kasih :D
+          </InfoContent>
+        )}
         {courses &&
           courses.map((course, idx) => (
             <Course key={`${course.name}-${idx}`} course={course} />
@@ -65,6 +74,10 @@ export default BuildSchedule;
 
 const Container = styled.div`
   display: flex;
+`;
+
+const InfoContent = styled.div`
+  margin-bottom: 16px;
 `;
 
 const CoursePickerContainer = styled.div`
