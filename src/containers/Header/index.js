@@ -26,7 +26,7 @@ function renderHeaderLink() {
         <HeaderLink key={to} to={to}>
           {label}
         </HeaderLink>
-      ))}
+      )).reverse()}
     </React.Fragment>
   );
 }
