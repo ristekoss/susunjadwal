@@ -15,7 +15,7 @@ function Agenda({ visible, onClose }) {
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
   const [room, setRoom] = useState("");
-  const [agendaValid, setAgendaValid] = useState({});
+  const [agendaValid, setAgendaValid] = useState(null);
 
   function verifyAgenda() {
     const nameCheck = name !== "" && name !== null;
@@ -73,7 +73,7 @@ function Agenda({ visible, onClose }) {
           maxLength={20}
           onChange={evt => setName(evt.target.value)}
         />
-        {"nameCheck" in agendaValid && !agendaValid.nameCheck && (
+        {agendaValid && !agendaValid.nameCheck && (
           <ErrorLine>Nama agenda tidak boleh kosong</ErrorLine>
         )}
 
@@ -85,7 +85,7 @@ function Agenda({ visible, onClose }) {
           <option value="Jumat">Jumat</option>
           <option value="Sabtu">Sabtu</option>
         </select>
-        {"dayCheck" in agendaValid && !agendaValid.dayCheck && (
+        {agendaValid && !agendaValid.dayCheck && (
           <ErrorLine>Hari salah</ErrorLine>
         )}
 
@@ -96,12 +96,12 @@ function Agenda({ visible, onClose }) {
           onChange={evt => setStart(evt.target.value)}
           pattern="\d\d.\d\d"
         />
-        {"startCheck" in agendaValid && !agendaValid.startCheck && (
+        {agendaValid && !agendaValid.startCheck && (
           <ErrorLine>
             Format jam mulai salah, seharusnya HH.MM, contoh: 12.30 (min 07.00)
           </ErrorLine>
         )}
-        {"timeValidCheck" in agendaValid &&
+        {agendaValid &&
           !agendaValid.timeValidCheck &&
           agendaValid.startCheck && (
             <ErrorLine>Jam mulai harus lebih dahulu dari jam akhir</ErrorLine>
@@ -113,17 +113,15 @@ function Agenda({ visible, onClose }) {
           value={end}
           onChange={evt => setEnd(evt.target.value)}
         />
-        {"endCheck" in agendaValid && !agendaValid.endCheck && (
+        {agendaValid && !agendaValid.endCheck && (
           <ErrorLine>
             Format jam selesai salah, seharusnya HH.MM, contoh: 12.30 (max
             21.00)
           </ErrorLine>
         )}
-        {"timeValidCheck" in agendaValid &&
-          !agendaValid.timeValidCheck &&
-          agendaValid.endCheck && (
-            <ErrorLine>Jam mulai harus lebih dahulu dari jam akhir</ErrorLine>
-          )}
+        {agendaValid && !agendaValid.timeValidCheck && agendaValid.endCheck && (
+          <ErrorLine>Jam mulai harus lebih dahulu dari jam akhir</ErrorLine>
+        )}
 
         <input
           type="text"
@@ -131,7 +129,7 @@ function Agenda({ visible, onClose }) {
           value={room}
           onChange={evt => setRoom(evt.target.value)}
         />
-        {"roomCheck" in agendaValid && !agendaValid.roomCheck && (
+        {agendaValid && !agendaValid.roomCheck && (
           <ErrorLine>Ruangan tidak boleh kosong</ErrorLine>
         )}
 
