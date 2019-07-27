@@ -15,7 +15,7 @@ const HideBodyOverflow = createGlobalStyle`
 
 const LINKS = [
   { to: "/susun", label: "Buat Jadwal" },
-  { to: "/jadwal", label: "Riwayat Jadwal" },
+  { to: "/jadwal", label: "Daftar Jadwal" },
   { to: "/logout", label: "Logout" }
 ];
 

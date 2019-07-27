@@ -63,7 +63,7 @@ function Jadwal({ history }) {
         title="Jadwal"
         meta={[{ name: "description", content: "Description of Jadwal" }]}
       />
-      <PageTitle mobile={isMobile}>Riwayat Jadwal</PageTitle>
+      <PageTitle mobile={isMobile}>Daftar Jadwal</PageTitle>
       {schedules && schedules.length > 0 ? (
         <CardContainer>
           {schedules.map(schedule => (
