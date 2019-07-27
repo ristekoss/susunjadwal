@@ -9,10 +9,11 @@ import Loading from "containers/Loading";
 import Routes from "./routes";
 import store from "./redux/store";
 
+import { BASE_URL } from "config";
 import "./app.css";
 
 const history = createBrowserHistory({
-  basename: "/susunjadwal"
+  basename: BASE_URL
 });
 
 function App() {
