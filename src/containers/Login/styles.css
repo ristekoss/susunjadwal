@@ -51,7 +51,7 @@
   color: #308077;
 }
 
-.center img {
+.center .broughtToYouLogo {
   max-height: 3.5rem;
 }
 
@@ -75,22 +75,38 @@
   display: none;
 }
 
+.gojek {
+  margin-top: 5rem;
+}
+
+.gojek span {
+  display: none;
+}
+
+.center .gojekLogo {
+  max-height: 6rem;
+}
+
 @media screen and (max-width: 768px) {
   .broughtToYou {
     display: none;
   }
+
   .center h1 {
     font-size: 3rem;
   }
+
   .login {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
+
   .loginButtonWrapper {
     width: 100%;
   }
+
   .loginButton {
     font-size: 1rem;
     padding: 0.75rem;
@@ -98,18 +114,35 @@
     margin: 0 1rem;
     max-width: 20rem;
   }
+
   .accent > img {
     display: none;
   }
+
   .tagline {
     visibility: hidden;
   }
+
   .landingPage {
   }
+
   .accent .broughtToYou {
     display: block;
   }
+
   .accent .broughtToYou span {
+    display: block;
+  }
+
+  .center .gojekLogo {
+    max-height: 5rem;
+  }
+
+  .gojek p {
+    display: none;
+  }
+
+  .gojek span {
     display: block;
   }
 }

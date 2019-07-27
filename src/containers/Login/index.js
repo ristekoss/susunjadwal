@@ -10,6 +10,7 @@ import { setAuth } from "redux/modules/auth";
 
 import Logoset from "assets/LogosetColored.png";
 import Accent from "assets/Accent.png";
+import GojekLogo from "assets/GojekLogo.png";
 import Tagline from "assets/Tagline.png";
 import { setLoading } from "redux/modules/appState";
 import "./styles.css";
@@ -78,11 +79,22 @@ function Login({ history, location }) {
       <div className="broughtToYou center">
         <p>
           <span>Brought to you by</span>
-          <img src={Logoset} alt="Logoset" />
+          <img className="broughtToYouLogo" src={Logoset} alt="Logoset" />
         </p>
       </div>
     );
   }
+
+  function renderGojekLogo() {
+    return (
+      <div className="gojek center">
+        <span>Official Learning Partner</span>
+        <p className="center">Official Learning Partner</p>
+        <img className="gojekLogo" src={GojekLogo} alt="Gojek Logo" />
+      </div>
+    );
+  }
+
   return (
     <div className="landingPage">
       <div className="tagline">
@@ -115,6 +127,7 @@ function Login({ history, location }) {
             </button>
           </div>
         )}
+        {renderGojekLogo()}
       </div>
       <div className={"accent"}>
         <img src={Accent} alt="Accent" />
