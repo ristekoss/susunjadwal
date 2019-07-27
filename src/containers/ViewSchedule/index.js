@@ -56,7 +56,7 @@ function ViewSchedule({ match }) {
         width="100%"
         pxPerMinute={isMobile ? 0.7 : 0.9}
         schedule={schedule}
-        startHour={8}
+        startHour={7}
         endHour={21}
         showHeader
         showLabel

@@ -32,7 +32,7 @@ function Detail() {
         schedule={{ schedule_items: transformSchedules(schedules) }}
         pxPerMinute={0.3}
         width="100%"
-        startHour={8}
+        startHour={7}
         endHour={21}
         mobile
       />

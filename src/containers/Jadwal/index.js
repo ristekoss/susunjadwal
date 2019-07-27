@@ -86,7 +86,7 @@ function Jadwal({ history }) {
                 </div>
               </div>
               <Schedule
-                startHour={8}
+                startHour={7}
                 endHour={21}
                 schedule={schedule}
                 pxPerMinute={isMobile ? 0.3 : 0.7}
