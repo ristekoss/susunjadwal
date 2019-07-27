@@ -70,7 +70,7 @@ const Container = styled.div`
 const CoursePickerContainer = styled.div`
   padding: ${({ isMobile }) =>
     isMobile ? "1rem 1rem 3rem 1rem" : "32px 48px"};
-  width: 75%;
+  width: ${({ isMobile }) => (isMobile ? "100%" : "75%;")};
 
   h1 {
     font-size: 24px;
