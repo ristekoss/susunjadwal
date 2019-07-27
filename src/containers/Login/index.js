@@ -78,7 +78,7 @@ function Login({ history, location }) {
       <div className="broughtToYou center">
         <p>
           <span>Brought to you by</span>
-          <img src={Logoset} />
+          <img src={Logoset} alt="Logoset" />
         </p>
       </div>
     );
@@ -86,7 +86,7 @@ function Login({ history, location }) {
   return (
     <div className="landingPage">
       <div className="tagline">
-        <img src={Tagline} />
+        <img src={Tagline} alt="Tagline" />
       </div>
       <div className={"login"}>
         <div className={"center"}>
@@ -117,7 +117,7 @@ function Login({ history, location }) {
         )}
       </div>
       <div className={"accent"}>
-        <img src={Accent} />
+        <img src={Accent} alt="Accent" />
         {renderBroughtToYouBy()}
       </div>
     </div>

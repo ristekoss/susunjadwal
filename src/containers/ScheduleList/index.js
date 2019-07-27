@@ -66,8 +66,8 @@ function ScheduleList() {
       <PageTitle mobile={isMobile}>Daftar Jadwal</PageTitle>
       {schedules && schedules.length > 0 ? (
         <CardContainer>
-          {schedules.map(schedule => (
-            <Card>
+          {schedules.map((schedule, idx) => (
+            <Card key={`${schedule.name}-${idx}`}>
               <div className="header">
                 <Link to={`/jadwal/${schedule.id}`}>
                   <h2>{schedule.name || "Untitled"}</h2>

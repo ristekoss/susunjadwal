@@ -45,7 +45,7 @@ function Schedule({
         </Header>
       )}
       {DAYS.map(day => (
-        <Header>
+        <Header key={day}>
           <span>{day}</span>
         </Header>
       ))}
@@ -56,15 +56,18 @@ function Schedule({
     <Container pxPerMinute={pxPerMinute} width={width} showLabel={showLabel}>
       {showHeader && renderHeader()}
       {TIME_MARKERS.map((_, idx) => (
-        <TimeMarker row={minuteToRow(idx)} showLabel={showLabel} />
+        <TimeMarker key={idx} row={minuteToRow(idx)} showLabel={showLabel} />
       ))}
       {showLabel &&
         TIME_MARKERS.map((marker, idx) => (
-          <TimeLabel row={minuteToRow(idx)}>{marker}</TimeLabel>
+          <TimeLabel key={idx} row={minuteToRow(idx)}>
+            {marker}
+          </TimeLabel>
         ))}
       {schedule &&
-        schedule.schedule_items.map(({ day, start, end, room, name }) => (
+        schedule.schedule_items.map(({ day, start, end, room, name }, idx) => (
           <ScheduleItem
+            key={`${schedule.name}-${idx}`}
             start={displayToMinute(start)}
             end={displayToMinute(end)}
             day={dayToColumn(day)}
