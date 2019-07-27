@@ -129,9 +129,10 @@ function Login({ history, location }) {
         )}
         {renderGojekLogo()}
       </div>
-      <div className={"accent"}>
+      <div className={"display-logo"}>
         <img src={Accent} alt="Accent" />
         {renderBroughtToYouBy()}
+        {renderGojekLogo()}
       </div>
     </div>
   );

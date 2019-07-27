@@ -29,7 +29,7 @@
   object-fit: contain;
 }
 
-.accent img {
+.display-logo img {
   max-height: 3.5rem;
 }
 
@@ -71,7 +71,7 @@
   transition: 0.25s background ease;
 }
 
-.accent .broughtToYou {
+.display-logo .broughtToYou {
   display: none;
 }
 
@@ -87,8 +87,20 @@
   max-height: 6rem;
 }
 
+.display-logo .gojek {
+  display: none;
+}
+
 @media screen and (max-width: 768px) {
+  .landingPage {
+    justify-content: center;
+  }
+
   .broughtToYou {
+    display: none;
+  }
+
+  .gojek {
     display: none;
   }
 
@@ -115,27 +127,29 @@
     max-width: 20rem;
   }
 
-  .accent > img {
+  .display-logo > img {
     display: none;
   }
 
   .tagline {
-    visibility: hidden;
+    display: none;
   }
 
-  .landingPage {
-  }
-
-  .accent .broughtToYou {
+  .display-logo .broughtToYou {
     display: block;
   }
 
-  .accent .broughtToYou span {
+  .display-logo .broughtToYou span {
     display: block;
   }
 
   .center .gojekLogo {
     max-height: 5rem;
+  }
+
+  .display-logo .gojek {
+    display: block;
+    margin-top: 0;
   }
 
   .gojek p {
