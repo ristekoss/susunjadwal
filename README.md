@@ -44,6 +44,7 @@ db.createUser(
 ```
 
 6. Run `./start.sh`
+7. Don't forget to provide `credentials.json` in scraper folder
 
 ## License
 

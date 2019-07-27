@@ -2,7 +2,9 @@ import json
 import os
 import re
 import requests
+
 from bs4 import BeautifulSoup
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 from models.period import (
     Class,
@@ -10,6 +12,9 @@ from models.period import (
     Period,
     ScheduleItem
 )
+
+
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
 BASE_URL = "https://academic.ui.ac.id/main"
