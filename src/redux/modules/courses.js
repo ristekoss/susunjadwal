@@ -4,6 +4,7 @@
 
 export const ADD_SCHEDULE = "ADD_SCHEDULE";
 export const REMOVE_SCHEDULE = "REMOVE_SCHEDULE";
+export const CLEAR_SCHEDULE = "CLEAR_SCHEDULE";
 export const SET_COURSES = "SET_COURSES";
 
 export default function reducer(state = {}, { type, payload }) {
@@ -27,9 +28,9 @@ export default function reducer(state = {}, { type, payload }) {
           nextState[key] = type !== REMOVE_SCHEDULE && key === activatedKey;
         }
       });
-
       return nextState;
-
+    case CLEAR_SCHEDULE:
+      return {};
     default:
       return state;
   }
