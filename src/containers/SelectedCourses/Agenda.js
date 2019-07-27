@@ -157,6 +157,7 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   z-index: 1001;
+  overflow: auto;
   background: rgba(0, 0, 0, 0.5);
   display: ${({ visible }) => (visible ? "block" : "none")};
 `;
@@ -183,12 +184,11 @@ const ButtonWrapper = styled.div`
 
 const FormContainer = styled.div`
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
   max-width: 600px;
-  max-height: 100%;
   background: #fff;
   padding: 2rem;
 
