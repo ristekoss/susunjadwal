@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 import SelectedCourses from "containers/SelectedCourses";
 import Schedule from "containers/ViewSchedule/Schedule";
+import backImg from "./back.svg";
 
 const HideBodyOverflow = createGlobalStyle`
   body {
@@ -22,11 +23,16 @@ function transformSchedules(schedules) {
     .reduce((prev, now) => [...prev, ...now], []);
 }
 
-function Detail() {
+function Detail({ closeDetail }) {
   const schedules = useSelector(state => state.schedules);
+
+  function performCloseDetail() {
+    closeDetail();
+  }
 
   return (
     <Container>
+      <ImageButton src={backImg} onClick={performCloseDetail} />
       <HideBodyOverflow />
       <Schedule
         schedule={{ schedule_items: transformSchedules(schedules) }}
@@ -51,6 +57,14 @@ const Container = styled.div`
   z-index: 322;
   padding: 1rem;
   overflow: auto;
+`;
+
+const ImageButton = styled.button`
+  background: url(${({ src }) => src}) no-repeat;
+  cursor: pointer;
+  height: 24px;
+  width: 24px;
+  border: none;
 `;
 
 export default Detail;

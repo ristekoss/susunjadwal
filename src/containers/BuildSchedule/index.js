@@ -56,7 +56,7 @@ function BuildSchedule({ history }) {
         isMobile={isMobile}
         onClickDetail={() => setDetailOpened(true)}
       />
-      {isDetailOpened && <Detail />}
+      {isDetailOpened && <Detail closeDetail={() => setDetailOpened(false)} />}
     </Container>
   );
 }
