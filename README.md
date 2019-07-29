@@ -1,12 +1,11 @@
 # Susun Jadwal
-[//]: # (TODO: Implement actual CI)
-![Build Status](https://raw.githubusercontent.com/dwyl/repo-badges/master/svg/build-passing.svg)
 
 Susun Jadwal by Ristek Fasilkom UI. https://ristek.cs.ui.ac.id/susunjadwal/
 
 Monorepo setup with React frontend and Flask backend.
 
 ## Structure explained
+
 ```
 backend/
   app/                // general views
