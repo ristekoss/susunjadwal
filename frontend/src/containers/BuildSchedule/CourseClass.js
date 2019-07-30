@@ -7,16 +7,22 @@ const CourseClassMobile = props => {
   return (
     <CouseClassMobileContainer onClick={props.handleChange}>
       <h2>{props.name}</h2>
-      <h3>Pengajar</h3>
-      {props.lecturer.map(lecturer => (
-        <span key={lecturer}>- {lecturer}</span>
-      ))}
-      <h3>Jadwal</h3>
-      {props.schedule_items.map((item, idx) => (
-        <span key={idx}>
-          - {item.day}, {item.start}-{item.end} ({item.room})
-        </span>
-      ))}
+      <Row>
+        <div>
+          <h3>Jadwal</h3>
+          {props.schedule_items.map((item, idx) => (
+            <span key={idx}>
+              - {item.day}, {item.start}-{item.end}
+            </span>
+          ))}
+        </div>
+        <div>
+          <h3>Pengajar</h3>
+          {props.lecturer.map(lecturer => (
+            <span key={lecturer}>- {lecturer}</span>
+          ))}
+        </div>
+      </Row>
       <Radio active={props.isActive} />
     </CouseClassMobileContainer>
   );
@@ -105,6 +111,18 @@ const Radio = styled.div`
     margin: 4px;
     width: 14px;
     height: 14px;
+  }
+`;
+
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  div {
+    width: 47.5%;
+    display: flex;
+    flex-direction: column;
   }
 `;
 
