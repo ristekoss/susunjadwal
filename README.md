@@ -1,5 +1,7 @@
 # Susun Jadwal
 
+Susun Jadwal is an open source tool to plan class schedules for university students.
+
 Susun Jadwal by Ristek Fasilkom UI. https://ristek.cs.ui.ac.id/susunjadwal/
 
 Monorepo setup with React frontend and Flask backend.
@@ -24,3 +26,7 @@ frontend/
   ...
 README.md             // workspace-wide information shown in github
 ```
+
+## Contributing Guide
+
+Feel free to contribute by submitting a pull request.
