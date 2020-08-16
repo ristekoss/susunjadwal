@@ -66,10 +66,6 @@ location ^~ /susunjadwal/api {
 }
 ```
 
-### Volunteer Dashboard
-
-Coming soon.
-
 ## License
 
 See LICENSE.md. This software actually goes a long way back, thank you so much to everyone involved.
