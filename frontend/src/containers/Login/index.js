@@ -70,7 +70,7 @@ function Login({ history, location }) {
       <div className="broughtToYou center">
         <p>
           <span>Brought to you by</span><br/><br/>
-          <a href="https://ristek.cs.ui.ac.id/" target="_blank">
+          <a href="https://ristek.cs.ui.ac.id/" target="_blank" rel="noopener noreferrer">
             <img className="broughtToYouLogo" src={Logoset} alt="Logoset" />
           </a>
         </p>
@@ -83,8 +83,8 @@ function Login({ history, location }) {
       <div className="gojek center">
         <span>Official Learning Partner</span>
         <p className="center">Official Learning Partner</p>
-        <a href="https://www.gojek.com/" target="_blank">
-          <img className="gojekLogo" className="gojekLogo" src={GojekLogo} alt="Gojek Logo" />
+        <a href="https://www.gojek.com/" target="_blank" rel="noopener noreferrer">
+          <img className="gojekLogo" src={GojekLogo} alt="Gojek Logo" />
         </a>
       </div>
     );
