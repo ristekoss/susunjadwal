@@ -1,5 +1,5 @@
 import unittest
-from mongoengine import connect, disconnect
+from mongoengine import connect, disconnect, ValidationError
 
 from models.major import Major
 
@@ -48,6 +48,22 @@ class TestMajor(unittest.TestCase):
         major.delete()
         self.assertEqual(0, len(Major.objects))
         self.assertNotIn(major, Major.objects)
+
+    def test_major_fields_with_invalid_values(self):
+        field_values = [
+            {"name": "A" * 257, "kd_org": ""},
+            {"name": "A" * 257, "kd_org": "KD_ORG"},
+            {"name": "A" * 257, "kd_org": "B" * 17},
+            {"name": "A" * 257, "kd_org": "B" * 20},
+            {"name": "A" * 300, "kd_org": ""},
+            {"name": "A" * 300, "kd_org": "KD_ORG"},
+            {"name": "A" * 300, "kd_org": "B" * 17},
+            {"name": "A" * 300, "kd_org": "B" * 20},
+        ]
+
+        for values in field_values:
+            with self.assertRaises(ValidationError):
+                Major.objects().create(name=values["name"], kd_org=values["kd_org"])
 
 
 if __name__ == "__main__":
