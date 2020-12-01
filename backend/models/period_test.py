@@ -283,7 +283,7 @@ class TestPeriod(TestBase):
     def test_period_creation(self):
         period = Period.objects().create(
             major_id=self.generate_random_major_item().save(),
-            name="Period Name",
+            name="Period",
             is_detail=True,
             courses=[self.generate_random_course_item()],
         )
@@ -293,7 +293,7 @@ class TestPeriod(TestBase):
 
         fetched_period = periods().first()
         assert fetched_period.major_id == period.major_id
-        assert fetched_period.name == "Period Name"
+        assert fetched_period.name == "Period"
         assert fetched_period.is_detail
         assert fetched_period.courses == period.courses
 
@@ -302,7 +302,7 @@ class TestPeriod(TestBase):
     def test_period_update(self):
         period = Period.objects().create(
             major_id=self.generate_random_major_item().save(),
-            name="Period Name",
+            name="Period Name Old",
             is_detail=True,
             courses=[self.generate_random_course_item()],
         )
@@ -325,7 +325,7 @@ class TestPeriod(TestBase):
     def test_period_deletion(self):
         period = Period.objects().create(
             major_id=self.generate_random_major_item().save(),
-            name="Period Name",
+            name="Period Name Old",
             is_detail=True,
             courses=[self.generate_random_course_item()],
         )
@@ -340,7 +340,7 @@ class TestPeriod(TestBase):
     def test_serialization_contains_required_keys(self):
         period = Period(
             major_id=None,
-            name="Period Name",
+            name="Period A",
             is_detail=True,
             courses=[],
         )
@@ -355,7 +355,7 @@ class TestPeriod(TestBase):
     def test_serialize_with_empty_courses(self):
         period = Period(
             major_id=None,
-            name="Period Name",
+            name="Period B",
             is_detail=True,
             courses=[],
         )
@@ -369,7 +369,7 @@ class TestPeriod(TestBase):
     def test_serialize_with_courses(self):
         period = Period(
             major_id=None,
-            name="Period Name",
+            name="Period C",
             is_detail=True,
             courses=[self.generate_random_course_item() for _ in range(5)],
         )
