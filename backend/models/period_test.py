@@ -4,7 +4,8 @@ import string
 import pytest
 from mongoengine import ValidationError
 
-from .period import ScheduleItem, Class, Course
+from .major import Major
+from .period import ScheduleItem, Class, Course, Period
 from .utils import TestBase
 
 
@@ -242,3 +243,157 @@ class TestCourse(TestBase):
                     term=case["term"],
                     classes=case["classes"],
                 ).validate()
+
+
+class TestPeriod(TestBase):
+    @classmethod
+    def generate_random_major_item(cls):
+        letters = string.ascii_letters
+        return Major(
+            name="".join(random.choice(letters) for _ in range(256)),
+            kd_org="".join(random.choice(letters) for _ in range(16)),
+        )
+
+    @classmethod
+    def generate_random_class_item(cls):
+        letters = string.ascii_letters
+        return Class(
+            name="".join(random.choice(letters) for _ in range(128)),
+            schedule_items=[
+                ScheduleItem(
+                    day="".join(random.choice(letters) for _ in range(6)),
+                    start="".join(random.choice(letters) for _ in range(6)),
+                    end="".join(random.choice(letters) for _ in range(6)),
+                    room="".join(random.choice(letters) for _ in range(4)),
+                )
+            ],
+            lecturer=["".join(random.choice(letters) for _ in range(5))],
+        )
+
+    @classmethod
+    def generate_random_course_item(cls):
+        letters = string.ascii_letters
+        return Course(
+            name="".join(random.choice(letters) for _ in range(128)),
+            credit=random.randint(0, 10),
+            term=random.randint(0, 10),
+            classes=[cls.generate_random_class_item() for _ in range(5)],
+        )
+
+    def test_period_creation(self):
+        period = Period.objects().create(
+            major_id=self.generate_random_major_item().save(),
+            name="Period Name",
+            is_detail=True,
+            courses=[self.generate_random_course_item()],
+        )
+
+        periods = Period.objects
+        assert len(periods) == 1
+
+        fetched_period = periods().first()
+        assert fetched_period.major_id == period.major_id
+        assert fetched_period.name == "Period Name"
+        assert fetched_period.is_detail
+        assert fetched_period.courses == period.courses
+
+        fetched_period.delete()
+
+    def test_period_update(self):
+        period = Period.objects().create(
+            major_id=self.generate_random_major_item().save(),
+            name="Period Name",
+            is_detail=True,
+            courses=[self.generate_random_course_item()],
+        )
+
+        new_major = self.generate_random_major_item().save()
+        period.major_id = new_major
+        period.name = "New Name"
+        period.is_detail = False
+        period.courses = []
+        period.save()
+        period.reload()
+
+        assert period.major_id == new_major
+        assert period.name == "New Name"
+        assert not period.is_detail
+        assert period.courses == []
+
+        period.delete()
+
+    def test_period_deletion(self):
+        period = Period.objects().create(
+            major_id=self.generate_random_major_item().save(),
+            name="Period Name",
+            is_detail=True,
+            courses=[self.generate_random_course_item()],
+        )
+
+        assert len(Period.objects) == 1
+        assert period in Period.objects
+
+        period.delete()
+        assert len(Period.objects) == 0
+        assert period not in Period.objects
+
+    def test_serialization_contains_required_keys(self):
+        period = Period(
+            major_id=None,
+            name="Period Name",
+            is_detail=True,
+            courses=[],
+        )
+
+        serialized_period = period.serialize()
+
+        keys = serialized_period.keys()
+        assert "name" in keys
+        assert "is_detail" in keys
+        assert "courses" in keys
+
+    def test_serialize_with_empty_courses(self):
+        period = Period(
+            major_id=None,
+            name="Period Name",
+            is_detail=True,
+            courses=[],
+        )
+
+        serialized_period = period.serialize()
+
+        assert serialized_period["name"] == period.name
+        assert serialized_period["is_detail"] == period.is_detail
+        assert serialized_period["courses"] == []
+
+    def test_serialize_with_courses(self):
+        period = Period(
+            major_id=None,
+            name="Period Name",
+            is_detail=True,
+            courses=[self.generate_random_course_item() for _ in range(5)],
+        )
+
+        serialized_period = period.serialize()
+
+        assert serialized_period["name"] == period.name
+        assert serialized_period["is_detail"] == period.is_detail
+        for i in range(len(serialized_period["courses"])):
+            assert serialized_period["courses"][i] == period.courses[i].serialize()
+
+    def test_period_fields_validation(self):
+        course = self.generate_random_course_item()
+        test_cases = [
+            {"major_id": course, "name": "Name", "courses": [course]},
+            {"major_id": course, "name": "Name" * 10, "courses": [course]},
+            {"major_id": course, "name": "Name" * 10, "courses": [course]},
+            {"major_id": course, "name": "Name" * 10, "courses": "Courses"},
+        ]
+
+        for case in test_cases:
+            with pytest.raises(ValidationError):
+                Period(
+                    major_id=case["major_id"],
+                    name=case["name"],
+                    courses=case["courses"],
+                ).save()
