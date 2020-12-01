@@ -1,30 +1,30 @@
-import unittest
+import pytest
 from mongoengine import connect, disconnect, ValidationError
 
-from models.major import Major
-from models.user import User
+from .major import Major
+from .user import User
 
 
-class TestMajor(unittest.TestCase):
+class TestMajor:
 
     @classmethod
-    def setUpClass(cls) -> None:
+    def setup_class(cls):
         connect(db="mongoenginetest", host="mongomock://localhost")
 
     @classmethod
-    def tearDownClass(cls) -> None:
+    def teardown_class(cls):
         disconnect()
 
     def test_major_creation(self):
         major = Major.objects().create(name="Test_Name", kd_org="Test_KD_ORG")
 
         majors = Major.objects
-        self.assertEqual(len(majors), 1)
-        self.assertIn(major, majors)
+        assert len(majors) == 1
+        assert major in majors
 
         fetched_major = majors().first()
-        self.assertEqual("Test_Name", fetched_major.name)
-        self.assertEqual("Test_KD_ORG", fetched_major.kd_org)
+        assert fetched_major.name == "Test_Name"
+        assert fetched_major.kd_org == "Test_KD_ORG"
 
         major.delete()
 
@@ -36,20 +36,20 @@ class TestMajor(unittest.TestCase):
         major.save()
         major.reload()
 
-        self.assertEqual("Updated_Name", major.name)
-        self.assertEqual("Updated_KD_ORG", major.kd_org)
+        assert major.name == "Updated_Name"
+        assert major.kd_org == "Updated_KD_ORG"
 
         major.delete()
 
     def test_major_deletion(self):
         major = Major.objects().create(name="Test_Name", kd_org="Test_KD_ORG")
 
-        self.assertEqual(1, len(Major.objects))
-        self.assertIn(major, Major.objects)
+        assert len(Major.objects) == 1
+        assert major in Major.objects
 
         major.delete()
-        self.assertEqual(0, len(Major.objects))
-        self.assertNotIn(major, Major.objects)
+        assert len(Major.objects) == 0
+        assert major not in Major.objects
 
     def test_major_fields_with_invalid_values(self):
         field_values = [
@@ -64,18 +64,18 @@ class TestMajor(unittest.TestCase):
         ]
 
         for values in field_values:
-            with self.assertRaises(ValidationError):
+            with pytest.raises(ValidationError):
                 Major.objects().create(name=values["name"], kd_org=values["kd_org"])
 
 
-class TestUser(unittest.TestCase):
+class TestUser:
 
     @classmethod
-    def setUpClass(cls) -> None:
+    def setup_class(cls):
         connect(db="mongoenginetest", host="mongomock://localhost")
 
     @classmethod
-    def tearDownClass(cls) -> None:
+    def teardown_class(cls):
         disconnect()
 
     def test_user_creation(self):
@@ -89,14 +89,14 @@ class TestUser(unittest.TestCase):
         )
 
         users = User.objects
-        self.assertEqual(1, len(users))
+        assert len(users) == 1
 
         fetched_user = users.first()
-        self.assertEqual("John", fetched_user.name)
-        self.assertEqual("wick", fetched_user.username)
-        self.assertEqual("12345678", fetched_user.npm)
-        self.assertEqual("2020", fetched_user.batch)
-        self.assertEqual(major, fetched_user.major)
+        assert fetched_user.name == "John"
+        assert fetched_user.username == "wick"
+        assert fetched_user.npm == "12345678"
+        assert fetched_user.batch == "2020"
+        assert fetched_user.major == major
 
         fetched_user.delete()
         major.delete()
@@ -120,11 +120,11 @@ class TestUser(unittest.TestCase):
         user.save()
         user.reload()
 
-        self.assertEqual("Smith", user.name)
-        self.assertEqual("wock", user.username)
-        self.assertEqual("0123", user.npm)
-        self.assertEqual("123", user.batch)
-        self.assertEqual(new_major, user.major)
+        assert user.name == "Smith"
+        assert user.username == "wock"
+        assert user.npm == "0123"
+        assert user.batch == "123"
+        assert user.major == new_major
 
         user.delete()
         new_major.delete()
@@ -139,13 +139,9 @@ class TestUser(unittest.TestCase):
             major=Major.objects().create(name="Test_Name", kd_org="Test_KD_ORG")
         )
 
-        self.assertEqual(1, len(User.objects))
-        self.assertIn(user, User.objects)
+        assert len(User.objects) == 1
+        assert user in User.objects
 
         user.delete()
-        self.assertEqual(0, len(User.objects))
-        self.assertNotIn(user, User.objects)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert len(User.objects) == 0
+        assert user not in User.objects
