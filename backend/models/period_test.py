@@ -1,3 +1,6 @@
+import pytest
+from mongoengine import ValidationError
+
 from .period import ScheduleItem, Class
 from .utils import TestBase
 
@@ -6,8 +9,8 @@ class TestScheduleItem(TestBase):
     def test_serialization_contains_required_keys(self):
         schedule_item = ScheduleItem(
             day="Monday",
-            start="12-01-2020 22:00:00",
-            end="12-01-2020 23:59:00",
+            start="Start",
+            end="End",
             room="Canteen",
         )
 
@@ -21,8 +24,8 @@ class TestScheduleItem(TestBase):
     def test_serialization_values(self):
         schedule_item = ScheduleItem(
             day="Monday",
-            start="12-01-2020 22:00:00",
-            end="12-01-2020 23:59:00",
+            start="Start",
+            end="End",
             room="Canteen",
         )
 
@@ -32,6 +35,33 @@ class TestScheduleItem(TestBase):
         assert serialized_schedule_item["start"] == schedule_item.start
         assert serialized_schedule_item["end"] == schedule_item.end
         assert serialized_schedule_item["room"] == schedule_item.room
+
+    def test_schedule_item_fields_validation(self):
+        test_cases = [
+            {"day": "Monday" * 10, "start": "Start", "end": "End", "room": "Room"},
+            {"day": "Monday" * 10, "start": "Start" * 5, "end": "End", "room": "Room"},
+            {
+                "day": "Monday" * 10,
+                "start": "Start" * 5,
+                "end": "End" * 10,
+                "room": "Room",
+            },
+            {
+                "day": "Monday" * 10,
+                "start": "Start" * 5,
+                "end": "End" * 10,
+                "room": "Room" * 20,
+            },
+        ]
+
+        for case in test_cases:
+            with pytest.raises(ValidationError):
+                ScheduleItem(
+                    day=case["day"],
+                    start=case["start"],
+                    end=case["end"],
+                    room=case["room"],
+                ).validate()
 
 
 class TestClass(TestBase):
@@ -93,11 +123,37 @@ class TestClass(TestBase):
         assert serialized_class["name"] == class_item.name
         assert len(serialized_class["schedule_items"]) == 2
         assert (
-                serialized_class["schedule_items"][0]
-                == class_item.schedule_items[0].serialize()
+            serialized_class["schedule_items"][0]
+            == class_item.schedule_items[0].serialize()
         )
         assert (
-                serialized_class["schedule_items"][1]
-                == class_item.schedule_items[1].serialize()
+            serialized_class["schedule_items"][1]
+            == class_item.schedule_items[1].serialize()
         )
         assert serialized_class["lecturer"] == class_item.lecturer
+
+    def test_class_fields_validation(self):
+        test_cases = [
+            {
+                "name": "Name" * 40,
+                "schedule_items": [
+                    ScheduleItem(
+                        day="Tuesday",
+                        start="12-02-2020 21:00:00",
+                        end="12-02-2020 23:00:00",
+                        room="Auditorium",
+                    )
+                ],
+                "lecturer": ["Smith"],
+            },
+            {"name": "Name" * 40, "schedule_items": 1, "lecturer": ["Smith"]},
+            {"name": "Name" * 40, "schedule_items": 1, "lecturer": 2},
+        ]
+
+        for case in test_cases:
+            with pytest.raises(ValidationError):
+                Class(
+                    name=case["name"],
+                    schedule_items=case["schedule_items"],
+                    lecturer=case["lecturer"],
+                ).validate()
