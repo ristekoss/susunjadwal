@@ -1,5 +1,4 @@
 import datetime
-import string
 
 import pytest
 from mongoengine import ValidationError
@@ -8,8 +7,6 @@ from .major import Major
 from .user import User
 from .user_schedule import ScheduleItem, UserSchedule
 from .utils import TestBase
-
-letters = string.ascii_letters
 
 
 class TestScheduleItem(TestBase):
@@ -200,7 +197,7 @@ class TestUserSchedule(TestBase):
 
     def test_serialization_contains_required_keys(self):
         user_schedule = UserSchedule(
-            user_id=self.generate_random_user_item(), name="User Schedule A"
+            user_id=self.generate_random_user_item(), name="User Schedule B"
         )
 
         serialized_user_schedule = user_schedule.serialize()
@@ -213,7 +210,7 @@ class TestUserSchedule(TestBase):
 
     def test_serialize_with_empty_schedule_items(self):
         user_schedule = UserSchedule(
-            user_id=self.generate_random_user_item(), name="User Schedule A"
+            user_id=self.generate_random_user_item(), name="User Schedule C"
         )
 
         serialized_user_schedule = user_schedule.serialize()
