@@ -1,5 +1,4 @@
 import random
-import string
 
 import pytest
 from mongoengine import ValidationError
@@ -72,12 +71,11 @@ class TestScheduleItem(TestBase):
 class TestClass(TestBase):
     @classmethod
     def generate_random_schedule_item(cls):
-        letters = string.ascii_letters
         return ScheduleItem(
-            day="".join(random.choice(letters) for _ in range(16)),
-            start="".join(random.choice(letters) for _ in range(16)),
-            end="".join(random.choice(letters) for _ in range(16)),
-            room="".join(random.choice(letters) for _ in range(64)),
+            day=cls.get_random_string(16),
+            start=cls.get_random_string(16),
+            end=cls.get_random_string(16),
+            room=cls.get_random_string(64),
         )
 
     def test_serialize_contains_required_keys(self):
@@ -148,21 +146,18 @@ class TestClass(TestBase):
 class TestCourse(TestBase):
     @classmethod
     def generate_random_class_item(cls):
-        letters = string.ascii_letters
         return Class(
-            name="".join(random.choice(letters) for _ in range(128)),
+            name=cls.get_random_string(128),
             schedule_items=[
                 ScheduleItem(
-                    day="".join(random.choice(letters) for _ in range(10)),
-                    start="".join(random.choice(letters) for _ in range(10)),
-                    end="".join(random.choice(letters) for _ in range(10)),
-                    room="".join(random.choice(letters) for _ in range(50)),
+                    day=cls.get_random_string(10),
+                    start=cls.get_random_string(10),
+                    end=cls.get_random_string(10),
+                    room=cls.get_random_string(50),
                 )
                 for _ in range(10)
             ],
-            lecturer=[
-                "".join(random.choice(letters) for _ in range(5)) for _ in range(10)
-            ],
+            lecturer=[cls.get_random_string(5) for _ in range(10)],
         )
 
     def test_serialization_contains_required_keys(self):
@@ -248,33 +243,30 @@ class TestCourse(TestBase):
 class TestPeriod(TestBase):
     @classmethod
     def generate_random_major_item(cls):
-        letters = string.ascii_letters
         return Major(
-            name="".join(random.choice(letters) for _ in range(256)),
-            kd_org="".join(random.choice(letters) for _ in range(16)),
+            name=cls.get_random_string(256),
+            kd_org=cls.get_random_string(16),
         )
 
     @classmethod
     def generate_random_class_item(cls):
-        letters = string.ascii_letters
         return Class(
-            name="".join(random.choice(letters) for _ in range(128)),
+            name=cls.get_random_string(128),
             schedule_items=[
                 ScheduleItem(
-                    day="".join(random.choice(letters) for _ in range(6)),
-                    start="".join(random.choice(letters) for _ in range(6)),
-                    end="".join(random.choice(letters) for _ in range(6)),
-                    room="".join(random.choice(letters) for _ in range(4)),
+                    day=cls.get_random_string(6),
+                    start=cls.get_random_string(6),
+                    end=cls.get_random_string(6),
+                    room=cls.get_random_string(4),
                 )
             ],
-            lecturer=["".join(random.choice(letters) for _ in range(5))],
+            lecturer=[cls.get_random_string(5)],
         )
 
     @classmethod
     def generate_random_course_item(cls):
-        letters = string.ascii_letters
         return Course(
-            name="".join(random.choice(letters) for _ in range(128)),
+            name=cls.get_random_string(128),
             credit=random.randint(0, 10),
             term=random.randint(0, 10),
             classes=[cls.generate_random_class_item() for _ in range(5)],
