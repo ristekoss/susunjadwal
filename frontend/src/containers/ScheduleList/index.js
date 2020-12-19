@@ -122,6 +122,7 @@ align-items:center;
 
 .editIcon{
   margin-left:8px;
+  cursor:pointer;
 }
 `
 

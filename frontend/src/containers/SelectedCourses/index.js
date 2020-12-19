@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
@@ -25,6 +25,7 @@ function transformSchedules(schedules) {
 
 function SelectedCourses({ history }) {
   const schedules = useSelector(state => state.schedules);
+  console.log("ini schedule ->", schedules);
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
@@ -44,6 +45,7 @@ function SelectedCourses({ history }) {
     }
     setTimeout(() => dispatch(setLoading(false)), 1000);
   }
+
 
   let isConflict = false;
   const items = schedules.map((schedule, idx) => {

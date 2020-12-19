@@ -13,6 +13,7 @@ import Detail from '../BuildSchedule/Detail';
 import SelectedCourses from "containers/SelectedCourses";
 
 import { getSchedule, getCourses } from 'services/api';
+import { addSchedule, clearSchedule } from 'redux/modules/schedules';
 
 
 const EditSchedule = ({ match }) => {
@@ -31,8 +32,8 @@ const EditSchedule = ({ match }) => {
                 data: { user_schedule }
             } = await makeAtLeastMs(getSchedule(match.params.scheduleId), 1000);
             setUserSchedule(user_schedule);
+            dispatch(addSchedule(user_schedule));
             dispatch(setLoading(false));
-            console.log("udah didispatch");
         }
         if (!!courses) {
             fetchSchedule();
@@ -53,14 +54,11 @@ const EditSchedule = ({ match }) => {
     );
 
     useEffect(() => {
+        dispatch(clearSchedule());
         const majorId = auth.majorId;
         fetchCourses(majorId);
     }, []);
 
-    useEffect(() => {
-        console.log("ini schedule user --->", userSchedule, loading);
-        console.log("ini courses nya --->", courses, loading);
-    }, [userSchedule, courses])
 
     return (
         <Fragment>
