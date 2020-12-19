@@ -37,6 +37,8 @@ function Login({ history, location }) {
           }
         } = await makeAtLeastMs(postAuthTicket(ticket, serviceUrl), 1000);
 
+        console.log("INI data",majorName);
+
         if (err) {
           dispatch(setLoading(false));
           setError({
