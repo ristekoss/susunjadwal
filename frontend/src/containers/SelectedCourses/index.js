@@ -136,7 +136,6 @@ function SelectedCourses({ history, scheduleId, isEditing }) {
           Tambah Agenda
         </Button>
         <Button
-          // onClick={() => totalCredits === 0 ? isEditing ? handleDeleteSchedule() : updateSchedule()}
           onClick={() => !isEditing ? saveSchedule() : totalCredits === 0 ? handleDeleteSchedule() : updateSchedule()}
           disabled={isConflict || totalCredits > 24}
           intent={totalCredits === 0 && isEditing && 'danger'}
