@@ -14,12 +14,14 @@ import SelectedCourses from "containers/SelectedCourses";
 
 import { getSchedule, getCourses } from 'services/api';
 import { addSchedule, clearSchedule } from 'redux/modules/schedules';
+import { generateScheduledCourseListFromSchedule } from './utils';
 
 
 const EditSchedule = ({ match }) => {
     const dispatch = useDispatch();
     const auth = useSelector(state => state.auth);
     const { loading, isMobile } = useSelector(state => state.appState)
+    const schedules = useSelector(state => state.schedules);
     const { scheduleId } = useParams();
     const [userSchedule, setUserSchedule] = useState(null);
     const [courses, setCourses] = useState(null);
@@ -32,13 +34,16 @@ const EditSchedule = ({ match }) => {
                 data: { user_schedule }
             } = await makeAtLeastMs(getSchedule(match.params.scheduleId), 1000);
             setUserSchedule(user_schedule);
-            dispatch(addSchedule(user_schedule));
+            const formattedSchedule = await generateScheduledCourseListFromSchedule(auth.majorId, user_schedule);
+            formattedSchedule.forEach(schd => {
+                dispatch(addSchedule(schd));
+            })
             dispatch(setLoading(false));
         }
         if (!!courses) {
             fetchSchedule();
         }
-    }, [match, dispatch, courses]);
+    }, [match, dispatch, courses, auth.majorId]);
 
 
     const fetchCourses = useCallback(
@@ -48,7 +53,7 @@ const EditSchedule = ({ match }) => {
             setCourses(data.courses);
             setCoursesDetail(data.is_detail);
             dispatch(reduxSetCourses(data.courses));
-            setTimeout(() => dispatch(setLoading(false)), 1000);
+            setTimeout(() => dispatch(setLoading(false)), 2000);
         },
         [dispatch]
     );
@@ -58,6 +63,10 @@ const EditSchedule = ({ match }) => {
         const majorId = auth.majorId;
         fetchCourses(majorId);
     }, []);
+
+    useEffect(() => {
+        console.log("here's reducer from edit page ==>", schedules, typeof (schedules))
+    }, [schedules])
 
 
     return (

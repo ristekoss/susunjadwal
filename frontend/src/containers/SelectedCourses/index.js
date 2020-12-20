@@ -25,7 +25,6 @@ function transformSchedules(schedules) {
 
 function SelectedCourses({ history }) {
   const schedules = useSelector(state => state.schedules);
-  console.log("ini schedule ->", schedules);
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
@@ -45,6 +44,7 @@ function SelectedCourses({ history }) {
     }
     setTimeout(() => dispatch(setLoading(false)), 1000);
   }
+
 
 
   let isConflict = false;

@@ -20,6 +20,7 @@ export default function reducer(state = [], { type, payload }) {
 }
 
 export function addSchedule(schedule) {
+  console.log("ini schedule mau tambahin", schedule);
   return { type: ADD_SCHEDULE, payload: schedule };
 }
 
