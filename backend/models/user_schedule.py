@@ -32,8 +32,7 @@ class UserSchedule(mongo.Document):
         return data
 
     def clear_schedule_item(self):
-        for schedule_item in self.schedule_items:
-            schedule_item.delete()
+        self.schedule_items = []
 
     def __get_schedule_items(self):
         data = []
