@@ -17,7 +17,6 @@ function BuildSchedule({ history }) {
   const auth = useSelector(state => state.auth);
   const isMobile = useSelector(state => state.appState.isMobile);
   const [detailData, setDetailData] = useState(null);
-  const schedules = useSelector(state => state.schedules);
 
   const dispatch = useDispatch();
 
@@ -40,11 +39,9 @@ function BuildSchedule({ history }) {
     dispatch(clearSchedule());
     const majorId = auth.majorId;
     fetchCourses(majorId);
-  }, [auth, fetchCourses]);
+  }, [auth.majorId, dispatch, fetchCourses]);
 
-  useEffect(() => {
-    console.log("here's reducer from build page ==>", schedules, typeof (schedules))
-  }, [schedules])
+
 
   return (
     <Container>

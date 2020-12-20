@@ -14,26 +14,24 @@ import Detail from '../BuildSchedule/Detail';
 import { getSchedule, getCourses } from 'services/api';
 import { addSchedule, clearSchedule } from 'redux/modules/schedules';
 import { generateScheduledCourseListFromSchedule } from './utils';
-import SelectedCourseToEdit from './components/SelectedCourseToEdit';
+import SelectedCourses from 'containers/SelectedCourses';
 
 
 const EditSchedule = ({ match }) => {
     const dispatch = useDispatch();
     const auth = useSelector(state => state.auth);
-    const { loading, isMobile } = useSelector(state => state.appState)
-    const schedules = useSelector(state => state.schedules);
+    const { isMobile } = useSelector(state => state.appState)
     const { scheduleId } = useParams();
-    const [userSchedule, setUserSchedule] = useState(null);
     const [courses, setCourses] = useState(null);
     const [detailData, setDetailData] = useState(null);
     const [isCoursesDetail, setCoursesDetail] = useState(null);
+
     useEffect(() => {
         async function fetchSchedule() {
             dispatch(setLoading(true));
             const {
                 data: { user_schedule }
             } = await makeAtLeastMs(getSchedule(match.params.scheduleId), 1000);
-            setUserSchedule(user_schedule);
             const formattedSchedule = await generateScheduledCourseListFromSchedule(auth.majorId, user_schedule);
             formattedSchedule.forEach(schd => {
                 dispatch(addSchedule(schd));
@@ -62,17 +60,14 @@ const EditSchedule = ({ match }) => {
         dispatch(clearSchedule());
         const majorId = auth.majorId;
         fetchCourses(majorId);
-    }, []);
+    }, [auth.majorId, dispatch, fetchCourses]);
 
-    useEffect(() => {
-        console.log("here's reducer from edit page ==>", schedules, typeof (schedules))
-    }, [schedules])
+
 
 
     return (
         <Fragment>
             <Helmet title="Edit Jadwal" />
-            <div style={{ color: 'white' }} >Hai, ini jadwal {scheduleId}</div>
             <Container>
                 <CoursePickerContainer isMobile={isMobile}>
                     <h1>Edit Jadwal</h1>
@@ -90,7 +85,7 @@ const EditSchedule = ({ match }) => {
                 </CoursePickerContainer>
                 {!isMobile && (
                     <SelectedCoursesContainer>
-                        <SelectedCourseToEdit scheduleId={scheduleId} />
+                        <SelectedCourses scheduleId={scheduleId} isEditing />
                     </SelectedCoursesContainer>
                 )}
                 <Checkout
@@ -101,6 +96,8 @@ const EditSchedule = ({ match }) => {
                 />
                 {detailData && detailData.opened && (
                     <Detail
+                        scheduleId={scheduleId}
+                        isEditing
                         closeDetail={() =>
                             setDetailData({ opened: false, isConflict: detailData.isConflict })
                         }
