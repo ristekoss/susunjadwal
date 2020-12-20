@@ -10,11 +10,11 @@ import { setCourses as reduxSetCourses } from "redux/modules/courses";
 import Course from '../BuildSchedule/Course';
 import Checkout from '../BuildSchedule/Checkout';
 import Detail from '../BuildSchedule/Detail';
-import SelectedCourses from "containers/SelectedCourses";
 
 import { getSchedule, getCourses } from 'services/api';
 import { addSchedule, clearSchedule } from 'redux/modules/schedules';
 import { generateScheduledCourseListFromSchedule } from './utils';
+import SelectedCourseToEdit from './components/SelectedCourseToEdit';
 
 
 const EditSchedule = ({ match }) => {
@@ -90,7 +90,7 @@ const EditSchedule = ({ match }) => {
                 </CoursePickerContainer>
                 {!isMobile && (
                     <SelectedCoursesContainer>
-                        <SelectedCourses />
+                        <SelectedCourseToEdit scheduleId={scheduleId} />
                     </SelectedCoursesContainer>
                 )}
                 <Checkout
