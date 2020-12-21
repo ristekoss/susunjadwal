@@ -63,9 +63,7 @@ const EditSchedule = ({ match }) => {
         fetchCourses(majorId);
     }, [auth.majorId, dispatch, fetchCourses]);
 
-    useEffect(() => {
-        console.log("schedules reducer updated", schedules);
-    }, [schedules])
+
 
 
 
