@@ -25,6 +25,7 @@ const EditSchedule = ({ match }) => {
     const [courses, setCourses] = useState(null);
     const [detailData, setDetailData] = useState(null);
     const [isCoursesDetail, setCoursesDetail] = useState(null);
+    const schedules = useSelector(state => state.schedules);
 
     useEffect(() => {
         async function fetchSchedule() {
@@ -61,6 +62,10 @@ const EditSchedule = ({ match }) => {
         const majorId = auth.majorId;
         fetchCourses(majorId);
     }, [auth.majorId, dispatch, fetchCourses]);
+
+    useEffect(() => {
+        console.log("schedules reducer updated", schedules);
+    }, [schedules])
 
 
 
