@@ -137,7 +137,7 @@ function SelectedCourses({ history, scheduleId, isEditing }) {
         <Button
           onClick={() => !isEditing ? saveSchedule() : totalCredits === 0 ? handleDeleteSchedule() : updateSchedule()}
           disabled={isConflict || totalCredits > 24}
-          intent={totalCredits === 0 && isEditing && 'danger'}
+          intent={schedules.length === 0 && isEditing && 'danger'}
         >
           {schedules.length === 0 ? "Hapus Jadwal" : "Simpan Jadwal"}
         </Button>
