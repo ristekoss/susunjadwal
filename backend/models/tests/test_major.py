@@ -1,10 +1,11 @@
 import pytest
 from mongoengine import ValidationError
 
-from .major import Major
-from .utils import TestBase
+from models.major import Major
+from .test_utils import TestBase
 
 
+@pytest.mark.usefixtures("mongo")
 class TestMajor(TestBase):
     def test_major_creation(self):
         major = Major.objects().create(name="Test_Name", kd_org="Test_KD_ORG")
