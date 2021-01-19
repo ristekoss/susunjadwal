@@ -1,5 +1,24 @@
 import pytest
 from mongoengine import disconnect, connect
+from app import app
+
+
+@pytest.fixture(scope='module')
+def client():
+    """Generate test client for every module.
+    How to use this fixture for a method:
+    ```
+    def test_xxx(self, client):
+        # Use client to make request
+    ```
+    """
+    with app.test_client() as client:
+        with app.app_context():
+            app.config.update(
+                TESTING=True,
+                ENV='test'
+            )
+        yield client
 
 
 @pytest.fixture(scope="function")
