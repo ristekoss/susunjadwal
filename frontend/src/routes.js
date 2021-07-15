@@ -17,7 +17,7 @@ import Footer from "containers/Footer";
 import BetaForm from "containers/BetaForm";
 import BetaLanding from "containers/BetaLanding";
 import { Box } from "@chakra-ui/react";
-import SsoCredsForm from "containers/SsoCredsForm/indes";
+import SsoCredsForm from "containers/SsoCredsForm";
 
 const ROUTES = [
   { path: "/susun", component: BuildSchedule, auth: true },
