@@ -17,6 +17,7 @@ import Footer from "containers/Footer";
 import BetaForm from "containers/BetaForm";
 import BetaLanding from "containers/BetaLanding";
 import { Box } from "@chakra-ui/react";
+import SsoCredsForm from "containers/SsoCredsForm/indes";
 
 const ROUTES = [
   { path: "/susun", component: BuildSchedule, auth: true },
@@ -37,6 +38,7 @@ function Routes() {
           <Route path="/" name="home" component={Login} exact />
           <Route path="/beta" name="beta" component={BetaLanding} />
           <Route path="/beta-form" name="beta-form" component={BetaForm} />
+          <Route path="/form/creds" name="sso-cred-sform" component={SsoCredsForm} />
           <Route component={RoutesWithNavbar} />
         </Switch>
       </Box>
