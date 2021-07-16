@@ -25,6 +25,6 @@ requests==2.22.0
 six==1.16.0
 soupsieve==2.2.1
 typing-extensions==3.10.0.0
-urllib3==1.25.11
+urllib3==1.26.5
 Werkzeug==2.0.1
 WTForms==2.3.3
