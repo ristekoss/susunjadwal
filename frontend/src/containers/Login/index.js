@@ -43,6 +43,8 @@ function Login({ history, location }) {
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
+  history.push("/beta");
+
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -83,7 +85,11 @@ function Login({ history, location }) {
   }, [location, dispatch, history]);
 
   useEffect(() => {
-    if (auth) history.push("/susun");
+    /**
+     * Temporarily redirects to beta/logout
+     * while on beta testing registration phase
+     */
+    if (auth) history.push("/logout");
   }, [auth, history]);
 
   return (
