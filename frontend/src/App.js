@@ -9,9 +9,9 @@ import Loading from "containers/Loading";
 import Routes from "./routes";
 import store from "./redux/store";
 
+import ScrollToTop from "utils/scroll";
 import config from "config";
 import "./app.css";
-import ScrollToTop from "utils/ScrollToTop";
 
 const history = createBrowserHistory({ basename: config.BASE_URL });
 
