@@ -12,12 +12,8 @@ export default class NotFound extends React.Component {
 }
 
 const NotFoundTitle = styled.div`
-<<<<<<< HEAD
   font-size: 2rem;
   color: black;
-=======
-  color: white;
->>>>>>> 04437221180ed84ad14207a62496eadf3b2df143
   margin: 1rem;
   font-size: 2rem;
   font-weight: 700;
