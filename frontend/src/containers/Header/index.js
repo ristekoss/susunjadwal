@@ -27,7 +27,7 @@ const LINKS = [
   { to: "/susun", label: "Buat Jadwal" },
   { to: "/jadwal", label: "Daftar Jadwal" },
   { to: "/update", label: "Update Matkul" },
-  { to: "/kontributor", label: "Kontributor" },
+  // { to: "/kontributor", label: "Kontributor" },
 ];
 
 function Header() {
@@ -52,10 +52,12 @@ function Header() {
           />
         </Link>
       </Box>
-      {isMobile && <WrapperHamburger open={isOpen} onClick={toggleMenu}>
-        <HamburgerIcon />
-      </WrapperHamburger>}
-      {/* {!auth ? <NavLinks /> : null} TODO:should uncomment this line*/} 
+      {isMobile && (
+        <WrapperHamburger open={isOpen} onClick={toggleMenu}>
+          <HamburgerIcon />
+        </WrapperHamburger>
+      )}
+      {/* {!auth ? <NavLinks /> : null} TODO:should uncomment this line*/}
       <NavLinks pathname={pathname} /> {/** TODO: should comment this line*/}
       <SideBar pathname={pathname} onClose={onClose} isOpen={isOpen} />
     </Container>

@@ -11,7 +11,7 @@ import { makeAtLeastMs } from "utils/promise";
 import { postAuthTicket } from "services/api";
 import { setAuth } from "redux/modules/auth";
 
-import { Bauhaus } from 'components/Bauhaus';
+import { Bauhaus } from "components/Bauhaus";
 
 import {
   Header,
@@ -40,7 +40,7 @@ function getServiceUrl() {
 }
 
 function Login({ history, location }) {
-  const auth = useSelector(state => state.auth);
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -55,28 +55,27 @@ function Login({ history, location }) {
             user_name: username,
             full_name: fullname,
             err: isPeriodMissing,
-            completion_id: completionId
-          }
+            completion_id: completionId,
+          },
         } = await makeAtLeastMs(postAuthTicket(ticket, serviceUrl), 1000);
 
         if (completionId !== undefined) {
           persistCompletion({ username, fullname, completionId });
           dispatch(setLoading(false));
-          history.replace('/complete');
+          history.replace("/complete");
           return null;
         }
 
         if (isPeriodMissing) {
           dispatch(setLoading(false));
           persistAuth({ majorId, userId, token });
-          history.replace('/update')
+          history.replace("/update");
           return null;
         } else {
           dispatch(setAuth({ majorId, userId, token }));
         }
 
         persistAuth({ majorId, userId, token });
-
       } catch (e) {
         dispatch(setLoading(false));
         history.replace("/");
@@ -88,7 +87,6 @@ function Login({ history, location }) {
       const serviceUrl = getServiceUrl();
       authenticate(ticket, serviceUrl);
     }
-
   }, [location, dispatch, history]);
 
   useEffect(() => {
@@ -101,7 +99,9 @@ function Login({ history, location }) {
 
       <HeroSection>
         <LogoRistek src={RistekLogo} alt="ristek-logo" />
-        <Header>Susun<span>Jadwal</span></Header>
+        <Header>
+          Susun<span>Jadwal</span>
+        </Header>
         <Button
           mt={{ base: "4rem", lg: "4.5rem" }}
           onClick={redirectToSSOLogin}
@@ -117,9 +117,9 @@ function Login({ history, location }) {
         <TextBox>
           <Title>Apa itu SusunJadwal?</Title>
           <Paragraph>
-            SusunJadwal merupakan situs untuk membantu kamu menentukan jadwal kuliah
-            yang akan kamu ambil dalam suatu semester. Dengan SusunJadwal, peluang
-            kamu menang SIAK War akan lebih besar, loh!
+            SusunJadwal merupakan situs untuk membantu kamu menentukan jadwal
+            kuliah yang akan kamu ambil dalam suatu semester. Dengan
+            SusunJadwal, peluang kamu menang SIAK War akan lebih besar, loh!
           </Paragraph>
         </TextBox>
         <FlexItem display="flex" justifyContent="center">
@@ -127,23 +127,44 @@ function Login({ history, location }) {
         </FlexItem>
       </FlexBox>
 
-      <FlexBox flexDir={{ base: "column", lg: "row" }} mb={{ base: "6rem", lg: "10rem" }}>
-        <FlexItem display="flex" justifyContent={{ base: "center", lg: "flex-start" }} >
+      <FlexBox
+        flexDir={{ base: "column", lg: "row" }}
+        mb={{ base: "6rem", lg: "10rem" }}
+      >
+        <FlexItem
+          display="flex"
+          justifyContent={{ base: "center", lg: "flex-start" }}
+        >
           <AssetBetaB src={BetaAssetB} alt="beta-landing-asset-2" />
         </FlexItem>
         <TextBox>
-          <Title>Bergabung dengan Komunitas SusunJadwal di Discord. <span>Soon!</span></Title>
+          <Title>
+            Bergabung dengan Komunitas SusunJadwal di Discord.{" "}
+            <span>Soon!</span>
+          </Title>
           <Paragraph>
-            Bantu kami dengan menjadi kontributor untuk meningkatkan kualitas SusunJadwal.
-            Dengan ini, kamu ikut berperan dalam membantu mahasiswa Universitas Indonesia!
+            Bantu kami dengan menjadi kontributor untuk meningkatkan kualitas
+            SusunJadwal. Dengan ini, kamu ikut berperan dalam membantu mahasiswa
+            Universitas Indonesia!
           </Paragraph>
           <LinkBox>
-            <a href="https://discord.com/" rel="noopener noreferrer" target="_blank">
-              <Button m={{ base: "0 0 1rem 0", lg: "0 1rem 0 0" }} w="fit-content">Gabung Discord</Button>
+            <a
+              href="https://discord.com/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <Button
+                m={{ base: "0 0 1rem 0", lg: "0 1rem 0 0" }}
+                w="fit-content"
+              >
+                Gabung Discord
+              </Button>
             </a>
-            <Link to="/beta-form" >
-              <Button variant="outline" w="fit-content">Lihat kontributor</Button>
-            </Link>
+            {/* <Link to="/beta-form">
+              <Button variant="outline" w="fit-content">
+                Lihat kontributor
+              </Button>
+            </Link> */}
           </LinkBox>
         </TextBox>
       </FlexBox>
