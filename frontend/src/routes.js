@@ -16,7 +16,7 @@ import EditSchedule from "./containers/EditSchedule";
 import Footer from "containers/Footer";
 import BetaForm from "containers/BetaForm";
 import BetaLanding from "containers/BetaLanding";
-import UpdateCourses  from "containers/UpdateCourses";
+import UpdateCourses from "containers/UpdateCourses";
 import { theme } from "styles/StyledTheme";
 import CompleteForm from "containers/CompleteForm";
 
@@ -24,10 +24,10 @@ const ROUTES = [
   { path: "/susun", component: BuildSchedule, auth: true },
   { path: "/jadwal/:scheduleId", component: ViewSchedule, auth: false },
   { path: "/jadwal", component: ScheduleList, auth: true },
+  { path: "/update", component: UpdateCourses, auth: true },
   { path: "/logout", component: Logout, auth: true },
   { path: "/edit/:scheduleId", component: EditSchedule, auth: true },
 ];
-
 
 function Routes() {
   const isMobile = useSelector((state) => state.appState.isMobile);
@@ -35,7 +35,8 @@ function Routes() {
   return (
     <ThemeProvider theme={{ mobile: isMobile, ...theme }}>
       <Box
-        pt="120px" mb={{ base: 16 , md: '108px'}}
+        pt="120px"
+        mb={{ base: 16, md: "108px" }}
         px={{ base: 6, lg: "80px" }}
         overflowX="hidden !important"
       >
@@ -43,7 +44,6 @@ function Routes() {
           <Route path="/" name="home" component={Login} exact />
           <Route path="/beta" name="beta" component={BetaLanding} />
           <Route path="/beta-form" name="beta-form" component={BetaForm} />
-          <Route path="/update" name="update-matkul" component={UpdateCourses} />
           <Route path="/complete" name="complete-form" component={CompleteForm} />
           <Route component={RoutesWithNavbar} />
         </Switch>
