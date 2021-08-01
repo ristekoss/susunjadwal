@@ -1,10 +1,9 @@
-import React from "react";
 import { ThemeProvider } from "styled-components";
 import { Route, Switch, Redirect } from "react-router";
 import { useSelector } from "react-redux";
 import { Box } from "@chakra-ui/react";
+import React from "react";
 
-// import Landing from "containers/Landing"; // uncheck to see component examples
 import Login from "./containers/Login";
 import BuildSchedule from "./containers/BuildSchedule";
 import Header from "./containers/Header";
@@ -31,12 +30,15 @@ const ROUTES = [
 ];
 
 function Routes() {
+  const isAnnouncement = useSelector((state) => state.appState.isAnnouncement);
   const isMobile = useSelector((state) => state.appState.isMobile);
+
+  const paddingTopLargeScreen = isAnnouncement ? "162px" : "120px";
 
   return (
     <ThemeProvider theme={{ mobile: isMobile, ...theme }}>
       <Box
-        pt="140px"
+        pt={{ base: "120px", lg: paddingTopLargeScreen }}
         mb={{ base: 16, md: "108px" }}
         px={{ base: 6, lg: "80px" }}
         overflowX="hidden !important"
@@ -45,16 +47,8 @@ function Routes() {
           <Route path="/" name="home" component={Login} exact />
           <Route path="/beta" name="beta" component={BetaLanding} />
           <Route path="/beta-form" name="beta-form" component={BetaForm} />
-          <Route
-            path="/complete"
-            name="complete-form"
-            component={CompleteForm}
-          />
-          <Route
-            path="/kontributor"
-            name="kontributor"
-            component={Contributors}
-          />
+          <Route path="/complete" name="complete-form" component={CompleteForm} />
+          <Route path="/kontributor" name="kontributor" component={Contributors} />
           <Route component={RoutesWithNavbar} />
         </Switch>
       </Box>

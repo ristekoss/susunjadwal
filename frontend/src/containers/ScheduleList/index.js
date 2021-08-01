@@ -77,7 +77,8 @@ const ScheduleList = () => {
 
   const showAlertCopy = () => {
     SuccessToast(
-      "Link telah disalin!! Kamu bisa bagikan link tersebut ke teman kamu."
+      "Link berhasil disalin!",
+      isMobile
     );
   }
 
@@ -115,10 +116,12 @@ const ScheduleList = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
+
       <Helmet
         title="Daftar Jadwal"
         meta={[{ name: "description", content: "Description of Jadwal" }]}
       />
+
       {schedules && schedules.length > 0? (
           <>
             <BauhausSide />
@@ -161,7 +164,7 @@ const ScheduleList = () => {
         </CardContainer>
       ) : (
         <>
-           {isMobile ? (
+          {isMobile ? (
               <AssetBauhaus
                 isMobile={isMobile}
                 src={BauhausMobile}
@@ -220,10 +223,15 @@ align-items:center;
 `;
 
 const PageTitle = styled.h1`
+  margin: ${({ mobile }) => (mobile ? "-40px 0 0 0px" : "0px 48px 30px 48px")};
   font-size: ${({ mobile }) => (mobile ? "1.7rem" : "2rem")};
+  text-align: center;
   font-weight: bold;
   color: #5038BC;
-  margin: ${({ mobile }) => (mobile ? "-20px 0 0 48px" : "-10px 48px 30px 48px")};
+
+  @media (min-width: 900px) {
+    text-align: left;
+  }
 `;
 
 const PageTitleNoSchedule = styled.h1`
@@ -245,11 +253,11 @@ const Card = styled.div`
   h2 {
     color: #333333;
     font-weight: bold;
-    font-size: 24px;
+    font-size: 18px;
   }
   h4{
     color: #333333;
-    font-size: 14px;
+    font-size: 12px;
   }
   .headerInfo {
     padding: 1.2rem;
@@ -257,6 +265,7 @@ const Card = styled.div`
     flex-direction: row;
     justify-content: space-between;
     background-color: #F5F5F5;
+    border-radius: 8px 8px 0 0;
   }
   ${props =>
     !props.theme.mobile &&
@@ -267,12 +276,21 @@ const Card = styled.div`
       }
     `}
   margin-bottom: 32px;
+
+  @media (min-width: 900px) {
+    h2 {
+      font-size: 24px;
+    }
+    h4 {
+      font-size: 14px;
+    }
+  }
 `;
 
 const CardContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
   width: 100%;
+  flex-wrap: wrap;
   flex-direction: ${props => (props.theme.mobile ? "column" : "row")};
   padding: ${props => (props.theme.mobile ? "1rem 3rem 0 3rem" : "0 48px")};
   background-color: #ffffff;
