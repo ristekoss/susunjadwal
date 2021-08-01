@@ -1,4 +1,5 @@
 import React from "react";
+import ReactGA from "react-ga";
 import Helmet from "react-helmet";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
@@ -39,6 +40,10 @@ const UpdateCourses = () => {
       await postScrapeSchedule(values);
       setTimeout(() => {
         toast.closeAll();
+        ReactGA.event({
+          category: "Update Matkul",
+          action: "Updated the courses"
+        });
         SuccessToast(
           "Jadwal berhasil diperbaharui",
           isMobile
