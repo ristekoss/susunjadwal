@@ -29,6 +29,7 @@ import deleteImg from "assets/Delete.svg";
 import clipboardImg from "assets/Clipboard.svg";
 import { SuccessToast } from "components/Toast";
 
+import getFormattedSchedule from "utils/schedule";
 import ScheduleList from "./ScheduleList";
 
 function ViewSchedule({ match, history }) {
@@ -41,6 +42,13 @@ function ViewSchedule({ match, history }) {
   const [schedule, setSchedule] = useState(null);
   const [createdAt, setCreatedAt] = useState(null);
   const [isDisplayTimetable, setIsDisplayTimetable] = useState(true);
+
+  let formattedSchedule = {};
+  let totalCredits = 0;
+
+  if (schedule) {
+    [formattedSchedule, totalCredits] = getFormattedSchedule(schedule);
+  }
 
   async function onRename(slug, value) {
     if (auth) {
@@ -132,7 +140,7 @@ function ViewSchedule({ match, history }) {
                       "/" +
                       (createdAt?.getMonth() + 1) +
                       "/" +
-                      createdAt?.getFullYear()}
+                      createdAt?.getFullYear()} • {totalCredits} SKS
                   </p>
                 </ScheduleNameEditable>
               ) : (
@@ -196,7 +204,10 @@ function ViewSchedule({ match, history }) {
             showRoom
           />
         ) : (
-          <ScheduleList schedule={schedule} />
+          <ScheduleList
+            formattedSchedule={formattedSchedule}
+            totalCredits={totalCredits}
+          />
         )}
       </MainContainer>
     </>

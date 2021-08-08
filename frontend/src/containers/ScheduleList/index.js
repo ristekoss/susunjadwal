@@ -33,20 +33,17 @@ import { BauhausSide } from 'components/Bauhaus';
 import BauhausMobile from "assets/Beta/bauhaus-sm.svg";
 import BauhausDesktop from "assets/Beta/bauhaus-lg.svg";
 import { SuccessToast } from "components/Toast";
+import getFormattedSchedule from "utils/schedule";
 
 const ScheduleList = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
   const isMobile = useSelector(state => state.appState.isMobile);
-
-  const [selectedId, setSelectedId] = useState('');
-
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const dispatch = useDispatch();
-
+  const [selectedId, setSelectedId] = useState('');
   const [schedules, setSchedules] = useState();
-
-  const history = useHistory();
 
   useEffect(() => {
     const fetchSchedules = async () => {
@@ -132,44 +129,52 @@ const ScheduleList = () => {
       />
 
       {schedules && schedules.length > 0? (
-          <>
-            <BauhausSide />
-            <PageTitle mobile={isMobile}>Daftar Jadwal</PageTitle>
-          </>
-        ): ""}
+        <>
+          <BauhausSide />
+          <PageTitle mobile={isMobile}>Daftar Jadwal</PageTitle>
+        </>
+      ): ""}
+
       {schedules && schedules.length > 0 ? (
         <CardContainer>
-          {schedules.map((schedule, idx) => (
-            <Card key={`${schedule.name}-${idx}`}>
-              <div className="headerInfo">
-                <Link to={`/jadwal/${schedule.id}`}>
-                  <h2>{decodeHtmlEntity(schedule.name) || "Untitled"}</h2>
-                  <h4>Dibuat pada {convertDate(schedule.created_at)}</h4>
-                </Link>
-                <CardActionContainer>
-                  <CopyToClipboard
-                    text={`${window.location.href}/${schedule.id}`}
-                    onCopy={showAlertCopy}
-                  >
-                    <ImageButton src={clipboardImg} />
-                  </CopyToClipboard>
-                  <ImageButton
-                    src={deleteImg}
-                    onClick={() => showDialogDelete(schedule.id)}
-                  />
-                  <EditIcon className="editIcon" onClick={() => handleClickEditJadwal(schedule.id)} />
-                </CardActionContainer>
-              </div>
-              <Schedule
-                startHour={7}
-                endHour={21}
-                schedule={schedule}
-                pxPerMinute={isMobile ? 0.3 : 0.7}
-                width="100%"
-                showRoom
-              />
-            </Card>
-          ))}
+          {schedules.map((schedule, idx) => {
+            const [, totalCredits] = getFormattedSchedule(schedule)
+
+            return (
+              <Card key={`${schedule.name}-${idx}`}>
+                <div className="headerInfo">
+                  <Link to={`/jadwal/${schedule.id}`}>
+                    <h2>{decodeHtmlEntity(schedule.name) || "Untitled"}</h2>
+                    <h4>
+                      Dibuat pada {convertDate(schedule.created_at)}
+                      {' '} • {totalCredits} SKS
+                    </h4>
+                  </Link>
+                  <CardActionContainer>
+                    <CopyToClipboard
+                      text={`${window.location.href}/${schedule.id}`}
+                      onCopy={showAlertCopy}
+                    >
+                      <ImageButton src={clipboardImg} />
+                    </CopyToClipboard>
+                    <ImageButton
+                      src={deleteImg}
+                      onClick={() => showDialogDelete(schedule.id)}
+                    />
+                    <EditIcon className="editIcon" onClick={() => handleClickEditJadwal(schedule.id)} />
+                  </CardActionContainer>
+                </div>
+                <Schedule
+                  startHour={7}
+                  endHour={21}
+                  schedule={schedule}
+                  pxPerMinute={isMobile ? 0.3 : 0.7}
+                  width="100%"
+                  showRoom
+                />
+              </Card>
+            )
+          })}
         </CardContainer>
       ) : (
         <>
