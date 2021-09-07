@@ -105,7 +105,8 @@ def generate_desc_prerequisite(courses, req):
             if textarea.contents:
                 textarea_content = textarea.contents[0]
                 desc = textarea_content.replace('\r\n', ' ')
-                print(len(desc))
+                if len(desc) > 2048:
+                    desc = ""
             else:
                 desc = ""
             break
