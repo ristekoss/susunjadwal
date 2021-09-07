@@ -135,13 +135,11 @@ def create_courses(html, is_detail=False):
         if m:
             credit, term = m.group().split(' SKS, Term ')
 
-        c = str(class_.text).split(" - ")
-        if c:
-            course_code = c[0].strip()
+        c = re.search('([A-Z]{4}[0-9]{6}) -', class_.text)
+        course_code = c.group()[:-2] if c else ''
 
-        c = str(class_.text).split("Kurikulum")
-        if c:
-            curriculum = c[1].strip()
+        c = re.search('Kurikulum ([0-9,.,-]+)', class_.text)
+        curriculum = c.group()[10:] if c else ''
 
         classes = []
         for sib in class_.parent.find_next_siblings('tr'):
