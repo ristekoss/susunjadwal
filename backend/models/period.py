@@ -57,6 +57,8 @@ class Course(mongo.EmbeddedDocument):
             "credit": self.credit,
             "code": self.course_code,
             "curriculum": self.curriculum,
+            "description": self.description,
+            "prerequisite": self.prerequisite,
             "term": self.term,
             "classes": self.__get_classes()
         }
