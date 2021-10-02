@@ -32,7 +32,6 @@ import {
   AssetBetaB,
 } from "containers/BetaLanding/styles";
 
-
 import RistekLogo from "assets/Beta/Beta_Logo.svg";
 import ChevronArrow from "assets/Beta/chevron-down.svg";
 import BetaAssetA from "assets/Beta/beta-landing-asset-1.svg";
@@ -152,20 +151,19 @@ function Login({ history, location }) {
             Universitas Indonesia!
           </Paragraph>
           <LinkBox>
-            <Link
-              href="https://discord.com/"
+            <a
+              href="https://discord.gg/V9W5ESksgG"
               rel="noopener noreferrer"
               target="_blank"
             >
               <Button
-                disabled
-                _hover={{ background: 'primary.Purple' }}
+                _hover={{ background: "primary.Purple" }}
                 m={{ base: "0 0 1rem 0", lg: "0 1rem 0 0" }}
                 w="fit-content"
               >
                 Gabung Discord
               </Button>
-            </Link>
+            </a>
             <Link to="/kontributor">
               <Button variant="outline" w="fit-content">
                 Lihat kontributor
