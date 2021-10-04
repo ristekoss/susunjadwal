@@ -22,6 +22,7 @@ AUTH_URL = f"{BASE_URL}/Authentication/Index"
 CHANGEROLE_URL = f"{BASE_URL}/Authentication/ChangeRole"
 DETAIL_SCHEDULE_URL = f"{BASE_URL}/Schedule/Index?period={{period}}&search="
 GENERAL_SCHEDULE_URL = f"{BASE_URL}/Schedule/IndexOthers?fac={{fac}}&org={{org}}&per={{period}}&search="
+DETAIL_COURSES_URL = f"{BASE_URL}/Course/Detail?course={{course}}&curr={{curr}}"
 DEFAULT_CREDENTIAL = "01.00.12.01"
 
 def scrape_courses_with_credentials(period, username, password):
@@ -92,6 +93,40 @@ def get_period_and_kd_org(html):
 
     return None, None
 
+def generate_desc_prerequisite(period, username, password):
+    req = requests.Session()
+    r = req.post(AUTH_URL, data={'u': username,
+                                    'p': password}, verify=False)
+    r = req.get(CHANGEROLE_URL)
+    for course in period.courses:
+        code = course.course_code
+        curr = course.curriculum
+        if code == "" or curr == "":
+            course.description = ""
+            course.prerequisite = ""
+            continue
+        r = req.get(DETAIL_COURSES_URL.format(course=code, curr=curr)).text
+        soup = BeautifulSoup(r, 'html.parser')
+        for textarea in soup.findAll('textarea'):
+            if textarea.contents:
+                textarea_content = textarea.contents[0]
+                desc = textarea_content.replace('\r\n', ' ')
+                if len(desc) > 2048:
+                    desc = ""
+            else:
+                desc = ""
+            break
+        components = soup.find(text="Prasyarat Mata Kuliah").parent.findNextSibling('td').contents
+        prerequisites = ""
+        if len(components)>1:
+            components = str(components[1]).split("<tr>")
+            for component in components:
+                p = re.search('([A-Z]{4}[0-9]{6})', str(component))
+                if p:
+                    prerequisites += p.group().strip() + ","
+        course.description = desc
+        course.prerequisite = prerequisites[:-1]
+    period.save()
 
 def create_courses(html, is_detail=False):
     soup = BeautifulSoup(html, 'html.parser')
@@ -106,6 +141,12 @@ def create_courses(html, is_detail=False):
         m = re.search('([0-9]+) SKS, Term ([0-9]+)', class_.text)
         if m:
             credit, term = m.group().split(' SKS, Term ')
+
+        c = re.search('([A-Z]{4}[0-9]{6}) -', class_.text)
+        course_code = c.group()[:-2] if c else ''
+
+        c = re.search('Kurikulum ([0-9,.,-]+)', class_.text)
+        curriculum = c.group()[10:] if c else ''
 
         classes = []
         for sib in class_.parent.find_next_siblings('tr'):
@@ -157,7 +198,9 @@ def create_courses(html, is_detail=False):
                 name=course_name,
                 credit=credit,
                 term=term,
-                classes=classes
+                classes=classes,
+                course_code=course_code,
+                curriculum=curriculum
             ))
 
     return courses

@@ -36,7 +36,11 @@ class Class(mongo.EmbeddedDocument):
 
 
 class Course(mongo.EmbeddedDocument):
+    course_code = mongo.StringField(max_length=16)
+    curriculum = mongo.StringField(max_length=32)
     name = mongo.StringField(max_length=128)
+    description = mongo.StringField(max_length=2048)
+    prerequisite = mongo.StringField(max_length=256)
     credit = mongo.IntField()
     term = mongo.IntField()
     classes = mongo.ListField(mongo.EmbeddedDocumentField(Class))
@@ -54,7 +58,17 @@ class Course(mongo.EmbeddedDocument):
             "term": self.term,
             "classes": self.__get_classes()
         }
-
+    
+    def serialize_ulas_kelas(self):
+        return {
+            "name": self.name,
+            "credit": self.credit,
+            "code": self.course_code,
+            "curriculum": self.curriculum,
+            "description": self.description,
+            "prerequisite": self.prerequisite,
+            "term": self.term
+        }
 
 class Period(mongo.Document):
     major_id = mongo.ReferenceField("Major")
