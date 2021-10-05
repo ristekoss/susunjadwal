@@ -118,17 +118,15 @@ def generate_desc_prerequisite(period, username, password):
             break
         components = soup.find(text="Prasyarat Mata Kuliah").parent.findNextSibling('td').contents
         prerequisites = ""
-        if len(components)>1:
-            components = str(components[1]).split("<tr>")
+        if len(components) > 1:
+            components = components[1].find_all('tr')
+            
             for component in components:
-                p = re.search('([A-Z]{4}[0-9]{6})', str(component))
+                p = re.search('([A-Z]{4}[0-9]{6})', component.text)
 
                 if p:
-                    component_course_name = component.split("</td>")[2]
-
-                    if component_course_name.__contains__('<td>'):
-                        component_course_name = component_course_name[5:]
-                        prerequisites += component_course_name.strip() + ","
+                    component_course_name = component.find_all('td')[2]
+                    prerequisites += component_course_name.text.strip() + ","
 
         course.description = desc
         course.prerequisite = prerequisites[:-1]
