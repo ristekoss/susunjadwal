@@ -122,8 +122,14 @@ def generate_desc_prerequisite(period, username, password):
             components = str(components[1]).split("<tr>")
             for component in components:
                 p = re.search('([A-Z]{4}[0-9]{6})', str(component))
+
                 if p:
-                    prerequisites += p.group().strip() + ","
+                    component_course_name = component.split("</td>")[2]
+
+                    if component_course_name.__contains__('<td>'):
+                        component_course_name = component_course_name[5:]
+                        prerequisites += component_course_name.strip() + ","
+
         course.description = desc
         course.prerequisite = prerequisites[:-1]
     period.save()
